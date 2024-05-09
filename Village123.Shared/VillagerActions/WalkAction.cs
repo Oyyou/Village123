@@ -23,10 +23,10 @@ namespace Village123.Shared.VillagerActions
       var path = _map.FindPath(_villager.Position.ToPoint(), Destination.ToPoint());
     }
 
-    [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context)
+    public void Initialize(Villager villager, Map map)
     {
-      // Initialize _villager and _map here
+      _villager = villager;
+      _map = map;
     }
 
     public override void Update()

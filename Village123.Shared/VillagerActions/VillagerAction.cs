@@ -19,8 +19,6 @@ namespace Village123.Shared.VillagerActions
       _villager = villager;
     }
 
-    public abstract void Initialize(params object[] args);
-
     public abstract bool IsComplete();
 
     public abstract void Start();

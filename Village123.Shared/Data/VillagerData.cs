@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
 using Village123.Shared.Interfaces;
+using Village123.Shared.Models;
+using Village123.Shared.Utils;
 
 namespace Village123.Shared.Data
 {
@@ -44,7 +46,7 @@ namespace Village123.Shared.Data
       File.WriteAllText(fileName, jsonString);
     }
 
-    public static VillagerData Load()
+    public static VillagerData Load(GameWorld gameWorld)
     {
       var villagerData = new VillagerData();
 
@@ -52,6 +54,14 @@ namespace Village123.Shared.Data
       {
         var jsonString = File.ReadAllText(fileName);
         villagerData = JsonConvert.DeserializeObject<VillagerData>(jsonString)!;
+      }
+
+      foreach (var villager in villagerData.Villagers)
+      {
+        foreach (var action in villager.ActionQueue)
+        {
+          VillagerActionInitializerRegistry.InitializeActions(villager, gameWorld, action);
+        }
       }
 
       return villagerData;

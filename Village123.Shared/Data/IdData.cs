@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 using Village123.Shared.Interfaces;
+using Village123.Shared.Models;
 
 namespace Village123.Shared.Data
 {
@@ -25,7 +26,7 @@ namespace Village123.Shared.Data
       File.WriteAllText(fileName, jsonString);
     }
 
-    public static IdData Load()
+    public static IdData Load(GameWorld gameWorld)
     {
       var idData = new IdData();
 
