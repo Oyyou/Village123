@@ -65,7 +65,7 @@ namespace Village123.Shared.VillagerActions
 
     public override void OnComplete()
     {
-      _villager.Conditions["Energy"].Rate = -1f;
+      _villager.Conditions["Energy"].ResetRate();
     }
   }
 }
