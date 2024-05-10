@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
 using System.Reflection;
@@ -22,12 +24,14 @@ namespace Village123.Shared.Managers
 
     private VillagerManager _villagerManager;
 
-    public void Load()
+    public void Load(ContentManager content)
     {
       // TODO: Load map
       _map = new Map(20, 20);
 
-      _gameWorld = new GameWorld(_map);
+      _gameWorld = new GameWorld(
+        content,
+        _map);
 
       _idData = IdData.Load(_gameWorld);
       _villagerData = VillagerData.Load(_gameWorld);
@@ -51,9 +55,11 @@ namespace Village123.Shared.Managers
       _villagerManager.Update();
     }
 
-    public void Draw(GameTime gameTime)
+    public void Draw(SpriteBatch spriteBatch)
     {
-
+      spriteBatch.Begin();
+      _villagerManager.Draw(spriteBatch);
+      spriteBatch.End();
     }
   }
 }

@@ -28,7 +28,7 @@ namespace Village123
       _spriteBatch = new SpriteBatch(GraphicsDevice);
 
       _gwm = new GameWorldManager();
-      _gwm.Load();
+      _gwm.Load(Content);
     }
 
     protected override void Update(GameTime gameTime)
@@ -41,6 +41,8 @@ namespace Village123
     protected override void Draw(GameTime gameTime)
     {
       GraphicsDevice.Clear(Color.CornflowerBlue);
+
+      _gwm.Draw(_spriteBatch);
 
       base.Draw(gameTime);
     }
