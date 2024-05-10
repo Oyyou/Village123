@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using Village123.Shared.Entities;
+using Village123.Shared.Maps;
 using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
@@ -10,7 +13,15 @@ namespace Village123.Shared.VillagerActions
   {
     private Map _map;
 
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private List<Point> _path;
+
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private float _timer = 0f;
+
     public Vector2 Destination { get; init; }
+
+    public override string Name => "Walk";
 
     public WalkAction() { }
 
@@ -21,7 +32,10 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
-      var path = _map.FindPath(_villager.Position.ToPoint(), Destination.ToPoint());
+      var pf = new Pathfinder(_map);
+      _path = pf.GetPath(_villager.Position.ToPoint(), Destination.ToPoint());
+
+      _villager.Conditions["Energy"].Rate = -1.1f;
     }
 
     protected override void OnInitialize()
@@ -31,13 +45,25 @@ namespace Village123.Shared.VillagerActions
 
     public override void Update()
     {
-      // Logic to update the walking progress
+      _timer += 1f;
+
+      if (_timer < 200f)
+      {
+        return;
+      }
+
+      _villager.Position = _path[0].ToVector2();
+      _path.RemoveAt(0);
     }
 
     public override bool IsComplete()
     {
-      // Logic to check if the villager has reached the destination
-      return false;
+      return _path.Count == 0;
+    }
+
+    public override void OnComplete()
+    {
+      _villager.Conditions["Energy"].Rate = -1f;
     }
   }
 }

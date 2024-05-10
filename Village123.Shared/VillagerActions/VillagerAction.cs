@@ -10,6 +10,8 @@ namespace Village123.Shared.VillagerActions
     protected Villager _villager;
     protected GameWorld _gameWorld;
 
+    public abstract string Name { get; }
+
     public bool Started { get; set; } = false;
 
     protected VillagerAction() { }
@@ -29,6 +31,7 @@ namespace Village123.Shared.VillagerActions
     protected abstract void OnInitialize();
 
     public abstract bool IsComplete();
+    public abstract void OnComplete();
 
     public abstract void Start();
 
