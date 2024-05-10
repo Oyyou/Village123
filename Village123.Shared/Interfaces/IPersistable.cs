@@ -1,8 +1,10 @@
-﻿namespace Village123.Shared.Interfaces
+﻿using Village123.Shared.Models;
+
+namespace Village123.Shared.Interfaces
 {
   public interface IPersistable<T>
   {
-    static T Load() => default;
+    static T Load(GameWorld gameWorld) => default;
     void Save();
   }
 }

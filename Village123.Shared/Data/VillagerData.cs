@@ -4,7 +4,6 @@ using System.IO;
 using Village123.Shared.Entities;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Models;
-using Village123.Shared.Utils;
 
 namespace Village123.Shared.Data
 {
@@ -60,7 +59,7 @@ namespace Village123.Shared.Data
       {
         foreach (var action in villager.ActionQueue)
         {
-          VillagerActionInitializerRegistry.InitializeActions(villager, gameWorld, action);
+          action.Initialize(villager, gameWorld);
         }
       }
 
