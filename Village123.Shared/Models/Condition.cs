@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace Village123.Shared.Models
 {
@@ -10,5 +6,21 @@ namespace Village123.Shared.Models
   {
     public float Value { get; set; }
     public float Rate { get; set; }
+
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    public float _defaultRate;
+
+    public Condition(float value, float rate)
+    {
+      Value = value;
+      Rate = rate;
+
+      _defaultRate = Rate;
+    }
+
+    public void ResetRate()
+    {
+      Rate = _defaultRate;
+    }
   }
 }
