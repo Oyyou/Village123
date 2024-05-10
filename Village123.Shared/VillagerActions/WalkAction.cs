@@ -40,7 +40,7 @@ namespace Village123.Shared.VillagerActions
         pf.GetPath(_villager.Point, Destination) :
         pf.GetPathNextTo(_villager.Point, Destination, true, true);
 
-      _conditionManager.SetRate("Energy", -1.1f);
+      _conditionManager.SetRate("Energy", -0.15f);
     }
 
     protected override void OnInitialize()
