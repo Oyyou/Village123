@@ -37,6 +37,9 @@ namespace Village123.Shared.Managers
       _villagerData = VillagerData.Load(_gameWorld);
 
       _villagerManager = new VillagerManager(_gameWorld, _idData, _villagerData);
+      var v1 = _villagerManager.CreateRandomVillager();
+      v1.AddAction(new WalkAction(v1, _gameWorld, new Point(2, 2), true));
+      Save();
     }
 
     public void Save()
