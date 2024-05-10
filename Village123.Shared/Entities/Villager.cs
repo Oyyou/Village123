@@ -25,7 +25,9 @@ namespace Village123.Shared.Entities
 
     public int? MotherId { get; set; }
 
-    public Vector2 Position { get; set; }
+    public Point Point { get; set; }
+
+    public Vector2 Position => Point.ToVector2() * BaseGame.TileSize;
 
     [JsonIgnore]
     public Texture2D Texture { get; set; }
@@ -53,6 +55,11 @@ namespace Village123.Shared.Entities
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     public Queue<IVillagerAction> ActionQueue { get; set; } = new();
+
+    public Villager(Texture2D texture)
+    {
+      Texture = texture;
+    }
 
     public void AddAction(IVillagerAction action)
     {

@@ -19,21 +19,26 @@ namespace Village123.Shared.VillagerActions
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     private float _timer = 0f;
 
-    public Vector2 Destination { get; init; }
+    public Point Destination { get; init; }
+
+    public bool StandOnDestination { get; init; }
 
     public override string Name => "Walk";
 
     public WalkAction() { }
 
-    public WalkAction(Villager villager, GameWorld gameWorld, Vector2 destination) : base(villager, gameWorld)
+    public WalkAction(Villager villager, GameWorld gameWorld, Point destination, bool standOnDestination) : base(villager, gameWorld)
     {
       Destination = destination;
+      StandOnDestination = standOnDestination;
     }
 
     public override void Start()
     {
       var pf = new Pathfinder(_map);
-      _path = pf.GetPath(_villager.Position.ToPoint(), Destination.ToPoint());
+      _path = StandOnDestination ?
+        pf.GetPath(_villager.Point, Destination) :
+        pf.GetPathNextTo(_villager.Point, Destination, true, true);
 
       _conditionManager.SetRate("Energy", -1.1f);
     }
@@ -52,7 +57,8 @@ namespace Village123.Shared.VillagerActions
         return;
       }
 
-      _villager.Position = _path[0].ToVector2() * BaseGame.TileSize;
+      _villager.Point = _path[0];
+      // _villager.Position = _path[0].ToVector2() * BaseGame.TileSize;
       _path.RemoveAt(0);
 
       _timer = 0f;
