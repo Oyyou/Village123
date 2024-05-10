@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Village123.Shared.Data;
@@ -40,6 +41,14 @@ namespace Village123.Shared.Managers
         villager.Update();
 
         DetermineNextActions(villager);
+      }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+      foreach (var villager in _villagerData.Villagers)
+      {
+        villager.Draw(spriteBatch);
       }
     }
 

@@ -47,13 +47,15 @@ namespace Village123.Shared.VillagerActions
     {
       _timer += 1f;
 
-      if (_timer < 200f)
+      if (_timer < 50f)
       {
         return;
       }
 
-      _villager.Position = _path[0].ToVector2();
+      _villager.Position = _path[0].ToVector2() * BaseGame.TileSize;
       _path.RemoveAt(0);
+
+      _timer = 0f;
     }
 
     public override bool IsComplete()
