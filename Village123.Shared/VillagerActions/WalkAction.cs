@@ -52,13 +52,22 @@ namespace Village123.Shared.VillagerActions
     {
       _timer += 1f;
 
-      if (_timer < 50f)
+      if (_path.Count > 0)
+      {
+        var nextPoint = _path[0];
+        _villager.PositionOffset = new Vector2(
+          (nextPoint.X - _villager.Point.X) * _timer,
+          (nextPoint.Y - _villager.Point.Y) * _timer
+        );
+      }
+
+      if (_timer < BaseGame.TileSize)
       {
         return;
       }
 
       _villager.Point = _path[0];
-      // _villager.Position = _path[0].ToVector2() * BaseGame.TileSize;
+      _villager.PositionOffset = Vector2.Zero;
       _path.RemoveAt(0);
 
       _timer = 0f;
@@ -71,6 +80,7 @@ namespace Village123.Shared.VillagerActions
 
     public override void OnComplete()
     {
+      _villager.PositionOffset = Vector2.Zero;
       _conditionManager.ResetCondition("Energy");
     }
   }
