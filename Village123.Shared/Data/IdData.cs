@@ -11,6 +11,7 @@ namespace Village123.Shared.Data
 
     public int VillagerId { get; set; }
     public int PlaceId { get; set; }
+    public int JobId { get; set; }
 
     public void Save()
     {
