@@ -1,5 +1,5 @@
 ﻿using Village123.Shared.Entities;
-using Village123.Shared.Models;
+using Village123.Shared.Managers;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -9,14 +9,14 @@ namespace Village123.Shared.VillagerActions
 
     public IdleAction() { }
 
-    public IdleAction(Villager villager, GameWorld gameWorld) : base(villager, gameWorld)
+    public IdleAction(Villager villager, GameWorldManager gwm) : base(villager, gwm)
     {
 
     }
 
     public override void Start()
     {
-      _villager.ActionQueue.Enqueue(new WalkAction(_villager, _gameWorld, _villager.Point, false));
+      _villager.ActionQueue.Enqueue(new WalkAction(_villager, _gwm, _villager.Point, false));
     }
 
     protected override void OnInitialize()

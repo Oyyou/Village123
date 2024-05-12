@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,31 +15,30 @@ namespace Village123.Shared.Managers
 {
   public class VillagerManager
   {
+    private const string fileName = "villagers.json";
+
     private static List<string> MaleFirstNames = new();
     private static List<string> FemaleFirstNames = new();
     private static List<string> LastNames = new();
 
-    private readonly GameWorld _gameWorld;
-    private readonly IdData _idData;
-    private readonly VillagerData _villagerData;
+    private GameWorldManager _gwm;
 
     private List<IDetermineAction> _determineActions;
 
-    public VillagerManager(
-      GameWorld gameWorld,
-      IdData idData,
-      VillagerData villagerData
-      )
-    {
-      _gameWorld = gameWorld;
-      _idData = idData;
-      _villagerData = villagerData;
+    public List<Villager> Villagers { get; private set; } = new();
 
+    public VillagerManager()
+    {
       MaleFirstNames = File.ReadAllLines("Content/maleFirstNames.txt").ToList();
       FemaleFirstNames = File.ReadAllLines("Content/femaleFirstNames.txt").ToList();
       LastNames = File.ReadAllLines("Content/lastNames.txt").ToList();
 
       LoadDetermineActions();
+    }
+
+    private void Initialize(GameWorldManager gwm)
+    {
+      _gwm = gwm;
     }
 
     private void LoadDetermineActions()
@@ -55,9 +55,45 @@ namespace Village123.Shared.Managers
       }
     }
 
+    #region Serialization
+    public void Save()
+    {
+      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+      {
+        NullValueHandling = NullValueHandling.Ignore,
+        Formatting = Formatting.Indented,
+      });
+      File.WriteAllText(fileName, jsonString);
+    }
+
+    public static VillagerManager Load(GameWorldManager gwm)
+    {
+      var villagerManager = new VillagerManager();
+
+      if (File.Exists(fileName))
+      {
+        var jsonString = File.ReadAllText(fileName);
+        villagerManager = JsonConvert.DeserializeObject<VillagerManager>(jsonString)!;
+      }
+
+      villagerManager.Initialize(gwm);
+
+      foreach (var villager in villagerManager.Villagers)
+      {
+        villager.Texture = gwm.GameModel.Content.Load<Texture2D>("Circle");
+        foreach (var action in villager.ActionQueue)
+        {
+          action.Initialize(villager, gwm);
+        }
+      }
+
+      return villagerManager;
+    }
+    #endregion
+
     public void Update()
     {
-      foreach (var villager in _villagerData.Villagers)
+      foreach (var villager in Villagers)
       {
         villager.Update();
 
@@ -67,7 +103,7 @@ namespace Village123.Shared.Managers
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      foreach (var villager in _villagerData.Villagers)
+      foreach (var villager in Villagers)
       {
         villager.Draw(spriteBatch);
       }
@@ -82,23 +118,23 @@ namespace Village123.Shared.Managers
 
       foreach (var action in _determineActions.OrderByDescending(a => a.Priority))
       {
-        if (action.CanExecute(villager, _gameWorld))
+        if (action.CanExecute(villager, _gwm))
         {
-          action.Execute(villager, _gameWorld);
+          action.Execute(villager, _gwm);
           return;
         }
       }
 
-      villager.AddAction(new IdleAction(villager, _gameWorld));
+      villager.AddAction(new IdleAction(villager, _gwm));
     }
 
     public Villager CreateRandomVillager()
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager(_gameWorld.Content.Load<Texture2D>("Circle"))
+      var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _idData.VillagerId++,
+        Id = _gwm.IdData.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = LastNames[BaseGame.Random.Next(0, firstNames.Count)],
         Gender = gender,
@@ -108,7 +144,7 @@ namespace Village123.Shared.Managers
         }
       };
 
-      _villagerData.Add(villager);
+      Villagers.Add(villager);
 
       return villager;
     }
@@ -121,9 +157,9 @@ namespace Village123.Shared.Managers
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager(_gameWorld.Content.Load<Texture2D>("Circle"))
+      var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _idData.VillagerId++,
+        Id = _gwm.IdData.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = father.LastName,
         Gender = gender,
@@ -131,9 +167,13 @@ namespace Village123.Shared.Managers
         MotherId = mother.Id,
         Father = father,
         Mother = mother,
+        Conditions = new Dictionary<string, Condition>()
+        {
+          { "Energy", new(100f, -0.10f) }
+        }
       };
 
-      _villagerData.Add(villager);
+      Villagers.Add(villager);
 
       return villager;
     }

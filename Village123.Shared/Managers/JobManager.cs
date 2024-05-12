@@ -1,38 +1,65 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Village123.Shared.Data;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 using Village123.Shared.Entities;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.Managers
 {
   public class JobManager
   {
-    private readonly GameWorld _gameWorld;
-    private readonly IdData _idData;
-    private readonly JobData _jobdata;
+    private const string fileName = "jobs.json";
 
-    public JobManager(
-      GameWorld gameWorld,
-      IdData idData,
-      JobData jobData
-      )
+    private GameWorldManager _gwm;
+
+    public List<Job> Jobs { get; private set; } = new();
+
+    public JobManager()
     {
-      _gameWorld = gameWorld;
-      _idData = idData;
-      _jobdata = jobData;
     }
+
+    private void Initialize(GameWorldManager gwm)
+    {
+      _gwm = gwm;
+    }
+
+    #region Serialization
+    public void Save()
+    {
+      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+      {
+        NullValueHandling = NullValueHandling.Ignore,
+        Formatting = Formatting.Indented,
+      });
+      File.WriteAllText(fileName, jsonString);
+    }
+
+    public static JobManager Load(GameWorldManager gwm)
+    {
+      var jobManager = new JobManager();
+
+      if (File.Exists(fileName))
+      {
+        var jsonString = File.ReadAllText(fileName);
+        jobManager = JsonConvert.DeserializeObject<JobManager>(jsonString)!;
+      }
+
+      jobManager.Initialize(gwm);
+
+      return jobManager;
+    }
+    #endregion
 
     public Job Add(string name, Point point)
     {
       var job = new Job()
       {
-        Id = _idData.JobId++,
+        Id = _gwm.IdData.JobId++,
         Name = name,
         Point = point,
       };
 
-      _jobdata.Add(job);
+      Jobs.Add(job);
 
       return job;
     }

@@ -1,0 +1,10 @@
+[
+  {
+    "name": "SingleBed",
+    "type": "Bed"
+  },
+  {
+    "name": "Anvil",
+    "type": "Workstation"
+  }
+]
