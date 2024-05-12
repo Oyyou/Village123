@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Text.Json;
-using Village123.Shared.Interfaces;
 
-namespace Village123.Shared.Data
+namespace Village123.Shared.Managers
 {
-  public class IdData : IPersistable<IdData>
+  public class IdManager
   {
     private const string fileName = "ids.json";
 
@@ -18,14 +17,14 @@ namespace Village123.Shared.Data
       File.WriteAllText(fileName, jsonString);
     }
 
-    public static IdData Load()
+    public static IdManager Load()
     {
-      var idData = new IdData();
+      var idData = new IdManager();
 
       if (File.Exists(fileName))
       {
         var jsonString = File.ReadAllText(fileName);
-        idData = JsonSerializer.Deserialize<IdData>(jsonString)!;
+        idData = JsonSerializer.Deserialize<IdManager>(jsonString)!;
       }
 
       return idData;

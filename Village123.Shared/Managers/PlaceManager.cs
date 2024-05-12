@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using Village123.Shared.Data;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.Managers
@@ -69,11 +70,11 @@ namespace Village123.Shared.Managers
       }
     }
 
-    public Place Add(string name, Point point)
+    public Place Add(PlaceData.Place data, Point point)
     {
-      var place = new Place(_gwm.GameModel.Content.Load<Texture2D>($"Places/{name}"), point)
+      var place = new Place(_gwm.GameModel.Content.Load<Texture2D>($"Places/{data.Name}"), point)
       {
-        Id = _gwm.IdData.PlaceId++,
+        Id = _gwm.IdManager.PlaceId++,
       };
 
       Places.Add(place);

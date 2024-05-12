@@ -1,0 +1,10 @@
+{
+  "SingleBed": {
+    "type": "Bed",
+    "category": "Furniture"
+  },
+  "Anvil": {
+    "type": "Workstation",
+    "category": "Crafting"
+  }
+}
