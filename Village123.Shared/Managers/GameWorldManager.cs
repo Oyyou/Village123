@@ -11,8 +11,11 @@ namespace Village123.Shared.Managers
   public class GameWorldManager
   {
     public readonly GameModel GameModel;
-    public readonly IdData IdData;
+    public readonly PlaceData PlaceData;
+    public readonly PlaceCategoryData PlaceCategoryData;
+    public readonly PlaceTypeData PlaceTypeData;
     public readonly Map Map;
+    public readonly IdManager IdManager;
     public readonly VillagerManager VillagerManager;
     public readonly PlaceManager PlaceManager;
     public readonly JobManager JobManager;
@@ -21,11 +24,14 @@ namespace Village123.Shared.Managers
     {
       GameModel = gameModel;
 
-      IdData = IdData.Load();
+      PlaceData = PlaceData.Load();
+      PlaceCategoryData = PlaceCategoryData.Load();
+      PlaceTypeData = PlaceTypeData.Load();
 
       // TODO: Load map
       Map = new Map(20, 20);
 
+      IdManager = IdManager.Load();
       VillagerManager = VillagerManager.Load(this);
       PlaceManager = PlaceManager.Load(this);
       JobManager = JobManager.Load(this);
@@ -33,7 +39,7 @@ namespace Village123.Shared.Managers
       //var v1 = VillagerManager.CreateRandomVillager();
       //v1.AddAction(new WalkAction(v1, this, new Point(2, 2), true));
 
-      //var bed = PlaceManager.Add("SingleBed", new Point(3, 3));
+      //var bed = PlaceManager.Add(PlaceData.Places["SingleBed"], new Point(3, 3));
       //bed.AddOwner(v1);
 
       //var anvil = PlaceManager.Add("Anvil", new Point(5, 3));
@@ -45,7 +51,7 @@ namespace Village123.Shared.Managers
 
     public void Save()
     {
-      IdData.Save();
+      IdManager.Save();
       VillagerManager.Save();
       PlaceManager.Save();
       JobManager.Save();
