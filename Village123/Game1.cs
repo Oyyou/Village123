@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Village123.Shared.Managers;
+using Village123.Shared.Models;
 
 namespace Village123
 {
@@ -8,6 +9,8 @@ namespace Village123
   {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    private GameModel _gameModel;
 
     private GameWorldManager _gwm;
 
@@ -27,8 +30,12 @@ namespace Village123
     {
       _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-      _gwm = new GameWorldManager();
-      _gwm.Load(Content);
+      _gameModel = new GameModel(
+        _graphics,
+        Content,
+        _spriteBatch);
+
+      _gwm = new GameWorldManager(_gameModel);
     }
 
     protected override void Update(GameTime gameTime)

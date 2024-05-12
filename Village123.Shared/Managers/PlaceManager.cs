@@ -1,27 +1,61 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Village123.Shared.Data;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 using Village123.Shared.Entities;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.Managers
 {
   public class PlaceManager
   {
-    private readonly GameWorld _gameWorld;
-    private readonly IdData _idData;
-    private readonly PlaceData _placeData;
+    private const string fileName = "places.json";
 
-    public PlaceManager(
-      GameWorld gameWorld,
-      IdData idData,
-      PlaceData placeData
-      )
+    private GameWorldManager _gwm;
+
+    public List<Place> Places { get; private set; } = new();
+
+    public PlaceManager()
     {
-      _gameWorld = gameWorld;
-      _idData = idData;
-      _placeData = placeData;
+
     }
+
+    private void Initialize(GameWorldManager gwm)
+    {
+      _gwm = gwm;
+    }
+
+    #region Serialization
+    public void Save()
+    {
+      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+      {
+        NullValueHandling = NullValueHandling.Ignore,
+        Formatting = Formatting.Indented,
+      });
+      File.WriteAllText(fileName, jsonString);
+    }
+
+    public static PlaceManager Load(GameWorldManager gwm)
+    {
+      var placeManager = new PlaceManager();
+
+      if (File.Exists(fileName))
+      {
+        var jsonString = File.ReadAllText(fileName);
+        placeManager = JsonConvert.DeserializeObject<PlaceManager>(jsonString)!;
+      }
+
+      placeManager.Initialize(gwm);
+
+      foreach (var place in placeManager.Places)
+      {
+        place.Texture = gwm.GameModel.Content.Load<Texture2D>($"Places/{place.Name}");
+      }
+
+      return placeManager;
+    }
+    #endregion
 
     public void Update()
     {
@@ -29,7 +63,7 @@ namespace Village123.Shared.Managers
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      foreach (var place in _placeData.Places)
+      foreach (var place in Places)
       {
         place.Draw(spriteBatch);
       }
@@ -37,12 +71,12 @@ namespace Village123.Shared.Managers
 
     public Place Add(string name, Point point)
     {
-      var place = new Place(_gameWorld.Content.Load<Texture2D>($"Places/{name}"), point)
+      var place = new Place(_gwm.GameModel.Content.Load<Texture2D>($"Places/{name}"), point)
       {
-        Id = _idData.PlaceId++,
+        Id = _gwm.IdData.PlaceId++,
       };
 
-      _placeData.Add(place);
+      Places.Add(place);
 
       return place;
     }

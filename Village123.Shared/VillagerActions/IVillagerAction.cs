@@ -1,12 +1,12 @@
 ﻿using Village123.Shared.Entities;
-using Village123.Shared.Models;
+using Village123.Shared.Managers;
 
 namespace Village123.Shared.VillagerActions
 {
   public interface IVillagerAction
   {
     string Name { get; }
-    void Initialize(Villager villager, GameWorld gameWorld);
+    void Initialize(Villager villager, GameWorldManager gwm);
     bool Started { get; set; }
     void Start();
     void Update();
