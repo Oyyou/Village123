@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Village123.Shared.Data;
+using Village123.Shared.GUI.Controls;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
 using Village123.Shared.VillagerActions;
@@ -20,6 +21,8 @@ namespace Village123.Shared.Managers
     public readonly PlaceManager PlaceManager;
     public readonly JobManager JobManager;
 
+    public readonly GUIManager GUIManager;
+
     public GameWorldManager(GameModel gameModel)
     {
       GameModel = gameModel;
@@ -35,6 +38,8 @@ namespace Village123.Shared.Managers
       VillagerManager = VillagerManager.Load(this);
       PlaceManager = PlaceManager.Load(this);
       JobManager = JobManager.Load(this);
+
+      GUIManager = new GUIManager(this);
 
       //var v1 = VillagerManager.CreateRandomVillager();
       //v1.AddAction(new WalkAction(v1, this, new Point(2, 2), true));
@@ -64,6 +69,8 @@ namespace Village123.Shared.Managers
         this.Save();
       }
 
+      GUIManager.Update(gameTime);
+
       VillagerManager.Update();
     }
 
@@ -73,6 +80,8 @@ namespace Village123.Shared.Managers
       PlaceManager.Draw(spriteBatch);
       VillagerManager.Draw(spriteBatch);
       spriteBatch.End();
+
+      GUIManager.Draw(spriteBatch);
     }
   }
 }
