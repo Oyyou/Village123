@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Village123.Shared.Data;
-using Village123.Shared.GUI.Controls;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
 using Village123.Shared.VillagerActions;
@@ -12,9 +11,13 @@ namespace Village123.Shared.Managers
   public class GameWorldManager
   {
     public readonly GameModel GameModel;
+
+    public readonly ItemData ItemData;
+    public readonly ItemTypeData ItemTypeData;
     public readonly PlaceData PlaceData;
     public readonly PlaceCategoryData PlaceCategoryData;
     public readonly PlaceTypeData PlaceTypeData;
+
     public readonly Map Map;
     public readonly IdManager IdManager;
     public readonly VillagerManager VillagerManager;
@@ -27,6 +30,8 @@ namespace Village123.Shared.Managers
     {
       GameModel = gameModel;
 
+      ItemData = ItemData.Load();
+      ItemTypeData = ItemTypeData.Load();
       PlaceData = PlaceData.Load();
       PlaceCategoryData = PlaceCategoryData.Load();
       PlaceTypeData = PlaceTypeData.Load();

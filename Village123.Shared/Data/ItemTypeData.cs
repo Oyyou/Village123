@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Village123.Shared.Data
 {
-  internal class ItemTypeData
+  public class ItemTypeData
   {
     public Dictionary<string, ItemType> ItemTypes { get; set; } = new();
 

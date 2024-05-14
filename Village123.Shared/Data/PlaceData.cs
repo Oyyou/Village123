@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using static Village123.Shared.Data.ItemTypeData;
 
 namespace Village123.Shared.Data
 {
