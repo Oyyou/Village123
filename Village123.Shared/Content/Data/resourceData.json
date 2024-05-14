@@ -1,6 +1,38 @@
 {
+  "oak": {
+    "name": "Oak",
+    "type": "wood"
+  },
+  "pine": {
+    "name": "Pine",
+    "type": "wood"
+  },
+  "maple": {
+    "name": "Maple",
+    "type": "wood"
+  },
   "iron": {
     "name": "Iron",
     "type": "ore"
+  },
+  "copper": {
+    "name": "Copper",
+    "type": "ore"
+  },
+  "gold": {
+    "name": "Gold",
+    "type": "ore"
+  },
+  "granite": {
+    "name": "Granite",
+    "type": "stone"
+  },
+  "marble": {
+    "name": "Marble",
+    "type": "stone"
+  },
+  "slate": {
+    "name": "Slate",
+    "type": "stone"
   }
 }

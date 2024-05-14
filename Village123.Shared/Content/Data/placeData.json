@@ -53,7 +53,7 @@
     "buildResourceTypes": {
       "stone": 4
     }
-  }
+  },
   "path": {
     "name": "Path",
     "type": "Structure",
