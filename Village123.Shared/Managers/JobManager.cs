@@ -54,7 +54,7 @@ namespace Village123.Shared.Managers
     {
       var job = new Job()
       {
-        Id = _gwm.IdManager.JobId++,
+        Id = _gwm.IdData.JobId++,
         Name = name,
         Point = point,
       };
