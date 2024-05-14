@@ -28,10 +28,7 @@ namespace Village123.Shared.Entities
     public Point Point { get; set; }
 
     [JsonIgnore]
-    public Vector2 Position => (Point.ToVector2() * BaseGame.TileSize) + PositionOffset;
-
-    [JsonIgnore]
-    public Vector2 PositionOffset { get; set; } = Vector2.Zero;
+    public Vector2 Position => Point.ToVector2() * BaseGame.TileSize;
 
     [JsonIgnore]
     public Texture2D Texture { get; set; }
