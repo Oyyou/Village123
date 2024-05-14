@@ -14,7 +14,6 @@ namespace Village123.Shared.Managers
     private IdData _idData = new();
     private VillagerData _villagerData = new();
     private PlaceData _placeData = new();
-    private JobData _jobData = new();
 
     private GameWorld _gameWorld;
 
@@ -22,7 +21,6 @@ namespace Village123.Shared.Managers
 
     private VillagerManager _villagerManager;
     private PlaceManager _placeManager;
-    private JobManager _jobManager;
 
     public void Load(ContentManager content)
     {
@@ -36,24 +34,15 @@ namespace Village123.Shared.Managers
       _idData = IdData.Load(_gameWorld);
       _villagerData = VillagerData.Load(_gameWorld);
       _placeData = PlaceData.Load(_gameWorld);
-      _jobData = JobData.Load(_gameWorld);
 
       _villagerManager = new VillagerManager(_gameWorld, _idData, _villagerData);
-
-      _placeManager = new PlaceManager(_gameWorld, _idData, _placeData);
-
-      _jobManager = new JobManager(_gameWorld, _idData, _jobData);
-
-
       //var v1 = _villagerManager.CreateRandomVillager();
       //v1.AddAction(new WalkAction(v1, _gameWorld, new Point(2, 2), true));
+      //Save();
 
+      _placeManager = new PlaceManager(_gameWorld, _idData, _placeData);
       //var bed = _placeManager.Add("SingleBed", new Point(3, 3));
       //bed.AddOwner(v1);
-
-      //var anvil = _placeManager.Add("Anvil", new Point(5, 3));
-
-      //var makeSword = _jobManager.Add("CreateBronzeSword", anvil.Point);
 
       //Save();
 
@@ -65,7 +54,6 @@ namespace Village123.Shared.Managers
       _idData.Save();
       _villagerData.Save();
       _placeData.Save();
-      _jobData.Save();
     }
 
     public void Update(GameTime gameTime)
