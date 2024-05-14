@@ -1,5 +1,5 @@
 ﻿using Village123.Shared.Entities;
-using Village123.Shared.Managers;
+using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -9,7 +9,7 @@ namespace Village123.Shared.VillagerActions
 
     public SleepAction() { }
 
-    public SleepAction(Villager villager, GameWorldManager gwm) : base(villager, gwm)
+    public SleepAction(Villager villager, GameWorld gameWorld) : base(villager, gameWorld)
     {
 
     }
