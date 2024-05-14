@@ -1,12 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
-using Village123.Shared.Interfaces;
 using Village123.Shared.Models;
 using Village123.Shared.VillagerActions;
 
@@ -22,8 +19,6 @@ namespace Village123.Shared.Managers
     private readonly IdData _idData;
     private readonly VillagerData _villagerData;
 
-    private List<IDetermineAction> _determineActions;
-
     public VillagerManager(
       GameWorld gameWorld,
       IdData idData,
@@ -37,22 +32,6 @@ namespace Village123.Shared.Managers
       MaleFirstNames = File.ReadAllLines("Content/maleFirstNames.txt").ToList();
       FemaleFirstNames = File.ReadAllLines("Content/femaleFirstNames.txt").ToList();
       LastNames = File.ReadAllLines("Content/lastNames.txt").ToList();
-
-      LoadDetermineActions();
-    }
-
-    private void LoadDetermineActions()
-    {
-      _determineActions = new List<IDetermineAction>();
-
-      var types = Assembly.GetExecutingAssembly().GetTypes()
-          .Where(t => typeof(IDetermineAction).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-
-      foreach (var type in types)
-      {
-        var instance = Activator.CreateInstance(type) as IDetermineAction;
-        _determineActions.Add(instance);
-      }
     }
 
     public void Update()
@@ -80,13 +59,27 @@ namespace Village123.Shared.Managers
         return;
       }
 
-      foreach (var action in _determineActions.OrderByDescending(a => a.Priority))
+      if (villager.Conditions["Energy"].Value <= 0)
       {
-        if (action.CanExecute(villager, _gameWorld))
+        var beds = _gameWorld.Places.Where(p => p.Name.Contains("Bed"));
+        var villagerBed = beds.FirstOrDefault(b => b.OwnerIds.Contains(villager.Id));
+
+        if (villagerBed == null)
         {
-          action.Execute(villager, _gameWorld);
-          return;
+          var emptyBed = beds.FirstOrDefault(b => b.OwnerIds.Count == 0);
+
+          if (emptyBed != null)
+          {
+            villager.AddAction(new WalkAction(villager, _gameWorld, emptyBed.Point, true));
+          }
         }
+        else
+        {
+          villager.AddAction(new WalkAction(villager, _gameWorld, villagerBed.Point, true));
+        }
+
+        villager.AddAction(new SleepAction(villager, _gameWorld));
+        return;
       }
 
       villager.AddAction(new IdleAction(villager, _gameWorld));
