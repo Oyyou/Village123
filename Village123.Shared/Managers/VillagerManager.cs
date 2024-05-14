@@ -75,9 +75,9 @@ namespace Village123.Shared.Managers
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = LastNames[BaseGame.Random.Next(0, firstNames.Count)],
         Gender = gender,
-        Conditions = new Dictionary<string, Condition>()
+        Conditions = new Dictionary<string, Models.Condition>()
         {
-          { "Energy", new(100f, -1f) }
+          { "Energy", new() { Value = 100, Rate = -1 } },
         }
       };
 
