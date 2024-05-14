@@ -1,0 +1,70 @@
+{
+  "singleBed": {
+    "name": "Single bed",
+    "type": "Bed",
+    "category": "Furniture",
+    "size": {
+      "X": 1,
+      "Y": 2
+    },
+    "blocksPath": false,
+    "buildResourceTypes": {
+      "wood": 5
+    }
+  },
+  "anvil": {
+    "name": "Anvil",
+    "type": "Workstation",
+    "category": "Crafting",
+    "size": {
+      "X": 1,
+      "Y": 1
+    },
+    "blocksPath": false,
+    "buildResourceTypes": {
+      "ore": 10
+    },
+    "producedItemTypes": [
+      "basicTool"
+    ]
+  },
+  "woodenWall": {
+    "name": "Wooden wall",
+    "type": "Structure",
+    "category": "Building",
+    "size": {
+      "X": 1,
+      "Y": 1
+    },
+    "blocksPath": true,
+    "buildResourceTypes": {
+      "wood": 4
+    }
+  },
+  "stoneWall": {
+    "name": "Stone wall",
+    "type": "Structure",
+    "category": "Building",
+    "size": {
+      "X": 1,
+      "Y": 1
+    },
+    "blocksPath": true,
+    "buildResourceTypes": {
+      "stone": 4
+    }
+  }
+  "path": {
+    "name": "Path",
+    "type": "Structure",
+    "category": "Path",
+    "size": {
+      "X": 1,
+      "Y": 1
+    },
+    "blocksPath": false,
+    "buildResourceTypes": {
+      "stone": 1
+    }
+  }
+}

@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using Village123.Shared.Logging;
+using Village123.Shared.Models;
 using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Entities
@@ -21,7 +25,16 @@ namespace Village123.Shared.Entities
 
     public int? MotherId { get; set; }
 
-    public Vector2 Position { get; set; }
+    public Point Point { get; set; }
+
+    [JsonIgnore]
+    public Vector2 Position => (Point.ToVector2() * BaseGame.TileSize) + PositionOffset;
+
+    [JsonIgnore]
+    public Vector2 PositionOffset { get; set; } = Vector2.Zero;
+
+    [JsonIgnore]
+    public Texture2D Texture { get; set; }
 
     /// <summary>
     /// Lumbering, mining, building etc
@@ -36,7 +49,7 @@ namespace Village123.Shared.Entities
     /// <summary>
     /// Hunger, tiredness, boredom etc
     /// </summary>
-    public Dictionary<string, short> Conditions { get; set; } = new();
+    public Dictionary<string, Condition> Conditions { get; set; } = new();
 
     [JsonIgnore]
     public Villager Father { get; set; }
@@ -45,30 +58,49 @@ namespace Village123.Shared.Entities
     public Villager Mother { get; set; }
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    private Queue<IVillagerAction> actionQueue { get; set; } = new();
+    public Queue<IVillagerAction> ActionQueue { get; set; } = new();
+
+    public Villager(Texture2D texture)
+    {
+      Texture = texture;
+    }
 
     public void AddAction(IVillagerAction action)
     {
-      actionQueue.Enqueue(action);
+      ActionQueue.Enqueue(action);
     }
 
     public void Update()
     {
-      if (actionQueue.Count > 0)
+      if (ActionQueue.Count > 0)
       {
-        var currentAction = actionQueue.Peek();
-        if(!currentAction.Started)
+        var currentAction = ActionQueue.Peek();
+        if (!currentAction.Started)
         {
           currentAction.Start();
+          Logger.WriteLine($"Villager '{FirstName} {LastName}' started {currentAction.Name}");
           currentAction.Started = true;
         }
         currentAction.Update();
 
         if (currentAction.IsComplete())
         {
-          actionQueue.Dequeue();
+          Logger.WriteLine($"Villager '{FirstName} {LastName}' finished {currentAction.Name}");
+          currentAction.OnComplete();
+          ActionQueue.Dequeue();
         }
       }
+
+      foreach (var condition in Conditions)
+      {
+        condition.Value.Value += condition.Value.Rate;
+        condition.Value.Value = MathHelper.Clamp(condition.Value.Value, 0, 100);
+      }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+      spriteBatch.Draw(Texture, Position, Color.White);
     }
   }
 }

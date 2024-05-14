@@ -1,253 +1,150 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
+using Village123.Shared.Interfaces;
+using Village123.Shared.Models;
+using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Managers
 {
   public class VillagerManager
   {
-    private static List<string> MaleFirstNames = new List<string>()
-    {
-      "Byron",
-      "Bentley",
-      "Kadyn",
-      "Ahmad",
-      "Karter",
-      "Brennen",
-      "Asher",
-      "Keith",
-      "Drew",
-      "Philip",
-      "Talan",
-      "Peter",
-      "Casey",
-      "Malakai",
-      "Mauricio",
-      "Sonny",
-      "Brycen",
-      "Jayvon",
-      "Jason",
-      "Jovani",
-      "Andres",
-      "Aden",
-      "Walter",
-      "Maximus",
-      "Theodore",
-      "Dawson",
-      "Ben",
-      "Kristopher",
-      "Augustus",
-      "Michael",
-      "Tanner",
-      "Neil",
-      "Darren",
-      "Ronnie",
-      "Marquis",
-      "Evan",
-      "Luciano",
-      "Coleman",
-      "Cohen",
-      "Konnor",
-      "Conner",
-      "Zachery",
-      "Denzel",
-      "Uriel",
-      "Silas",
-      "Luka",
-      "Chandler",
-      "Zackary",
-      "Jorden",
-      "Ian",
-    };
+    private const string fileName = "villagers.json";
 
-    private static List<string> FemaleFirstNames = new List<string>()
-    {
-      "Yoselin",
-      "Andrea",
-      "Kristin",
-      "Kaitlin",
-      "Denisse",
-      "Maggie",
-      "Fatima",
-      "Joy",
-      "Caitlin",
-      "Hailey",
-      "Isis",
-      "Savannah",
-      "Caroline",
-      "Kadence",
-      "Taryn",
-      "Julianna",
-      "Jazmine",
-      "Sarah",
-      "Cierra",
-      "Jade",
-      "Evie",
-      "Raquel",
-      "Annabelle",
-      "Bryanna",
-      "Emely",
-      "Kylie",
-      "Mylee",
-      "Brooklyn",
-      "Paisley",
-      "Marie",
-      "Keira",
-      "Justine",
-      "Alexia",
-      "Macy",
-      "Rylie",
-      "Precious",
-      "Princess",
-      "Kamila",
-      "Izabelle",
-      "Breanna",
-      "Kali",
-      "Shyanne",
-      "Shannon",
-      "Maia",
-      "Marissa",
-      "Keely",
-      "Nylah",
-      "Meadow",
-      "Lizeth",
-      "Isabela",
-    };
+    private static List<string> MaleFirstNames = new();
+    private static List<string> FemaleFirstNames = new();
+    private static List<string> LastNames = new();
 
-    private static List<string> LastNames = new List<string>()
-    {
-      "Kramer",
-      "Bennett",
-      "Lester",
-      "Davies",
-      "Ortega",
-      "Rollins",
-      "Harrington",
-      "Davenport",
-      "Boyer",
-      "Webb",
-      "Frederick",
-      "Jackson",
-      "Banks",
-      "Burgess",
-      "Combs",
-      "Landry",
-      "Terrell",
-      "Whitaker",
-      "Mays",
-      "Gilmore",
-      "Drake",
-      "Ward",
-      "Heath",
-      "Yates",
-      "Newman",
-      "Cooper",
-      "Shea",
-      "Spears",
-      "Blankenship",
-      "Sloan",
-      "Solomon",
-      "Valencia",
-      "Leonard",
-      "Black",
-      "Esparza",
-      "King",
-      "Goodman",
-      "Kelly",
-      "Nielsen",
-      "Lang",
-      "Massey",
-      "Rowe",
-      "Gibbs",
-      "Guzman",
-      "Anthony",
-      "Gallegos",
-      "Cannon",
-      "Olson",
-      "Best",
-      "Burton",
-      "Kennedy",
-      "Larsen",
-      "Nunez",
-      "Villa",
-      "Berger",
-      "Schmitt",
-      "Lloyd",
-      "Whitney",
-      "Davis",
-      "Wheeler",
-      "Griffith",
-      "Rivas",
-      "Mitchell",
-      "Boone",
-      "Torres",
-      "Trevino",
-      "Klein",
-      "Hutchinson",
-      "Hooper",
-      "Giles",
-      "Mejia",
-      "Mckee",
-      "Brady",
-      "Morrison",
-      "Jarvis",
-      "Ferrell",
-      "Osborn",
-      "Stephenson",
-      "Sharp",
-      "Robbins",
-      "Murphy",
-      "Patton",
-      "Bernard",
-      "Beltran",
-      "Norton",
-      "Allen",
-      "Pham",
-      "Glenn",
-      "Olsen",
-      "Wallace",
-      "Eaton",
-      "Rowland",
-      "Kline",
-      "Hanson",
-      "Jones",
-      "Levine",
-      "Michael",
-      "Wells",
-      "Howard",
-      "Mcmillan",
-    };
+    private GameWorldManager _gwm;
 
-    private readonly IdData _idData;
-    private readonly VillagerData _villagerData;
+    private List<IDetermineAction> _determineActions;
 
-    public VillagerManager(
-      IdData idData,
-      VillagerData villagerData
-      )
+    public List<Villager> Villagers { get; private set; } = new();
+
+    public VillagerManager()
     {
-      _idData = idData;
-      _villagerData = villagerData;
+      MaleFirstNames = File.ReadAllLines("Content/maleFirstNames.txt").ToList();
+      FemaleFirstNames = File.ReadAllLines("Content/femaleFirstNames.txt").ToList();
+      LastNames = File.ReadAllLines("Content/lastNames.txt").ToList();
+
+      LoadDetermineActions();
     }
+
+    private void Initialize(GameWorldManager gwm)
+    {
+      _gwm = gwm;
+    }
+
+    private void LoadDetermineActions()
+    {
+      _determineActions = new List<IDetermineAction>();
+
+      var types = Assembly.GetExecutingAssembly().GetTypes()
+          .Where(t => typeof(IDetermineAction).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
+      foreach (var type in types)
+      {
+        var instance = Activator.CreateInstance(type) as IDetermineAction;
+        _determineActions.Add(instance);
+      }
+    }
+
+    #region Serialization
+    public void Save()
+    {
+      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+      {
+        NullValueHandling = NullValueHandling.Ignore,
+        Formatting = Formatting.Indented,
+      });
+      File.WriteAllText(fileName, jsonString);
+    }
+
+    public static VillagerManager Load(GameWorldManager gwm)
+    {
+      var villagerManager = new VillagerManager();
+
+      if (File.Exists(fileName))
+      {
+        var jsonString = File.ReadAllText(fileName);
+        villagerManager = JsonConvert.DeserializeObject<VillagerManager>(jsonString)!;
+      }
+
+      villagerManager.Initialize(gwm);
+
+      foreach (var villager in villagerManager.Villagers)
+      {
+        villager.Texture = gwm.GameModel.Content.Load<Texture2D>("Circle");
+        foreach (var action in villager.ActionQueue)
+        {
+          action.Initialize(villager, gwm);
+        }
+      }
+
+      return villagerManager;
+    }
+    #endregion
 
     public void Update()
     {
-      _villagerData.Update();
+      foreach (var villager in Villagers)
+      {
+        villager.Update();
+
+        DetermineNextActions(villager);
+      }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+      foreach (var villager in Villagers)
+      {
+        villager.Draw(spriteBatch);
+      }
+    }
+
+    private void DetermineNextActions(Villager villager)
+    {
+      if (villager.ActionQueue.Count > 0)
+      {
+        return;
+      }
+
+      foreach (var action in _determineActions.OrderByDescending(a => a.Priority))
+      {
+        if (action.CanExecute(villager, _gwm))
+        {
+          action.Execute(villager, _gwm);
+          return;
+        }
+      }
+
+      villager.AddAction(new IdleAction(villager, _gwm));
     }
 
     public Villager CreateRandomVillager()
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager()
+      var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _idData.VillagerId++,
+        Id = _gwm.IdManager.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = LastNames[BaseGame.Random.Next(0, firstNames.Count)],
         Gender = gender,
+        Conditions = new Dictionary<string, Condition>()
+        {
+          { "Energy", new(100f, -0.10f) }
+        }
       };
 
-      _villagerData.Add(villager);
+      Villagers.Add(villager);
 
       return villager;
     }
@@ -260,9 +157,9 @@ namespace Village123.Shared.Managers
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager()
+      var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _idData.VillagerId++,
+        Id = _gwm.IdManager.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = father.LastName,
         Gender = gender,
@@ -270,9 +167,13 @@ namespace Village123.Shared.Managers
         MotherId = mother.Id,
         Father = father,
         Mother = mother,
+        Conditions = new Dictionary<string, Condition>()
+        {
+          { "Energy", new(100f, -0.10f) }
+        }
       };
 
-      _villagerData.Add(villager);
+      Villagers.Add(villager);
 
       return villager;
     }

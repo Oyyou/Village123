@@ -1,7 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 using Village123.Shared.Entities;
+using Village123.Shared.Managers;
+using Village123.Shared.Maps;
+using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -10,34 +14,76 @@ namespace Village123.Shared.VillagerActions
   {
     private Map _map;
 
-    public Vector2 Destination { get; init; }
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private List<Point> _path;
 
-    public WalkAction(Villager villager, Map map, Vector2 destination) : base(villager)
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private float _timer = 0f;
+
+    public Point Destination { get; init; }
+
+    public bool StandOnDestination { get; init; }
+
+    public override string Name => "Walk";
+
+    public WalkAction() { }
+
+    public WalkAction(Villager villager, GameWorldManager gwm, Point destination, bool standOnDestination)
+      : base(villager, gwm)
     {
-      _map = map;
       Destination = destination;
+      StandOnDestination = standOnDestination;
     }
 
     public override void Start()
     {
-      var path = _map.FindPath(_villager.Position.ToPoint(), Destination.ToPoint());
+      var pf = new Pathfinder(_map);
+      _path = StandOnDestination ?
+        pf.GetPath(_villager.Point, Destination) :
+        pf.GetPathNextTo(_villager.Point, Destination, true, true);
+
+      _conditionManager.SetRate("Energy", -0.15f);
     }
 
-    [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context)
+    protected override void OnInitialize()
     {
-      // Initialize _villager and _map here
+      _map = _gwm.Map;
     }
 
     public override void Update()
     {
-      // Logic to update the walking progress
+      _timer += 1f;
+
+      if (_path.Count > 0)
+      {
+        var nextPoint = _path[0];
+        _villager.PositionOffset = new Vector2(
+          (nextPoint.X - _villager.Point.X) * _timer,
+          (nextPoint.Y - _villager.Point.Y) * _timer
+        );
+      }
+
+      if (_timer < BaseGame.TileSize)
+      {
+        return;
+      }
+
+      _villager.Point = _path[0];
+      _villager.PositionOffset = Vector2.Zero;
+      _path.RemoveAt(0);
+
+      _timer = 0f;
     }
 
     public override bool IsComplete()
     {
-      // Logic to check if the villager has reached the destination
-      return false;
+      return _path.Count == 0;
+    }
+
+    public override void OnComplete()
+    {
+      _villager.PositionOffset = Vector2.Zero;
+      _conditionManager.ResetCondition("Energy");
     }
   }
 }
