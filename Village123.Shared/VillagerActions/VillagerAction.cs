@@ -21,14 +21,14 @@ namespace Village123.Shared.VillagerActions
     protected VillagerAction(Villager villager, GameWorld gameWorld)
     {
       Initialize(villager, gameWorld);
+
+      _conditionManager = new ConditionManager(villager);
     }
 
     public void Initialize(Villager villager, GameWorld gameWorld)
     {
       _villager = villager;
       _gameWorld = gameWorld;
-
-      _conditionManager = new ConditionManager(_villager);
 
       OnInitialize();
     }

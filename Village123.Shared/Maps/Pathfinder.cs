@@ -82,18 +82,13 @@ namespace Village123.Shared.Maps
       return path;
     }
 
-    public List<Point> GetPathNextTo(Point start, Point end, bool includeCorners = false, bool randomSide = false)
+    public List<Point> GetPathNextTo(Point start, Point end, bool includeCorners = false)
     {
       var neighbours = GetNeighbours(end, includeCorners);
       var results = neighbours.Select(c => GetPath(start, c));
 
       if (results.Count() == 0)
         return new List<Point>();
-
-      if (randomSide)
-      {
-        return results.ToList()[BaseGame.Random.Next(0, results.Count())];
-      }
 
       return results.OrderBy(c => c.Count()).FirstOrDefault();
     }

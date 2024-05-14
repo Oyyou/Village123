@@ -62,17 +62,14 @@ namespace Village123.Shared.Managers
       if (villager.Conditions["Energy"].Value <= 0)
       {
         villager.AddAction(new SleepAction(villager, _gameWorld));
-        return;
       }
-
-      villager.AddAction(new IdleAction(villager, _gameWorld));
     }
 
     public Villager CreateRandomVillager()
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager(_gameWorld.Content.Load<Texture2D>("Circle"))
+      var villager = new Villager()
       {
         Id = _idData.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
@@ -97,7 +94,7 @@ namespace Village123.Shared.Managers
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager(_gameWorld.Content.Load<Texture2D>("Circle"))
+      var villager = new Villager()
       {
         Id = _idData.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
