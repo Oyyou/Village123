@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Village123.Shared;
-using Village123.Shared.Input;
 using Village123.Shared.Managers;
 using Village123.Shared.Models;
 
@@ -25,10 +23,6 @@ namespace Village123
 
     protected override void Initialize()
     {
-      _graphics.PreferredBackBufferWidth = BaseGame.ScreenWidth;
-      _graphics.PreferredBackBufferHeight = BaseGame.ScreenHeight;
-      _graphics.ApplyChanges();
-
       base.Initialize();
     }
 
@@ -46,11 +40,9 @@ namespace Village123
 
     protected override void Update(GameTime gameTime)
     {
-      base.Update(gameTime);
-
-      GameMouse.Update(gameTime);
-
       _gwm.Update(gameTime);
+
+      base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
