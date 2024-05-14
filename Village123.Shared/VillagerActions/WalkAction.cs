@@ -35,7 +35,7 @@ namespace Village123.Shared.VillagerActions
       var pf = new Pathfinder(_map);
       _path = pf.GetPath(_villager.Position.ToPoint(), Destination.ToPoint());
 
-      _conditionManager.SetRate("Energy", -1.1f);
+      _villager.Conditions["Energy"].Rate = -1.1f;
     }
 
     protected override void OnInitialize()
@@ -65,7 +65,7 @@ namespace Village123.Shared.VillagerActions
 
     public override void OnComplete()
     {
-      _conditionManager.ResetCondition("Energy");
+      _villager.Conditions["Energy"].ResetRate();
     }
   }
 }

@@ -16,7 +16,7 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
-      _conditionManager.SetRate("Energy", 1f);
+      _villager.Conditions["Energy"].Rate = 1;
     }
 
     protected override void OnInitialize()
@@ -30,12 +30,12 @@ namespace Village123.Shared.VillagerActions
 
     public override bool IsComplete()
     {
-      return _conditionManager.GetValue("Energy") >= 100;
+      return _villager.Conditions["Energy"].Value >= 100;
     }
 
     public override void OnComplete()
     {
-      _conditionManager.ResetCondition("Energy");
+      _villager.Conditions["Energy"].ResetRate();
     }
   }
 }

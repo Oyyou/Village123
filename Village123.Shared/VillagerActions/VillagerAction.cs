@@ -1,6 +1,5 @@
 ﻿using System;
 using Village123.Shared.Entities;
-using Village123.Shared.Managers;
 using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
@@ -11,8 +10,6 @@ namespace Village123.Shared.VillagerActions
     protected Villager _villager;
     protected GameWorld _gameWorld;
 
-    protected ConditionManager _conditionManager;
-
     public abstract string Name { get; }
 
     public bool Started { get; set; } = false;
@@ -21,8 +18,6 @@ namespace Village123.Shared.VillagerActions
     protected VillagerAction(Villager villager, GameWorld gameWorld)
     {
       Initialize(villager, gameWorld);
-
-      _conditionManager = new ConditionManager(villager);
     }
 
     public void Initialize(Villager villager, GameWorld gameWorld)
