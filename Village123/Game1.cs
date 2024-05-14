@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Village123.Shared.Managers;
-using Village123.Shared.Utils;
-using Village123.Shared.VillagerActions;
 
 namespace Village123
 {
@@ -22,8 +20,7 @@ namespace Village123
 
     protected override void Initialize()
     {
-      VillagerActionInitializerRegistry.RegisterInitializer(new BaseActionInitializer());
-      // TODO: Load initializers dynamically (probably based off interface)
+      // TODO: Add your initialization logic here
 
       base.Initialize();
     }

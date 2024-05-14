@@ -45,18 +45,18 @@ namespace Village123.Shared.Entities
     public Villager Mother { get; set; }
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    public Queue<IVillagerAction> ActionQueue { get; set; } = new();
+    private Queue<IVillagerAction> actionQueue { get; set; } = new();
 
     public void AddAction(IVillagerAction action)
     {
-      ActionQueue.Enqueue(action);
+      actionQueue.Enqueue(action);
     }
 
     public void Update()
     {
-      if (ActionQueue.Count > 0)
+      if (actionQueue.Count > 0)
       {
-        var currentAction = ActionQueue.Peek();
+        var currentAction = actionQueue.Peek();
         if(!currentAction.Started)
         {
           currentAction.Start();
@@ -66,7 +66,7 @@ namespace Village123.Shared.Entities
 
         if (currentAction.IsComplete())
         {
-          ActionQueue.Dequeue();
+          actionQueue.Dequeue();
         }
       }
     }
