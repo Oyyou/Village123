@@ -61,23 +61,6 @@ namespace Village123.Shared.Managers
 
       if (villager.Conditions["Energy"].Value <= 0)
       {
-        var beds = _gameWorld.Places.Where(p => p.Name.Contains("Bed"));
-        var villagerBed = beds.FirstOrDefault(b => b.OwnerIds.Contains(villager.Id));
-
-        if (villagerBed == null)
-        {
-          var emptyBed = beds.FirstOrDefault(b => b.OwnerIds.Count == 0);
-
-          if (emptyBed != null)
-          {
-            villager.AddAction(new WalkAction(villager, _gameWorld, emptyBed.Point, true));
-          }
-        }
-        else
-        {
-          villager.AddAction(new WalkAction(villager, _gameWorld, villagerBed.Point, true));
-        }
-
         villager.AddAction(new SleepAction(villager, _gameWorld));
         return;
       }
@@ -97,7 +80,7 @@ namespace Village123.Shared.Managers
         Gender = gender,
         Conditions = new Dictionary<string, Condition>()
         {
-          { "Energy", new(100f, -0.10f) }
+          { "Energy", new(100f, -1f) }
         }
       };
 

@@ -9,8 +9,16 @@ namespace Village123.Shared.Data
   {
     private const string fileName = "ids.json";
 
-    public int VillagerId { get; set; }
-    public int PlaceId { get; set; }
+    private int _villagerId = 1;
+
+    public int VillagerId
+    {
+      get => _villagerId;
+      set
+      {
+        _villagerId = value;
+      }
+    }
 
     public void Save()
     {

@@ -16,7 +16,7 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
-      _conditionManager.SetRate("Energy", 0.25f);
+      _conditionManager.SetRate("Energy", 1f);
     }
 
     protected override void OnInitialize()

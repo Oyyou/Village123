@@ -1,11 +1,16 @@
-﻿using Village123.Shared.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Village123.Shared.Entities;
 using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
 {
   internal class IdleAction : VillagerAction
   {
-    public override string Name => "Idle";
+    public override string Name => "Sleep";
 
     public IdleAction() { }
 
