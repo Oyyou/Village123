@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,8 @@ namespace Village123.Shared.Entities
 
   public class Villager : IEntity
   {
+    private GameWorld _gameWorld;
+
     public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -26,9 +27,6 @@ namespace Village123.Shared.Entities
     public int? MotherId { get; set; }
 
     public Vector2 Position { get; set; }
-
-    [JsonIgnore]
-    public Texture2D Texture { get; set; }
 
     /// <summary>
     /// Lumbering, mining, building etc
@@ -53,6 +51,11 @@ namespace Village123.Shared.Entities
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     public Queue<IVillagerAction> ActionQueue { get; set; } = new();
+
+    public void Initialize(GameWorld gameWord)
+    {
+      _gameWorld = gameWord;
+    }
 
     public void AddAction(IVillagerAction action)
     {
@@ -85,11 +88,6 @@ namespace Village123.Shared.Entities
         condition.Value.Value += condition.Value.Rate;
         condition.Value.Value = MathHelper.Clamp(condition.Value.Value, 0, 100);
       }
-    }
-
-    public void Draw(SpriteBatch spriteBatch)
-    {
-      spriteBatch.Draw(Texture, Position, Color.White);
     }
   }
 }

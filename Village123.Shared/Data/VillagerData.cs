@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
@@ -51,7 +50,6 @@ namespace Village123.Shared.Data
 
       foreach (var villager in villagerData.Villagers)
       {
-        villager.Texture = gameWorld.Content.Load<Texture2D>("Circle");
         foreach (var action in villager.ActionQueue)
         {
           action.Initialize(villager, gameWorld);
