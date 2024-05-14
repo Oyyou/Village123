@@ -134,7 +134,7 @@ namespace Village123.Shared.Managers
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
       var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _gwm.IdManager.VillagerId++,
+        Id = _gwm.IdData.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = LastNames[BaseGame.Random.Next(0, firstNames.Count)],
         Gender = gender,
@@ -159,7 +159,7 @@ namespace Village123.Shared.Managers
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
       var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _gwm.IdManager.VillagerId++,
+        Id = _gwm.IdData.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = father.LastName,
         Gender = gender,
