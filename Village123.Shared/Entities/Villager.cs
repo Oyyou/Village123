@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using Village123.Shared.Logging;
-using Village123.Shared.Models;
 using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Entities
@@ -16,8 +13,6 @@ namespace Village123.Shared.Entities
 
   public class Villager : IEntity
   {
-    private GameWorld _gameWorld;
-
     public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -41,7 +36,7 @@ namespace Village123.Shared.Entities
     /// <summary>
     /// Hunger, tiredness, boredom etc
     /// </summary>
-    public Dictionary<string, Condition> Conditions { get; set; } = new();
+    public Dictionary<string, short> Conditions { get; set; } = new();
 
     [JsonIgnore]
     public Villager Father { get; set; }
@@ -51,11 +46,6 @@ namespace Village123.Shared.Entities
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     public Queue<IVillagerAction> ActionQueue { get; set; } = new();
-
-    public void Initialize(GameWorld gameWord)
-    {
-      _gameWorld = gameWord;
-    }
 
     public void AddAction(IVillagerAction action)
     {
@@ -67,26 +57,17 @@ namespace Village123.Shared.Entities
       if (ActionQueue.Count > 0)
       {
         var currentAction = ActionQueue.Peek();
-        if (!currentAction.Started)
+        if(!currentAction.Started)
         {
           currentAction.Start();
-          Logger.WriteLine($"Villager '{FirstName} {LastName}' started {currentAction.Name}");
           currentAction.Started = true;
         }
         currentAction.Update();
 
         if (currentAction.IsComplete())
         {
-          Logger.WriteLine($"Villager '{FirstName} {LastName}' finished {currentAction.Name}");
-          currentAction.OnComplete();
           ActionQueue.Dequeue();
         }
-      }
-
-      foreach (var condition in Conditions)
-      {
-        condition.Value.Value += condition.Value.Rate;
-        condition.Value.Value = MathHelper.Clamp(condition.Value.Value, 0, 100);
       }
     }
   }
