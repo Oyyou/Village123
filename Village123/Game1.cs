@@ -7,34 +7,14 @@ using Village123.Shared.Models;
 
 namespace Village123
 {
-  public class Game1 : Game
+  public class Game1 : BaseGame
   {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-
     private GameModel _gameModel;
-
     private GameWorldManager _gwm;
-
-    public Game1()
-    {
-      _graphics = new GraphicsDeviceManager(this);
-      Content.RootDirectory = "Content";
-      IsMouseVisible = true;
-    }
-
-    protected override void Initialize()
-    {
-      _graphics.PreferredBackBufferWidth = BaseGame.ScreenWidth;
-      _graphics.PreferredBackBufferHeight = BaseGame.ScreenHeight;
-      _graphics.ApplyChanges();
-
-      base.Initialize();
-    }
 
     protected override void LoadContent()
     {
-      _spriteBatch = new SpriteBatch(GraphicsDevice);
+      base.LoadContent();
 
       _gameModel = new GameModel(
         _graphics,
