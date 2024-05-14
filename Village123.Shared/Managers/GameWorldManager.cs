@@ -44,12 +44,12 @@ namespace Village123.Shared.Managers
       //var v1 = VillagerManager.CreateRandomVillager();
       //v1.AddAction(new WalkAction(v1, this, new Point(2, 2), true));
 
-      //var bed = PlaceManager.Add(PlaceData.Places["SingleBed"], new Point(3, 3));
+      //var bed = PlaceManager.Add(PlaceData.Places["singleBed"], new Point(3, 3));
       //bed.AddOwner(v1);
 
-      //var anvil = PlaceManager.Add("Anvil", new Point(5, 3));
+      //var anvil = PlaceManager.Add("anvil", new Point(5, 3));
 
-      //var makeSword = JobManager.Add("CreateBronzeSword", anvil.Point);
+      //var makeSword = JobManager.Add("createBronzeSword", anvil.Point);
 
       //Save();
     }
