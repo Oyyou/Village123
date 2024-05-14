@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Runtime.Serialization;
 using Village123.Shared.Entities;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -12,10 +12,9 @@ namespace Village123.Shared.VillagerActions
 
     public Vector2 Destination { get; init; }
 
-    public WalkAction() { }
-
-    public WalkAction(Villager villager, GameWorld gameWorld, Vector2 destination) : base(villager, gameWorld)
+    public WalkAction(Villager villager, Map map, Vector2 destination) : base(villager)
     {
+      _map = map;
       Destination = destination;
     }
 
@@ -24,9 +23,10 @@ namespace Village123.Shared.VillagerActions
       var path = _map.FindPath(_villager.Position.ToPoint(), Destination.ToPoint());
     }
 
-    protected override void OnInitialize()
+    public void Initialize(Villager villager, Map map)
     {
-      _map = _gameWorld.Map;
+      _villager = villager;
+      _map = map;
     }
 
     public override void Update()
