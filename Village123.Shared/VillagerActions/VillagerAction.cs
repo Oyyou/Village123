@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Village123.Shared.Entities;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -8,25 +11,13 @@ namespace Village123.Shared.VillagerActions
   public abstract class VillagerAction : IVillagerAction
   {
     protected Villager _villager;
-    protected GameWorld _gameWorld;
 
     public bool Started { get; set; } = false;
 
-    protected VillagerAction() { }
-    protected VillagerAction(Villager villager, GameWorld gameWorld)
-    {
-      Initialize(villager, gameWorld);
-    }
-
-    public void Initialize(Villager villager, GameWorld gameWorld)
+    protected VillagerAction(Villager villager)
     {
       _villager = villager;
-      _gameWorld = gameWorld;
-
-      OnInitialize();
     }
-
-    protected abstract void OnInitialize();
 
     public abstract bool IsComplete();
 
