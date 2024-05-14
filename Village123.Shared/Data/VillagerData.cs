@@ -4,7 +4,6 @@ using System.IO;
 using Village123.Shared.Entities;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Models;
-using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Data
 {
@@ -26,6 +25,14 @@ namespace Village123.Shared.Data
     public void Add(Villager villager)
     {
       _villagers.Add(villager);
+    }
+
+    public void Update()
+    {
+      foreach(var villager in _villagers)
+      {
+        villager.Update();
+      }
     }
 
     public void Save()

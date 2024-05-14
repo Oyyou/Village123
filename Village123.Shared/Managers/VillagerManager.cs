@@ -1,59 +1,238 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
-using Village123.Shared.Models;
-using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Managers
 {
   public class VillagerManager
   {
-    private static List<string> MaleFirstNames = new();
-    private static List<string> FemaleFirstNames = new();
-    private static List<string> LastNames = new();
+    private static List<string> MaleFirstNames = new List<string>()
+    {
+      "Byron",
+      "Bentley",
+      "Kadyn",
+      "Ahmad",
+      "Karter",
+      "Brennen",
+      "Asher",
+      "Keith",
+      "Drew",
+      "Philip",
+      "Talan",
+      "Peter",
+      "Casey",
+      "Malakai",
+      "Mauricio",
+      "Sonny",
+      "Brycen",
+      "Jayvon",
+      "Jason",
+      "Jovani",
+      "Andres",
+      "Aden",
+      "Walter",
+      "Maximus",
+      "Theodore",
+      "Dawson",
+      "Ben",
+      "Kristopher",
+      "Augustus",
+      "Michael",
+      "Tanner",
+      "Neil",
+      "Darren",
+      "Ronnie",
+      "Marquis",
+      "Evan",
+      "Luciano",
+      "Coleman",
+      "Cohen",
+      "Konnor",
+      "Conner",
+      "Zachery",
+      "Denzel",
+      "Uriel",
+      "Silas",
+      "Luka",
+      "Chandler",
+      "Zackary",
+      "Jorden",
+      "Ian",
+    };
 
-    private readonly GameWorld _gameWorld;
+    private static List<string> FemaleFirstNames = new List<string>()
+    {
+      "Yoselin",
+      "Andrea",
+      "Kristin",
+      "Kaitlin",
+      "Denisse",
+      "Maggie",
+      "Fatima",
+      "Joy",
+      "Caitlin",
+      "Hailey",
+      "Isis",
+      "Savannah",
+      "Caroline",
+      "Kadence",
+      "Taryn",
+      "Julianna",
+      "Jazmine",
+      "Sarah",
+      "Cierra",
+      "Jade",
+      "Evie",
+      "Raquel",
+      "Annabelle",
+      "Bryanna",
+      "Emely",
+      "Kylie",
+      "Mylee",
+      "Brooklyn",
+      "Paisley",
+      "Marie",
+      "Keira",
+      "Justine",
+      "Alexia",
+      "Macy",
+      "Rylie",
+      "Precious",
+      "Princess",
+      "Kamila",
+      "Izabelle",
+      "Breanna",
+      "Kali",
+      "Shyanne",
+      "Shannon",
+      "Maia",
+      "Marissa",
+      "Keely",
+      "Nylah",
+      "Meadow",
+      "Lizeth",
+      "Isabela",
+    };
+
+    private static List<string> LastNames = new List<string>()
+    {
+      "Kramer",
+      "Bennett",
+      "Lester",
+      "Davies",
+      "Ortega",
+      "Rollins",
+      "Harrington",
+      "Davenport",
+      "Boyer",
+      "Webb",
+      "Frederick",
+      "Jackson",
+      "Banks",
+      "Burgess",
+      "Combs",
+      "Landry",
+      "Terrell",
+      "Whitaker",
+      "Mays",
+      "Gilmore",
+      "Drake",
+      "Ward",
+      "Heath",
+      "Yates",
+      "Newman",
+      "Cooper",
+      "Shea",
+      "Spears",
+      "Blankenship",
+      "Sloan",
+      "Solomon",
+      "Valencia",
+      "Leonard",
+      "Black",
+      "Esparza",
+      "King",
+      "Goodman",
+      "Kelly",
+      "Nielsen",
+      "Lang",
+      "Massey",
+      "Rowe",
+      "Gibbs",
+      "Guzman",
+      "Anthony",
+      "Gallegos",
+      "Cannon",
+      "Olson",
+      "Best",
+      "Burton",
+      "Kennedy",
+      "Larsen",
+      "Nunez",
+      "Villa",
+      "Berger",
+      "Schmitt",
+      "Lloyd",
+      "Whitney",
+      "Davis",
+      "Wheeler",
+      "Griffith",
+      "Rivas",
+      "Mitchell",
+      "Boone",
+      "Torres",
+      "Trevino",
+      "Klein",
+      "Hutchinson",
+      "Hooper",
+      "Giles",
+      "Mejia",
+      "Mckee",
+      "Brady",
+      "Morrison",
+      "Jarvis",
+      "Ferrell",
+      "Osborn",
+      "Stephenson",
+      "Sharp",
+      "Robbins",
+      "Murphy",
+      "Patton",
+      "Bernard",
+      "Beltran",
+      "Norton",
+      "Allen",
+      "Pham",
+      "Glenn",
+      "Olsen",
+      "Wallace",
+      "Eaton",
+      "Rowland",
+      "Kline",
+      "Hanson",
+      "Jones",
+      "Levine",
+      "Michael",
+      "Wells",
+      "Howard",
+      "Mcmillan",
+    };
+
     private readonly IdData _idData;
     private readonly VillagerData _villagerData;
 
     public VillagerManager(
-      GameWorld gameWorld,
       IdData idData,
       VillagerData villagerData
       )
     {
-      _gameWorld = gameWorld;
       _idData = idData;
       _villagerData = villagerData;
-
-      MaleFirstNames = File.ReadAllLines("Content/maleFirstNames.txt").ToList();
-      FemaleFirstNames = File.ReadAllLines("Content/femaleFirstNames.txt").ToList();
-      LastNames = File.ReadAllLines("Content/lastNames.txt").ToList();
     }
 
     public void Update()
     {
-      foreach (var villager in _villagerData.Villagers)
-      {
-        villager.Update();
-
-        DetermineNextActions(villager);
-      }
-    }
-
-    private void DetermineNextActions(Villager villager)
-    {
-      if (villager.ActionQueue.Count > 0)
-      {
-        return;
-      }
-
-      if (villager.Conditions["Energy"].Value <= 0)
-      {
-        villager.AddAction(new SleepAction(villager, _gameWorld));
-      }
+      _villagerData.Update();
     }
 
     public Villager CreateRandomVillager()
@@ -66,10 +245,6 @@ namespace Village123.Shared.Managers
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = LastNames[BaseGame.Random.Next(0, firstNames.Count)],
         Gender = gender,
-        Conditions = new Dictionary<string, Models.Condition>()
-        {
-          { "Energy", new() { Value = 100, Rate = -1 } },
-        }
       };
 
       _villagerData.Add(villager);
