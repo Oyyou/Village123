@@ -9,7 +9,7 @@ namespace Village123.Shared.VillagerActions
   public abstract class VillagerAction : IVillagerAction
   {
     protected Villager _villager;
-    protected GameWorldManager _gwm;
+    protected GameWorld _gameWorld;
 
     protected ConditionManager _conditionManager;
 
@@ -18,15 +18,15 @@ namespace Village123.Shared.VillagerActions
     public bool Started { get; set; } = false;
 
     protected VillagerAction() { }
-    protected VillagerAction(Villager villager, GameWorldManager gwm)
+    protected VillagerAction(Villager villager, GameWorld gameWorld)
     {
-      Initialize(villager, gwm);
+      Initialize(villager, gameWorld);
     }
 
-    public void Initialize(Villager villager, GameWorldManager gwm)
+    public void Initialize(Villager villager, GameWorld gameWorld)
     {
       _villager = villager;
-      _gwm = gwm;
+      _gameWorld = gameWorld;
 
       _conditionManager = new ConditionManager(_villager);
 

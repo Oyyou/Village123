@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Village123.Shared.Data;
@@ -10,45 +11,61 @@ namespace Village123.Shared.Managers
 {
   public class GameWorldManager
   {
-    public readonly GameModel GameModel;
-    public readonly IdData IdData;
-    public readonly Map Map;
-    public readonly VillagerManager VillagerManager;
-    public readonly PlaceManager PlaceManager;
-    public readonly JobManager JobManager;
+    private IdData _idData = new();
+    private VillagerData _villagerData = new();
+    private PlaceData _placeData = new();
+    private JobData _jobData = new();
 
-    public GameWorldManager(GameModel gameModel)
+    private GameWorld _gameWorld;
+
+    private Map _map;
+
+    private VillagerManager _villagerManager;
+    private PlaceManager _placeManager;
+    private JobManager _jobManager;
+
+    public void Load(ContentManager content)
     {
-      GameModel = gameModel;
-
-      IdData = IdData.Load();
-
       // TODO: Load map
-      Map = new Map(20, 20);
+      _map = new Map(20, 20);
 
-      VillagerManager = VillagerManager.Load(this);
-      PlaceManager = PlaceManager.Load(this);
-      JobManager = JobManager.Load(this);
+      _gameWorld = new GameWorld(
+        content,
+        _map);
 
-      //var v1 = VillagerManager.CreateRandomVillager();
-      //v1.AddAction(new WalkAction(v1, this, new Point(2, 2), true));
+      _idData = IdData.Load(_gameWorld);
+      _villagerData = VillagerData.Load(_gameWorld);
+      _placeData = PlaceData.Load(_gameWorld);
+      _jobData = JobData.Load(_gameWorld);
 
-      //var bed = PlaceManager.Add("SingleBed", new Point(3, 3));
+      _villagerManager = new VillagerManager(_gameWorld, _idData, _villagerData);
+
+      _placeManager = new PlaceManager(_gameWorld, _idData, _placeData);
+
+      _jobManager = new JobManager(_gameWorld, _idData, _jobData);
+
+
+      //var v1 = _villagerManager.CreateRandomVillager();
+      //v1.AddAction(new WalkAction(v1, _gameWorld, new Point(2, 2), true));
+
+      //var bed = _placeManager.Add("SingleBed", new Point(3, 3));
       //bed.AddOwner(v1);
 
-      //var anvil = PlaceManager.Add("Anvil", new Point(5, 3));
+      //var anvil = _placeManager.Add("Anvil", new Point(5, 3));
 
-      //var makeSword = JobManager.Add("CreateBronzeSword", anvil.Point);
+      //var makeSword = _jobManager.Add("CreateBronzeSword", anvil.Point);
 
       //Save();
+
+      _gameWorld.SetPlaces(_placeData.Places);
     }
 
     public void Save()
     {
-      IdData.Save();
-      VillagerManager.Save();
-      PlaceManager.Save();
-      JobManager.Save();
+      _idData.Save();
+      _villagerData.Save();
+      _placeData.Save();
+      _jobData.Save();
     }
 
     public void Update(GameTime gameTime)
@@ -58,14 +75,14 @@ namespace Village123.Shared.Managers
         this.Save();
       }
 
-      VillagerManager.Update();
+      _villagerManager.Update();
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
       spriteBatch.Begin();
-      PlaceManager.Draw(spriteBatch);
-      VillagerManager.Draw(spriteBatch);
+      _placeManager.Draw(spriteBatch);
+      _villagerManager.Draw(spriteBatch);
       spriteBatch.End();
     }
   }
