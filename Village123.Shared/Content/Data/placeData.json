@@ -1,34 +1,10 @@
 {
   "SingleBed": {
     "type": "Bed",
-    "category": "Furniture",
-    "size": {
-      "X": 1,
-      "Y": 2
-    },
-    "constructionBlocksPath": false,
-    "blocksPath": false,
-    "requiredBuildResources": {
-      "wood": 5
-    },
-    "requiredBuildSkills": {},
-    "producedTypes": []
+    "category": "Furniture"
   },
   "Anvil": {
     "type": "Workstation",
-    "category": "Crafting",
-    "size": {
-      "X": 1,
-      "Y": 1
-    },
-    "constructionBlocksPath": false,
-    "blocksPath": false,
-    "requiredBuildResources": {
-      "iron": 10
-    },
-    "requiredBuildSkills": {},
-    "producedItemTypes": [
-      "basicTools"
-    ]
+    "category": "Crafting"
   }
 }
