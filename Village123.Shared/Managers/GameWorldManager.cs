@@ -20,9 +20,6 @@ namespace Village123.Shared.Managers
 
     public readonly Map Map;
     public readonly IdManager IdManager;
-    public readonly VillagerManager VillagerManager;
-    public readonly PlaceManager PlaceManager;
-    public readonly JobManager JobManager;
 
     public readonly GUIManager GUIManager;
 
@@ -40,21 +37,17 @@ namespace Village123.Shared.Managers
       Map = new Map(20, 20);
 
       IdManager = IdManager.Load();
-      VillagerManager = VillagerManager.Load(this);
-      PlaceManager = PlaceManager.Load(this);
-      JobManager = JobManager.Load(this);
-
       GUIManager = new GUIManager(this);
 
-      //var v1 = VillagerManager.CreateRandomVillager();
+      //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
       //v1.AddAction(new WalkAction(v1, this, new Point(2, 2), true));
 
-      //var bed = PlaceManager.Add(PlaceData.Places["singleBed"], new Point(3, 3));
+      //var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
       //bed.AddOwner(v1);
 
-      //var anvil = PlaceManager.Add("anvil", new Point(5, 3));
+      //var anvil = PlaceManager.GetInstance(this).Add("anvil", new Point(5, 3));
 
-      //var makeSword = JobManager.Add("createBronzeSword", anvil.Point);
+      //var makeSword = JobManager.GetInstance(this).Add("createBronzeSword", anvil.Point);
 
       //Save();
     }
@@ -62,9 +55,9 @@ namespace Village123.Shared.Managers
     public void Save()
     {
       IdManager.Save();
-      VillagerManager.Save();
-      PlaceManager.Save();
-      JobManager.Save();
+      VillagerManager.GetInstance(this).Save();
+      PlaceManager.GetInstance(this).Save();
+      JobManager.GetInstance(this).Save();
     }
 
     public void Update(GameTime gameTime)
@@ -76,14 +69,14 @@ namespace Village123.Shared.Managers
 
       GUIManager.Update(gameTime);
 
-      VillagerManager.Update();
+      VillagerManager.GetInstance(this).Update();
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
       spriteBatch.Begin();
-      PlaceManager.Draw(spriteBatch);
-      VillagerManager.Draw(spriteBatch);
+      PlaceManager.GetInstance(this).Draw(spriteBatch);
+      VillagerManager.GetInstance(this).Draw(spriteBatch);
       spriteBatch.End();
 
       GUIManager.Draw(spriteBatch);

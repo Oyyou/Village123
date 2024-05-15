@@ -10,20 +10,23 @@ namespace Village123.Shared.Managers
 {
   public class PlaceManager
   {
+    private static PlaceManager _instance;
+    private static readonly object _lock = new();
+
     private const string fileName = "places.json";
-
     private GameWorldManager _gwm;
-
     public List<Place> Places { get; private set; } = new();
 
-    public PlaceManager()
-    {
+    private PlaceManager() { }
 
-    }
-
-    private void Initialize(GameWorldManager gwm)
+    public static PlaceManager GetInstance(GameWorldManager gwm)
     {
-      _gwm = gwm;
+      lock (_lock)
+      {
+        _instance ??= Load(gwm);
+      }
+
+      return _instance;
     }
 
     #region Serialization
@@ -37,7 +40,7 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    public static PlaceManager Load(GameWorldManager gwm)
+    private static PlaceManager Load(GameWorldManager gwm)
     {
       var placeManager = new PlaceManager();
 
@@ -47,7 +50,7 @@ namespace Village123.Shared.Managers
         placeManager = JsonConvert.DeserializeObject<PlaceManager>(jsonString)!;
       }
 
-      placeManager.Initialize(gwm);
+      placeManager._gwm = gwm;
 
       foreach (var place in placeManager.Places)
       {

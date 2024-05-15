@@ -9,6 +9,9 @@ namespace Village123.Shared.Managers
 {
   public class JobManager
   {
+    private static JobManager _instance;
+    private static readonly object _lock = new();
+
     private const string fileName = "jobs.json";
 
     private GameWorldManager _gwm;
@@ -19,9 +22,14 @@ namespace Village123.Shared.Managers
     {
     }
 
-    private void Initialize(GameWorldManager gwm)
+    public static JobManager GetInstance(GameWorldManager gwm)
     {
-      _gwm = gwm;
+      lock (_lock)
+      {
+        _instance ??= Load(gwm);
+      }
+
+      return _instance;
     }
 
     #region Serialization
@@ -35,19 +43,19 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    public static JobManager Load(GameWorldManager gwm)
+    private static JobManager Load(GameWorldManager gwm)
     {
-      var jobManager = new JobManager();
+      var mamager = new JobManager();
 
       if (File.Exists(fileName))
       {
         var jsonString = File.ReadAllText(fileName);
-        jobManager = JsonConvert.DeserializeObject<JobManager>(jsonString)!;
+        mamager = JsonConvert.DeserializeObject<JobManager>(jsonString)!;
       }
 
-      jobManager.Initialize(gwm);
+      mamager._gwm = gwm;
 
-      return jobManager;
+      return mamager;
     }
     #endregion
 

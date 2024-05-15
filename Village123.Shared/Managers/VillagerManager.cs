@@ -15,6 +15,9 @@ namespace Village123.Shared.Managers
 {
   public class VillagerManager
   {
+    private static VillagerManager _instance;
+    private static readonly object _lock = new();
+
     private const string fileName = "villagers.json";
 
     private static List<string> MaleFirstNames = new();
@@ -36,9 +39,14 @@ namespace Village123.Shared.Managers
       LoadDetermineActions();
     }
 
-    private void Initialize(GameWorldManager gwm)
+    public static VillagerManager GetInstance(GameWorldManager gwm)
     {
-      _gwm = gwm;
+      lock (_lock)
+      {
+        _instance ??= Load(gwm);
+      }
+
+      return _instance;
     }
 
     private void LoadDetermineActions()
@@ -66,7 +74,7 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    public static VillagerManager Load(GameWorldManager gwm)
+    private static VillagerManager Load(GameWorldManager gwm)
     {
       var villagerManager = new VillagerManager();
 
@@ -76,7 +84,7 @@ namespace Village123.Shared.Managers
         villagerManager = JsonConvert.DeserializeObject<VillagerManager>(jsonString)!;
       }
 
-      villagerManager.Initialize(gwm);
+      villagerManager._gwm = gwm;
 
       foreach (var villager in villagerManager.Villagers)
       {
