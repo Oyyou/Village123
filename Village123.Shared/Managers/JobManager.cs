@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using Village123.Shared.Data;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.Managers
@@ -57,6 +58,25 @@ namespace Village123.Shared.Managers
         Id = _gwm.IdManager.JobId++,
         Name = name,
         Point = point,
+      };
+
+      Jobs.Add(job);
+
+      return job;
+    }
+
+    public Job CraftItem(ItemData.Item item, Place place)
+    {
+      var job = new Job()
+      {
+        Id = _gwm.IdManager.JobId++,
+        Name = $"Craft {item.Name}",
+        Point = place.Point,
+        MaxWorkers = 1,
+        RequiredEquipment = item.RequiredEquipment,
+        RequiredResources = item.RequiredResources,
+        Type = item.CreatedAt.Category,
+        WorkerIds = new List<int>(),
       };
 
       Jobs.Add(job);

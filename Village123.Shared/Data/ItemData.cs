@@ -12,8 +12,27 @@ namespace Village123.Shared.Data
     {
       [JsonProperty("name")]
       public string Name { get; set; }
+
       [JsonProperty("type")]
       public string Type { get; set; }
+
+      [JsonProperty("createdAtType")]
+      public CreatedAtType CreatedAt { get; set; }
+
+      [JsonProperty("requiredResources")]
+      public Dictionary<string, int> RequiredResources { get; set; } = new();
+
+      [JsonProperty("requiredEquipment")]
+      public List<string> RequiredEquipment { get; set; } = new();
+
+      public class CreatedAtType
+      {
+        [JsonProperty("category")]
+        public string Category { get; set; }
+
+        [JsonProperty("level")]
+        public int Level { get; set; }
+      }
     }
 
     public static ItemData Load()

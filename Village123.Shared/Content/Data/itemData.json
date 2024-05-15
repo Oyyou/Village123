@@ -1,6 +1,15 @@
 {
   "hatchet": {
     "name": "Hatchet",
-    "type": "basicTool"
+    "type": "basicTool",
+    "createdAt": {
+      "category": "crafting",
+      "level": 1
+    },
+    "requiredResources": {
+      "ore": 1,
+      "wood": 1
+    },
+    "requiredEquipment": []
   }
 }

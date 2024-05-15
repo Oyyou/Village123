@@ -1,8 +1,8 @@
 {
   "singleBed": {
     "name": "Single bed",
-    "type": "Bed",
-    "category": "Furniture",
+    "type": "bed",
+    "category": "furniture",
     "size": {
       "X": 1,
       "Y": 2
@@ -14,8 +14,8 @@
   },
   "anvil": {
     "name": "Anvil",
-    "type": "Workstation",
-    "category": "Crafting",
+    "type": "workstation",
+    "category": "crafting",
     "size": {
       "X": 1,
       "Y": 1
@@ -30,8 +30,8 @@
   },
   "woodenWall": {
     "name": "Wooden wall",
-    "type": "Structure",
-    "category": "Building",
+    "type": "structure",
+    "category": "building",
     "size": {
       "X": 1,
       "Y": 1
@@ -43,8 +43,8 @@
   },
   "stoneWall": {
     "name": "Stone wall",
-    "type": "Structure",
-    "category": "Building",
+    "type": "structure",
+    "category": "building",
     "size": {
       "X": 1,
       "Y": 1
@@ -56,8 +56,8 @@
   },
   "path": {
     "name": "Path",
-    "type": "Structure",
-    "category": "Path",
+    "type": "structure",
+    "category": "path",
     "size": {
       "X": 1,
       "Y": 1
