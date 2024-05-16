@@ -69,6 +69,7 @@ namespace Village123.Shared.Managers
 
       GUIManager.Update(gameTime);
 
+      PlaceManager.GetInstance(this).Update(gameTime);
       VillagerManager.GetInstance(this).Update();
     }
 

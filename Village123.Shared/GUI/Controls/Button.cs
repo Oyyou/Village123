@@ -1,58 +1,41 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.Input;
-using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.GUI.Controls
 {
-  public class Button : IClickable
+  public class Button : Control
   {
-    private Vector2 _position;
     private Vector2 _textPosition;
-    private Rectangle _clickRectangle;
-
-    private bool _isMouseOver = false;
 
     public string Text { get; set; }
     public SpriteFont Font { get; init; }
     public Texture2D Texture { get; init; }
 
-    public Vector2 Position
-    {
-      get => _position;
-      set
-      {
-        _position = value;
-        UpdateClickRectangle();
-        UpdateTextPosition();
-      }
-    }
-
     public Color BackgroundColor { get; set; } = Color.White;
     public Color TextColor { get; set; } = Color.Black;
     public Color HoverBackgroundColor { get; set; } = Color.Gray;
 
-    public Rectangle ClickRectangle => _clickRectangle;
+    public override bool ClickIsVisible => true;
 
-    public float ClickLayer => 1f;
+    public override int Width => Texture != null ? Texture.Width : 0;
 
-    public bool ClickIsVisible => true;
+    public override int Height => Texture != null ? Texture.Height : 0;
 
-    public Action OnClicked { get; set; }
-
-    public Button(string text, SpriteFont font, Texture2D texture)
+    public Button(SpriteFont font, Texture2D texture, string text, Vector2 position) : base(position)
     {
       Font = font;
       Texture = texture;
 
       UpdateClickRectangle();
       SetText(text);
-    }
 
-    private void UpdateClickRectangle()
-    {
-      _clickRectangle = new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
+      _onPositionChanged = () =>
+      {
+        UpdateTextPosition();
+      };
     }
 
     public void SetText(string text)
@@ -70,30 +53,10 @@ namespace Village123.Shared.GUI.Controls
       _textPosition = new Vector2(x, y);
     }
 
-    public void Update(GameTime gameTime)
-    {
-      _isMouseOver = false;
-
-      if (GameMouse.Intersects(ClickRectangle))
-      {
-        GameMouse.AddObject(this);
-
-        // If this control is what the gameMouse is able to currently click (based off what control is layered at the top)
-        if (GameMouse.ValidObject == this)
-        {
-          _isMouseOver = true;
-          if (GameMouse.IsLeftClicked)
-          {
-            OnClicked?.Invoke();
-          }
-        }
-      }
-    }
-
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(Texture, Position, _isMouseOver ? HoverBackgroundColor : BackgroundColor);
-      spriteBatch.DrawString(Font, Text, _textPosition, TextColor);
+      spriteBatch.Draw(Texture, Position, null, _isMouseOver ? HoverBackgroundColor : BackgroundColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
+      spriteBatch.DrawString(Font, Text, _textPosition, TextColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer + 0.005f);
     }
   }
 }

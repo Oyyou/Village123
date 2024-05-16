@@ -54,6 +54,7 @@ namespace Village123.Shared.Managers
 
       foreach (var place in placeManager.Places)
       {
+        place.SetData(gwm.PlaceData.Places[place.Name]);
         place.Texture = gwm.GameModel.Content.Load<Texture2D>($"Places/{place.Name}");
       }
 
@@ -61,8 +62,12 @@ namespace Village123.Shared.Managers
     }
     #endregion
 
-    public void Update()
+    public void Update(GameTime gameTime)
     {
+      foreach (var place in Places)
+      {
+        place.Update(_gwm, gameTime);
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -75,7 +80,7 @@ namespace Village123.Shared.Managers
 
     public Place Add(PlaceData.Place data, Point point)
     {
-      var place = new Place(_gwm.GameModel.Content.Load<Texture2D>($"Places/{data.Name}"), point)
+      var place = new Place(data, _gwm.GameModel.Content.Load<Texture2D>($"Places/{data.Name}"), point)
       {
         Id = _gwm.IdManager.PlaceId++,
       };

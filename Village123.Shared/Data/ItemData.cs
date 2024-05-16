@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Village123.Shared.Data
 {
@@ -16,7 +17,7 @@ namespace Village123.Shared.Data
       [JsonProperty("type")]
       public string Type { get; set; }
 
-      [JsonProperty("createdAtType")]
+      [JsonProperty("createdAt")]
       public CreatedAtType CreatedAt { get; set; }
 
       [JsonProperty("requiredResources")]
@@ -56,5 +57,7 @@ namespace Village123.Shared.Data
 
       return data;
     }
+
+    public List<Item> GetItemsByCategory(string category) => Items.Where(i => i.Value.CreatedAt.Category == category).Select(i => i.Value).ToList();
   }
 }

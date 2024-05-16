@@ -2,7 +2,6 @@
 using Village123.Shared.Entities;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Managers;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions.DetermineActions
 {

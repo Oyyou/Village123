@@ -18,7 +18,7 @@ namespace Village123.Shared.Managers
 
     public List<Job> Jobs { get; private set; } = new();
 
-    public JobManager()
+    private JobManager()
     {
     }
 
