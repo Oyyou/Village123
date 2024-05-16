@@ -41,6 +41,12 @@ namespace Village123.Shared.Input
       if (!ClickableObjects.Contains(clickableObject))
         ClickableObjects.Add(clickableObject);
     }
+
+    public static void RemoveObject(IClickable clickableObject)
+    {
+      ClickableObjects.Remove(clickableObject);
+    }
+
     #endregion
 
     public static void AddCamera(Matrix camera)
@@ -172,7 +178,7 @@ namespace Village123.Shared.Input
 
     public static void Update(GameTime gameTime)
     {
-      Clear();
+      // Clear();
       _previouseMouse = _currentMouse;
       _currentMouse = Mouse.GetState();
     }

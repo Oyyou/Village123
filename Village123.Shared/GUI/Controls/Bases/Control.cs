@@ -11,6 +11,8 @@ namespace Village123.Shared.GUI.Controls.Bases
     protected Vector2 _position;
     protected Rectangle _clickRectangle;
 
+    public float Layer { get; set; } = 0.9f;
+
     public float ClickLayer
     {
       get
@@ -20,7 +22,7 @@ namespace Village123.Shared.GUI.Controls.Bases
           return Parent.ClickLayer + 0.01f;
         }
 
-        return 0.9f;
+        return Layer;
       }
     }
     public abstract bool ClickIsVisible { get; }
@@ -50,6 +52,8 @@ namespace Village123.Shared.GUI.Controls.Bases
     public abstract Action OnLeftClick { get; }
 
     public abstract Action OnMouseOver { get; }
+
+    public abstract Action OnLeftClickOutside { get; }
 
     protected Control(Vector2 position)
     {

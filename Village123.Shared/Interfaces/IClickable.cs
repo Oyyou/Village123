@@ -10,21 +10,32 @@ namespace Village123.Shared.Interfaces
     float ClickLayer { get; }
     bool ClickIsVisible { get; }
     Action OnLeftClick { get; }
+    Action OnLeftClickOutside { get; }
     Action OnMouseOver { get; }
 
     public void UpdateMouse()
     {
       if (GameMouse.Intersects(ClickRectangle))
       {
-        GameMouse.AddObject(this);
-        OnMouseOver?.Invoke();
-
         if (GameMouse.ValidObject == this)
         {
+          OnMouseOver?.Invoke();
+
           if (GameMouse.IsLeftClicked)
           {
             OnLeftClick?.Invoke();
           }
+        }
+
+        GameMouse.AddObject(this);
+      }
+      else
+      {
+        GameMouse.RemoveObject(this);
+
+        if (GameMouse.IsLeftClicked)
+        {
+          OnLeftClickOutside?.Invoke();
         }
       }
     }

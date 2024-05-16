@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Data;
-using Village123.Shared.GUI.Controls;
-using Village123.Shared.Input;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Managers;
 
@@ -14,6 +12,8 @@ namespace Village123.Shared.Entities
 {
   public class Place : IEntity, IClickable
   {
+    private bool _hasLeftClicked = false;
+
     public int Id { get; set; }
     public List<int> OwnerIds { get; set; } = new();
     public string Name { get; set; }
@@ -39,9 +39,11 @@ namespace Village123.Shared.Entities
 
     public bool ClickIsVisible => true;
 
-    public Action OnLeftClick => () => { };
+    public Action OnLeftClick => () => _hasLeftClicked = true;
 
     public Action OnMouseOver => () => { };
+
+    public Action OnLeftClickOutside => () => { };
 
     public Place() { }
 
@@ -62,7 +64,14 @@ namespace Village123.Shared.Entities
 
     public void Update(GameWorldManager gwm, GameTime gameTime)
     {
+      _hasLeftClicked = false;
+
       ((IClickable)this).UpdateMouse();
+
+      if (_hasLeftClicked)
+      {
+        gwm.GUIManager.HandlePlaceClicked(this);
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)

@@ -9,8 +9,6 @@ namespace Village123.Shared.GUI.Controls
 {
   internal class CraftingWindow : Window
   {
-    private readonly GameWorldManager _gwm;
-
     public CraftingWindow(GameWorldManager gwm, Vector2 position, int width, int height)
       : base(gwm, position, width, height, "Crafting")
     {

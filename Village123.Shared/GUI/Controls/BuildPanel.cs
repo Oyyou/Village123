@@ -28,6 +28,9 @@ namespace Village123.Shared.GUI.Controls
 
       _buttons = _gwm.PlaceCategoryData.Categories.Select((c, i) =>
         new Button(font, texture, c, new Vector2(i * buttonWidth, BaseGame.ScreenHeight - buttonHeight))
+        {
+          Layer = 0.8f,
+        }
       ).ToList();
     }
 

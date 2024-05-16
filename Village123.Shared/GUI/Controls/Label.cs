@@ -16,8 +16,9 @@ namespace Village123.Shared.GUI.Controls
     public override int Height => _font != null ? (int)_font.MeasureString(_text).Y : 0;
 
     public override Action OnLeftClick => () => { };
-
     public override Action OnMouseOver => () => { };
+    public override Action OnLeftClickOutside => () => { };
+
     public Color TextColor { get; set; } = Color.Black;
 
     public Label(SpriteFont font, string text, Vector2 position) : base(position)

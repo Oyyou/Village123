@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
@@ -7,10 +8,11 @@ namespace Village123.Shared.GUI.Controls.Bases
 {
   public abstract class Window : Control
   {
+    protected readonly GameWorldManager _gwm;
     protected readonly Texture2D _windowTexture;
     protected readonly SpriteFont _font;
 
-    protected bool _isOpen = true;
+    protected bool _isOpen = false;
 
     public override bool ClickIsVisible => _isOpen;
 
@@ -18,9 +20,13 @@ namespace Village123.Shared.GUI.Controls.Bases
 
     public override int Height => _windowTexture != null ? _windowTexture.Height : 0;
 
+    public override Action OnLeftClickOutside => () => _isOpen = false;
+
     public Window(GameWorldManager gwm, Vector2 position, int width, int height, string title)
       : base(position)
     {
+      _gwm = gwm;
+
       _windowTexture = TextureHelpers.CreateBorderedTexture(
         gwm.GameModel.GraphicsDevice,
         width,

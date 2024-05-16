@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
+using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls;
 
 namespace Village123.Shared.Managers
@@ -37,6 +38,14 @@ namespace Village123.Shared.Managers
       _buildPanel.Draw(spriteBatch);
       _craftingWindow.Draw(spriteBatch);
       spriteBatch.End();
+    }
+
+    public void HandlePlaceClicked(Place place)
+    {
+      if (place.Data.Category == "crafting")
+      {
+        _craftingWindow.SetPlace(place.Data);
+      }
     }
   }
 }
