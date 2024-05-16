@@ -41,7 +41,7 @@ namespace Village123.Shared.Entities
 
     public Action OnLeftClick => () => { };
 
-    public Action OnIsMouseOver => () => { };
+    public Action OnMouseOver => () => { };
 
     public Place() { }
 

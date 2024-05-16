@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using Village123.Shared.GUI.Controls;
 using Village123.Shared.Input;
 
 namespace Village123.Shared.Interfaces
@@ -11,14 +10,14 @@ namespace Village123.Shared.Interfaces
     float ClickLayer { get; }
     bool ClickIsVisible { get; }
     Action OnLeftClick { get; }
-    Action OnIsMouseOver { get; }
+    Action OnMouseOver { get; }
 
     public void UpdateMouse()
     {
       if (GameMouse.Intersects(ClickRectangle))
       {
         GameMouse.AddObject(this);
-        OnIsMouseOver?.Invoke();
+        OnMouseOver?.Invoke();
 
         if (GameMouse.ValidObject == this)
         {

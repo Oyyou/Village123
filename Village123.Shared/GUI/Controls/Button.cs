@@ -27,7 +27,7 @@ namespace Village123.Shared.GUI.Controls
 
     public override Action OnLeftClick => OnClicked;
 
-    public override Action OnIsMouseOver => () => _isMouseOver = true;
+    public override Action OnMouseOver => () => _isMouseOver = true;
 
     public Button(SpriteFont font, Texture2D texture, string text, Vector2 position) : base(position)
     {

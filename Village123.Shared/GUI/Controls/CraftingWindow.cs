@@ -19,7 +19,7 @@ namespace Village123.Shared.GUI.Controls
 
     public override Action OnLeftClick => () => { };
 
-    public override Action OnIsMouseOver => () => { };
+    public override Action OnMouseOver => () => { };
 
     public void SetPlace(PlaceData.Place place)
     {

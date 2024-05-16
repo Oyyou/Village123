@@ -47,7 +47,7 @@ namespace Village123.Shared.GUI.Controls.Bases
 
     public abstract Action OnLeftClick { get; }
 
-    public abstract Action OnIsMouseOver { get; }
+    public abstract Action OnMouseOver { get; }
 
     protected Control(Vector2 position)
     {
