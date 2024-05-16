@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using Village123.Shared.Input;
+using System.Collections.Generic;
 using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.GUI.Controls.Bases
@@ -9,7 +10,6 @@ namespace Village123.Shared.GUI.Controls.Bases
   {
     protected Vector2 _position;
     protected Rectangle _clickRectangle;
-    protected bool _isMouseOver = false;
     protected Action _onPositionChanged = null;
 
     public float ClickLayer
@@ -29,9 +29,11 @@ namespace Village123.Shared.GUI.Controls.Bases
     public abstract int Height { get; }
 
     public Action OnClicked { get; set; }
-    public Rectangle ClickRectangle => _clickRectangle;
+    public Rectangle ClickRectangle => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
 
     public Control Parent { get; set; }
+
+    public List<Control> Children { get; set; } = new List<Control>();
 
     public Vector2 Position
     {
@@ -39,38 +41,40 @@ namespace Village123.Shared.GUI.Controls.Bases
       set
       {
         _position = value;
-        UpdateClickRectangle();
         _onPositionChanged?.Invoke();
       }
     }
+
+    public abstract Action OnLeftClick { get; }
+
+    public abstract Action OnIsMouseOver { get; }
 
     protected Control(Vector2 position)
     {
       Position = position;
     }
 
-    protected void UpdateClickRectangle()
+    public void AddChild(Control control)
     {
-      _clickRectangle = new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
+      control.Parent = this;
+      this.Children.Add(control);
     }
 
     public virtual void Update(GameTime gameTime)
     {
-      _isMouseOver = false;
+      ((IClickable)this).UpdateMouse();
 
-      if (GameMouse.Intersects(ClickRectangle))
+      foreach (var child in Children)
       {
-        GameMouse.AddObject(this);
+        child.Update(gameTime);
+      }
+    }
 
-        // If this control is what the gameMouse is able to currently click (based off what control is layered at the top)
-        if (GameMouse.ValidObject == this)
-        {
-          _isMouseOver = true;
-          if (GameMouse.IsLeftClicked)
-          {
-            OnClicked?.Invoke();
-          }
-        }
+    public virtual void Draw(SpriteBatch spriteBatch)
+    {
+      foreach (var child in Children)
+      {
+        child.Draw(spriteBatch);
       }
     }
   }

@@ -9,6 +9,7 @@ namespace Village123.Shared.GUI.Controls
   public class Button : Control
   {
     private Vector2 _textPosition;
+    private bool _isMouseOver = false;
 
     public string Text { get; set; }
     public SpriteFont Font { get; init; }
@@ -24,12 +25,15 @@ namespace Village123.Shared.GUI.Controls
 
     public override int Height => Texture != null ? Texture.Height : 0;
 
+    public override Action OnLeftClick => OnClicked;
+
+    public override Action OnIsMouseOver => () => _isMouseOver = true;
+
     public Button(SpriteFont font, Texture2D texture, string text, Vector2 position) : base(position)
     {
       Font = font;
       Texture = texture;
 
-      UpdateClickRectangle();
       SetText(text);
 
       _onPositionChanged = () =>
@@ -53,8 +57,17 @@ namespace Village123.Shared.GUI.Controls
       _textPosition = new Vector2(x, y);
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Update(GameTime gameTime)
     {
+      _isMouseOver = false;
+
+      base.Update(gameTime);
+    }
+
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+      base.Draw(spriteBatch);
+
       spriteBatch.Draw(Texture, Position, null, _isMouseOver ? HoverBackgroundColor : BackgroundColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
       spriteBatch.DrawString(Font, Text, _textPosition, TextColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer + 0.005f);
     }

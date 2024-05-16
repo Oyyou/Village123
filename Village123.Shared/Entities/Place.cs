@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Data;
@@ -8,7 +9,6 @@ using Village123.Shared.GUI.Controls;
 using Village123.Shared.Input;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Managers;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.Entities
 {
@@ -39,6 +39,10 @@ namespace Village123.Shared.Entities
 
     public bool ClickIsVisible => true;
 
+    public Action OnLeftClick => () => { };
+
+    public Action OnIsMouseOver => () => { };
+
     public Place() { }
 
     public Place(PlaceData.Place data, Texture2D texture, Point point)
@@ -58,25 +62,7 @@ namespace Village123.Shared.Entities
 
     public void Update(GameWorldManager gwm, GameTime gameTime)
     {
-      var clickRectangle = new Rectangle(
-        (int)Position.X,
-        (int)Position.Y,
-        Data.Size.X * BaseGame.TileSize,
-        Data.Size.Y * BaseGame.TileSize
-      );
-
-      if (GameMouse.Intersects(clickRectangle))
-      {
-        GameMouse.AddObject(this);
-
-        if (GameMouse.ValidObject == this)
-        {
-          if (GameMouse.IsLeftClicked)
-          {
-            CraftingPanel.GetInstance(gwm).SetPlace(Data);
-          }
-        }
-      }
+      ((IClickable)this).UpdateMouse();
     }
 
     public void Draw(SpriteBatch spriteBatch)
