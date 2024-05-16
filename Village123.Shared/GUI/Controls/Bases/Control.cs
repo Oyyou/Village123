@@ -10,7 +10,6 @@ namespace Village123.Shared.GUI.Controls.Bases
   {
     protected Vector2 _position;
     protected Rectangle _clickRectangle;
-    protected Action _onPositionChanged = null;
 
     public float ClickLayer
     {
@@ -37,11 +36,14 @@ namespace Village123.Shared.GUI.Controls.Bases
 
     public Vector2 Position
     {
-      get => _position;
-      set
+      get
       {
-        _position = value;
-        _onPositionChanged?.Invoke();
+        if (Parent != null)
+        {
+          return Parent.Position + _position;
+        }
+
+        return _position;
       }
     }
 
@@ -51,7 +53,12 @@ namespace Village123.Shared.GUI.Controls.Bases
 
     protected Control(Vector2 position)
     {
-      Position = position;
+      _position = position;
+    }
+
+    public void SetPosition(Vector2 position)
+    {
+      _position = position;
     }
 
     public void AddChild(Control control)

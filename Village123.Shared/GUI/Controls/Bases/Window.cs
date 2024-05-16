@@ -9,7 +9,6 @@ namespace Village123.Shared.GUI.Controls.Bases
   {
     protected readonly Texture2D _windowTexture;
     protected readonly SpriteFont _font;
-    protected readonly string _title;
 
     protected bool _isOpen = true;
 
@@ -22,8 +21,6 @@ namespace Village123.Shared.GUI.Controls.Bases
     public Window(GameWorldManager gwm, Vector2 position, int width, int height, string title)
       : base(position)
     {
-      _title = title;
-
       _windowTexture = TextureHelpers.CreateBorderedTexture(
         gwm.GameModel.GraphicsDevice,
         width,
@@ -35,6 +32,7 @@ namespace Village123.Shared.GUI.Controls.Bases
       _font = gwm.GameModel.Content.Load<SpriteFont>("Font");
 
       AddChild(GetCloseButton(gwm));
+      AddChild(new Label(_font, title, new Vector2(10, 10)));
     }
 
     private Button GetCloseButton(GameWorldManager gwm)
@@ -45,7 +43,7 @@ namespace Village123.Shared.GUI.Controls.Bases
         _font,
         closeButtonTexture,
         "X",
-        new Vector2(this.ClickRectangle.Right - (closeButtonTexture.Width + padding), this.ClickRectangle.Top + padding)
+        new Vector2(this.ClickRectangle.Width - (closeButtonTexture.Width + padding), padding)
       )
       {
         OnClicked = () => _isOpen = false,
@@ -74,7 +72,6 @@ namespace Village123.Shared.GUI.Controls.Bases
       base.Draw(spriteBatch);
 
       spriteBatch.Draw(_windowTexture, Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
-      spriteBatch.DrawString(_font, _title, Position + new Vector2(10, 10), Color.Black, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer + 0.05f);
     }
   }
 }

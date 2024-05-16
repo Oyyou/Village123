@@ -8,15 +8,18 @@ namespace Village123.Shared.GUI.Controls
 {
   public class Button : Control
   {
-    private Vector2 _textPosition;
     private bool _isMouseOver = false;
 
-    public string Text { get; set; }
-    public SpriteFont Font { get; init; }
+    private Label _label;
+
     public Texture2D Texture { get; init; }
 
     public Color BackgroundColor { get; set; } = Color.White;
-    public Color TextColor { get; set; } = Color.Black;
+    public Color TextColor
+    {
+      get => _label.TextColor;
+      set => _label.TextColor = value;
+    }
     public Color HoverBackgroundColor { get; set; } = Color.Gray;
 
     public override bool ClickIsVisible => true;
@@ -31,34 +34,21 @@ namespace Village123.Shared.GUI.Controls
 
     public Button(SpriteFont font, Texture2D texture, string text, Vector2 position) : base(position)
     {
-      Font = font;
       Texture = texture;
 
-      SetText(text);
+      _label = new Label(font, text, Vector2.Zero);
 
-      _onPositionChanged = () =>
-      {
-        UpdateTextPosition();
-      };
-    }
-
-    public void SetText(string text)
-    {
-      Text = text;
-      UpdateTextPosition();
-    }
-
-    private void UpdateTextPosition()
-    {
-      var textSize = Font.MeasureString(Text);
-
-      var x = (Position.X + (Texture.Width / 2)) - (textSize.X / 2);
-      var y = (Position.Y + (Texture.Height / 2)) - (textSize.Y / 2);
-      _textPosition = new Vector2(x, y);
+      AddChild(_label);
     }
 
     public override void Update(GameTime gameTime)
     {
+      _label.SetPosition(
+        new Vector2(
+          (Width / 2) - (_label.Width / 2),
+          (Height / 2) - (_label.Height / 2)
+          )
+        );
       _isMouseOver = false;
 
       base.Update(gameTime);
@@ -68,8 +58,17 @@ namespace Village123.Shared.GUI.Controls
     {
       base.Draw(spriteBatch);
 
-      spriteBatch.Draw(Texture, Position, null, _isMouseOver ? HoverBackgroundColor : BackgroundColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
-      spriteBatch.DrawString(Font, Text, _textPosition, TextColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer + 0.005f);
+      spriteBatch.Draw(
+        Texture,
+        Position,
+        null,
+        _isMouseOver ? HoverBackgroundColor : BackgroundColor,
+        0f,
+        new Vector2(0, 0),
+        1f,
+        SpriteEffects.None,
+        ClickLayer
+      );
     }
   }
 }

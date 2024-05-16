@@ -40,7 +40,7 @@ namespace Village123.Shared.GUI.Controls
       for (int i = 0; i < items.Count; i++)
       {
         var item = items[i];
-        AddChild(new Button(_font, texture, item.Name, (Position + startPosition) + new Vector2(0, ((texture.Height) * i) + 20)));
+        AddChild(new Button(_font, texture, item.Name, startPosition + new Vector2(0, ((texture.Height) * i) + 20)));
       }
     }
   }
