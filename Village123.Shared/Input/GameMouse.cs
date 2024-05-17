@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.Input

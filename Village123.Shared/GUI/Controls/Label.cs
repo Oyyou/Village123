@@ -10,9 +10,9 @@ namespace Village123.Shared.GUI.Controls
     private readonly string _text;
     private readonly SpriteFont _font;
 
-    public override bool ClickIsVisible => false;
-    public override int Width => _font != null ? (int)_font.MeasureString(_text).X : 0;
+    protected override bool IsClickable => false;
 
+    public override int Width => _font != null ? (int)_font.MeasureString(_text).X : 0;
     public override int Height => _font != null ? (int)_font.MeasureString(_text).Y : 0;
 
     public override Action OnLeftClick => () => { };

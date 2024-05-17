@@ -25,7 +25,8 @@ namespace Village123.Shared.GUI.Controls.Bases
         return Layer;
       }
     }
-    public abstract bool ClickIsVisible { get; }
+    protected virtual bool IsClickable => true;
+    public bool ClickIsVisible => Parent != null ? (Parent.ClickIsVisible && IsClickable) : IsClickable;
     public abstract int Width { get; }
     public abstract int Height { get; }
 
@@ -33,6 +34,7 @@ namespace Village123.Shared.GUI.Controls.Bases
     public Rectangle ClickRectangle => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
 
     public Control Parent { get; set; }
+    public string Tag { get; set; }
 
     public List<Control> Children { get; set; } = new List<Control>();
 
@@ -65,9 +67,10 @@ namespace Village123.Shared.GUI.Controls.Bases
       _position = position;
     }
 
-    public void AddChild(Control control)
+    public void AddChild(Control control, string tag = "")
     {
       control.Parent = this;
+      control.Tag = tag;
       this.Children.Add(control);
     }
 

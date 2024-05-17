@@ -21,8 +21,6 @@ namespace Village123.Shared.GUI.Controls
     }
     public Color HoverBackgroundColor { get; set; } = Color.Gray;
 
-    public override bool ClickIsVisible => true;
-
     public override int Width => Texture != null ? Texture.Width : 0;
 
     public override int Height => Texture != null ? Texture.Height : 0;

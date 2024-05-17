@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.Managers;
@@ -22,6 +23,7 @@ namespace Village123.Shared.GUI.Controls
     public void SetPlace(PlaceData.Place place)
     {
       _isOpen = false;
+      this.Children = this.Children.Where(c => c.Tag != "temp").ToList();
       if (place == null)
       {
         return;
@@ -38,7 +40,7 @@ namespace Village123.Shared.GUI.Controls
       for (int i = 0; i < items.Count; i++)
       {
         var item = items[i];
-        AddChild(new Button(_font, texture, item.Name, startPosition + new Vector2(0, ((texture.Height) * i) + 20)));
+        AddChild(new Button(_font, texture, item.Name, startPosition + new Vector2(0, ((texture.Height) * i) + 20)), "temp");
       }
     }
   }

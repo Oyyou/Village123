@@ -14,12 +14,9 @@ namespace Village123.Shared.GUI.Controls.Bases
 
     protected bool _isOpen = false;
 
-    public override bool ClickIsVisible => _isOpen;
-
+    protected override bool IsClickable => _isOpen;
     public override int Width => _windowTexture != null ? _windowTexture.Width : 0;
-
     public override int Height => _windowTexture != null ? _windowTexture.Height : 0;
-
     public override Action OnLeftClickOutside => () => _isOpen = false;
 
     public Window(GameWorldManager gwm, Vector2 position, int width, int height, string title)
