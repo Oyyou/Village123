@@ -14,10 +14,14 @@ namespace Village123.Shared.Entities
   {
     private bool _hasLeftClicked = false;
 
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private float _destroyTimer = 0f;
+
     public int Id { get; set; }
     public List<int> OwnerIds { get; set; } = new();
     public string Name { get; set; }
     public Point Point { get; set; }
+    public bool BeingDestroyed { get; private set; }
 
     [JsonIgnore]
     public Vector2 Position => Point.ToVector2() * BaseGame.TileSize;
@@ -28,6 +32,7 @@ namespace Village123.Shared.Entities
     [JsonIgnore]
     public Texture2D Texture { get; set; }
 
+    [JsonIgnore]
     public Rectangle ClickRectangle => new(
         (int)Position.X,
         (int)Position.Y,
@@ -39,10 +44,13 @@ namespace Village123.Shared.Entities
 
     public bool ClickIsVisible => true;
 
+    [JsonIgnore]
     public Action OnLeftClick => () => _hasLeftClicked = true;
 
+    [JsonIgnore]
     public Action OnMouseOver => () => { };
 
+    [JsonIgnore]
     public Action OnLeftClickOutside => () => { };
 
     public Place() { }
@@ -82,6 +90,18 @@ namespace Village123.Shared.Entities
     public void AddOwner(Villager villager)
     {
       OwnerIds.Add(villager.Id);
+    }
+
+    public void StartDestruction()
+    {
+      _destroyTimer = 0f;
+      BeingDestroyed = true;
+    }
+
+    public void CancelDestruction()
+    {
+      _destroyTimer = 0f;
+      BeingDestroyed = false;
     }
   }
 }

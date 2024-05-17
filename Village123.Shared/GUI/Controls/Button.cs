@@ -7,8 +7,8 @@ namespace Village123.Shared.GUI.Controls
 {
   public class Button : Control
   {
+    private bool _hasUpdated = false;
     private bool _isMouseOver = false;
-
     private Label _label;
 
     public Texture2D Texture { get; init; }
@@ -42,6 +42,11 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Update(GameTime gameTime)
     {
+      if (!IsVisible) return;
+      if (!IsEnabled) return;
+
+      _hasUpdated = true;
+
       _label.SetPosition(
         new Vector2(
           (Width / 2) - (_label.Width / 2),
@@ -55,6 +60,9 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Draw(SpriteBatch spriteBatch)
     {
+      if (!_hasUpdated) return;
+      if (!IsVisible) return;
+
       base.Draw(spriteBatch);
 
       spriteBatch.Draw(

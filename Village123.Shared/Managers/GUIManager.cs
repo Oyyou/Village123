@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls;
 
@@ -12,6 +11,7 @@ namespace Village123.Shared.Managers
 
     private readonly BuildPanel _buildPanel;
     private readonly CraftingWindow _craftingWindow;
+    private PlaceOptionsPanel _placeOptionsPanel;
 
     public GUIManager(GameWorldManager gwm)
     {
@@ -28,8 +28,13 @@ namespace Village123.Shared.Managers
 
     public void Update(GameTime gameTime)
     {
+      if (_placeOptionsPanel != null && _placeOptionsPanel.Closed)
+      {
+        _placeOptionsPanel = null;
+      }
       _buildPanel.Update(gameTime);
       _craftingWindow.Update(gameTime);
+      _placeOptionsPanel?.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -37,14 +42,16 @@ namespace Village123.Shared.Managers
       spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
       _buildPanel.Draw(spriteBatch);
       _craftingWindow.Draw(spriteBatch);
+      _placeOptionsPanel?.Draw(spriteBatch);
       spriteBatch.End();
     }
 
     public void HandlePlaceClicked(Place place)
     {
-      if (place.Data.Category == "crafting")
+      // if (place.Data.Category == "crafting")
       {
-        _craftingWindow.SetPlace(place.Data);
+        // _craftingWindow.SetPlace(place.Data);
+        _placeOptionsPanel = new PlaceOptionsPanel(_gwm, place, place.Position);
       }
     }
   }

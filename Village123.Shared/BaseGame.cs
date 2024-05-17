@@ -15,7 +15,7 @@ namespace Village123.Shared
 
     public static Random Random = new();
     public static int ScreenWidth = 1280;
-    public static int ScreenHeight = 800;
+    public static int ScreenHeight = 720;
 
     public BaseGame()
     {

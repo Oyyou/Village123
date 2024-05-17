@@ -89,5 +89,17 @@ namespace Village123.Shared.Managers
 
       return place;
     }
+
+    public void Destroy(Place place)
+    {
+      place.StartDestruction();
+      // TODO: Add destruction job
+    }
+
+    public void CancelDestruction(Place place)
+    {
+      place.CancelDestruction();
+      // TODO: Remove destruction job
+    }
   }
 }

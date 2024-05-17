@@ -10,6 +10,9 @@ namespace Village123.Shared.GUI.Controls.Bases
   {
     protected Vector2 _position;
     protected Rectangle _clickRectangle;
+    protected bool _isEnabled = true;
+
+    public bool IsEnabled => Parent != null ? (Parent.IsEnabled && _isEnabled) : _isEnabled;
 
     public float Layer { get; set; } = 0.9f;
 
@@ -29,6 +32,8 @@ namespace Village123.Shared.GUI.Controls.Bases
     public bool ClickIsVisible => Parent != null ? (Parent.ClickIsVisible && IsClickable) : IsClickable;
     public abstract int Width { get; }
     public abstract int Height { get; }
+
+    public bool IsVisible { get; set; } = true;
 
     public Action OnClicked { get; set; }
     public Rectangle ClickRectangle => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
