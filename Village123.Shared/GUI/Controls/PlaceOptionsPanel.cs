@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Immutable;
 using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
@@ -39,6 +38,8 @@ namespace Village123.Shared.GUI.Controls
     {
       _gwm = gwm;
 
+      Layer = 0.7f;
+
       var font = gwm.GameModel.Content.Load<SpriteFont>("Font");
       var texture = TextureHelpers.CreateBorderedTexture(
         gwm.GameModel.GraphicsDevice,
@@ -71,6 +72,7 @@ namespace Village123.Shared.GUI.Controls
           OnClicked = () =>
           {
             _closing = true;
+            _gwm.GUIManager.HandleCraftClicked(place);
           }
         });
         AddChild(new Button(font, texture, "Destroy", new Vector2(10, 55))

@@ -12,12 +12,12 @@ namespace Village123.Shared.GUI.Controls.Bases
     protected readonly Texture2D _windowTexture;
     protected readonly SpriteFont _font;
 
-    protected bool _isOpen = false;
+    public bool IsOpen = false;
 
-    protected override bool IsClickable => _isOpen;
+    protected override bool IsClickable => IsOpen;
     public override int Width => _windowTexture != null ? _windowTexture.Width : 0;
     public override int Height => _windowTexture != null ? _windowTexture.Height : 0;
-    public override Action OnLeftClickOutside => () => _isOpen = false;
+    public override Action OnLeftClickOutside => () => IsOpen = false;
 
     public Window(GameWorldManager gwm, Vector2 position, int width, int height, string title)
       : base(position)
@@ -49,29 +49,14 @@ namespace Village123.Shared.GUI.Controls.Bases
         new Vector2(this.ClickRectangle.Width - (closeButtonTexture.Width + padding), padding)
       )
       {
-        OnClicked = () => _isOpen = false,
+        OnClicked = () => IsOpen = false,
       };
 
       return button;
     }
 
-    public override void Update(GameTime gameTime)
-    {
-      if (!_isOpen)
-      {
-        return;
-      }
-
-      base.Update(gameTime);
-    }
-
     public override void Draw(SpriteBatch spriteBatch)
     {
-      if (!_isOpen)
-      {
-        return;
-      }
-
       base.Draw(spriteBatch);
 
       spriteBatch.Draw(_windowTexture, Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);

@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Village123.Shared.Data;
+using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.Managers;
 using Village123.Shared.Utils;
@@ -10,28 +11,10 @@ namespace Village123.Shared.GUI.Controls
 {
   internal class CraftingWindow : Window
   {
-    public CraftingWindow(GameWorldManager gwm, Vector2 position, int width, int height)
+    public CraftingWindow(GameWorldManager gwm, Place place, Vector2 position, int width, int height)
       : base(gwm, position, width, height, "Crafting")
     {
-
-    }
-
-    public override Action OnLeftClick => () => { };
-
-    public override Action OnMouseOver => () => { };
-
-    public void SetPlace(PlaceData.Place place)
-    {
-      _isOpen = false;
-      this.Children = this.Children.Where(c => c.Tag != "temp").ToList();
-      if (place == null)
-      {
-        return;
-      }
-
-      _isOpen = true;
-
-      var items = _gwm.ItemData.GetItemsByCategory(place.Category);
+      var items = _gwm.ItemData.GetItemsByCategory(place.Data.Category);
 
       var buttonWidth = 200;
       var buttonHeight = buttonWidth / 5;
@@ -42,6 +25,11 @@ namespace Village123.Shared.GUI.Controls
         var item = items[i];
         AddChild(new Button(_font, texture, item.Name, startPosition + new Vector2(0, ((texture.Height) * i) + 20)), "temp");
       }
+      IsOpen = true;
     }
+
+    public override Action OnLeftClick => () => { };
+
+    public override Action OnMouseOver => () => { };
   }
 }
