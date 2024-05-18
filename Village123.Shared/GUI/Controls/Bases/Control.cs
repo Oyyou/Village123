@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.GUI.Controls.Bases
@@ -36,6 +37,7 @@ namespace Village123.Shared.GUI.Controls.Bases
     public bool IsVisible { get; set; } = true;
 
     public Action OnClicked { get; set; }
+    public Action OnClickedOutside { get; set; }
     public Rectangle ClickRectangle => new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
 
     public Control Parent { get; set; }
@@ -77,6 +79,11 @@ namespace Village123.Shared.GUI.Controls.Bases
       control.Parent = this;
       control.Tag = tag;
       this.Children.Add(control);
+    }
+
+    protected void RemoveChildrenByTag(string tag)
+    {
+      this.Children = this.Children.Where(c => c.Tag != tag).ToList();
     }
 
     public virtual void Update(GameTime gameTime)

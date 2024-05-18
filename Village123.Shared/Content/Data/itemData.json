@@ -11,5 +11,18 @@
       "wood": 1
     },
     "requiredEquipment": []
+  },
+  "pickaxe": {
+    "name": "Pickaxe",
+    "type": "basicTool",
+    "createdAt": {
+      "category": "crafting",
+      "level": 1
+    },
+    "requiredResources": {
+      "ore": 2,
+      "wood": 1
+    },
+    "requiredEquipment": []
   }
 }

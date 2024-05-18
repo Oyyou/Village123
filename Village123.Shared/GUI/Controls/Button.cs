@@ -21,6 +21,8 @@ namespace Village123.Shared.GUI.Controls
     }
     public Color HoverBackgroundColor { get; set; } = Color.Gray;
 
+    public Color SelectedBackgroundColor { get; set; } = Color.Yellow;
+
     public override int Width => Texture != null ? Texture.Width : 0;
 
     public override int Height => Texture != null ? Texture.Height : 0;
@@ -29,7 +31,13 @@ namespace Village123.Shared.GUI.Controls
 
     public override Action OnMouseOver => () => _isMouseOver = true;
 
-    public override Action OnLeftClickOutside => () => { };
+    public override Action OnLeftClickOutside => () =>
+    {
+      OnClickedOutside?.Invoke();
+      Selected = false;
+    };
+
+    public bool Selected { get; set; } = false;
 
     public Button(SpriteFont font, Texture2D texture, string text, Vector2 position) : base(position)
     {
@@ -69,7 +77,7 @@ namespace Village123.Shared.GUI.Controls
         Texture,
         Position,
         null,
-        _isMouseOver ? HoverBackgroundColor : BackgroundColor,
+        Selected ? SelectedBackgroundColor : (_isMouseOver ? HoverBackgroundColor : BackgroundColor),
         0f,
         new Vector2(0, 0),
         1f,
