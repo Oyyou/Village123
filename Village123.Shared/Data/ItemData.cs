@@ -44,9 +44,9 @@ namespace Village123.Shared.Data
       foreach (var file in files)
       {
         var jsonString = File.ReadAllText(file);
-        var itemTypes = JsonConvert.DeserializeObject<Dictionary<string, Item>>(jsonString);
+        var values = JsonConvert.DeserializeObject<Dictionary<string, Item>>(jsonString);
 
-        foreach (var kvp in itemTypes)
+        foreach (var kvp in values)
         {
           if (!data.Items.ContainsKey(kvp.Key))
           {

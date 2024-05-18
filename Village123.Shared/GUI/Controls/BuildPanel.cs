@@ -27,7 +27,7 @@ namespace Village123.Shared.GUI.Controls
       var texture = TextureHelpers.CreateBorderedTexture(_gwm.GameModel.GraphicsDevice, buttonWidth, buttonHeight, Color.White, Color.Black, 1);
 
       _buttons = _gwm.PlaceCategoryData.Categories.Select((c, i) =>
-        new Button(font, texture, c, new Vector2(i * buttonWidth, BaseGame.ScreenHeight - buttonHeight))
+        new Button(font, texture, c.Value.Name, new Vector2(i * buttonWidth, BaseGame.ScreenHeight - buttonHeight))
         {
           Layer = 0.8f,
         }

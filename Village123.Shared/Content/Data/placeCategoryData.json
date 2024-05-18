@@ -1,5 +1,12 @@
-[
-  "furniture",
-  "crafting",
-  "path"
-]
+{
+  "crafting": {
+    "name": "Crafting",
+    "buttonLabel": "Craft"
+  },
+  "furniture": {
+    "name": "Furniture"
+  },
+  "path": {
+    "name": "Path"
+  }
+}

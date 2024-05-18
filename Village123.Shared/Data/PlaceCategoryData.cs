@@ -6,23 +6,32 @@ namespace Village123.Shared.Data
 {
   public class PlaceCategoryData
   {
-    public List<string> Categories { get; set; } = new();
+    public Dictionary<string, PlaceCategory> Categories { get; set; } = new();
+
+    public class PlaceCategory
+    {
+      [JsonProperty("name")]
+      public string Name { get; set; }
+
+      [JsonProperty("buttonLabel")]
+      public string ButtonLabel { get; set; }
+    }
 
     public static PlaceCategoryData Load()
     {
       var data = new PlaceCategoryData();
 
-      var placeDataFiles = Directory.GetFiles("Content/Data", "placeCategoryData*.json");
-      foreach (var file in placeDataFiles)
+      var files = Directory.GetFiles("Content/Data", "placeCategoryData*.json");
+      foreach (var file in files)
       {
         var jsonString = File.ReadAllText(file);
-        var categories = JsonConvert.DeserializeObject<List<string>>(jsonString);
+        var values = JsonConvert.DeserializeObject<Dictionary<string, PlaceCategory>>(jsonString);
 
-        foreach (var category in categories)
+        foreach (var kvp in values)
         {
-          if (!data.Categories.Contains(category))
+          if (!data.Categories.ContainsKey(kvp.Key))
           {
-            data.Categories.Add(category);
+            data.Categories.Add(kvp.Key, kvp.Value);
           }
         }
       }

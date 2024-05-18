@@ -66,15 +66,20 @@ namespace Village123.Shared.GUI.Controls
       else
       {
         AddChild(new Label(font, place.Data.Name, new Vector2(10, 10)) { IsVisible = true });
-        AddChild(new Button(font, texture, "Craft", new Vector2(10, 30))
+
+        if (place.Data.Category == "crafting")
         {
-          IsVisible = false,
-          OnClicked = () =>
+          var placeCategory = _gwm.PlaceCategoryData.Categories["crafting"];
+          AddChild(new Button(font, texture, placeCategory.ButtonLabel, new Vector2(10, 30))
           {
-            _closing = true;
-            _gwm.GUIManager.HandleCraftClicked(place);
-          }
-        });
+            IsVisible = false,
+            OnClicked = () =>
+            {
+              _closing = true;
+              _gwm.GUIManager.HandleCraftClicked(place);
+            }
+          });
+        }
         AddChild(new Button(font, texture, "Destroy", new Vector2(10, 55))
         {
           IsVisible = false,
