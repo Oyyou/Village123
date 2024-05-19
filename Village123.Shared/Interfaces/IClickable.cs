@@ -32,8 +32,14 @@ namespace Village123.Shared.Interfaces
       else
       {
         GameMouse.RemoveObject(this);
+        var windowRectangle = new Rectangle(
+          0,
+          0,
+          BaseGame.ScreenWidth,
+          BaseGame.ScreenHeight
+        );
 
-        if (GameMouse.IsLeftClicked)
+        if (GameMouse.Intersects(windowRectangle) && GameMouse.IsLeftClicked)
         {
           OnLeftClickOutside?.Invoke();
         }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using Village123.Shared.Content;
+using Village123.Shared.Data;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Managers;
@@ -14,11 +15,12 @@ namespace Village123.Shared.GUI.Controls
   {
     private readonly GameWorldManager _gwm;
     private readonly SpriteFont _font;
+    private readonly Action<string> _onResourceSelected;
     private readonly int _width;
 
     private Texture2D _backgroundTexture;
-    private string _previousSelectedButtonKey = null;
-    private string _currentSelectedButtonKey = null;
+    private object _previousSelectedResource = null;
+    private object _currentSelectedResource = null;
 
     #region Overrides
     public override int Width => _backgroundTexture != null ? _backgroundTexture.Width : 0;
@@ -28,10 +30,11 @@ namespace Village123.Shared.GUI.Controls
     public override Action OnLeftClickOutside => () => { };
     #endregion
 
-    public ResourceOptions(GameWorldManager gwm, string resourceType, int width, Vector2 position) : base(position)
+    public ResourceOptions(GameWorldManager gwm, string resourceType, Action<string> onResourceSelected, int width, Vector2 position) : base(position)
     {
       _gwm = gwm;
       _font = _gwm.GameModel.Content.Load<SpriteFont>("Font");
+      _onResourceSelected = onResourceSelected;
       _width = width;
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
@@ -53,11 +56,11 @@ namespace Village123.Shared.GUI.Controls
       {
         var resource = resourceOptions.ElementAt(i);
         var button = new Button(_font, buttonTexture, resource.Value.Name, startPosition);
-        button.Key = resource.Key;
+        button.Key = resource.Value;
         button.OnClicked = () =>
         {
-          _currentSelectedButtonKey = button.Key;
-
+          _currentSelectedResource = button.Key;
+          _onResourceSelected(resource.Key);
         };
         AddChild(button);
 
@@ -114,13 +117,13 @@ namespace Village123.Shared.GUI.Controls
 
       foreach (var child in Children)
       {
-        child.IsSelected = child.Key == _currentSelectedButtonKey;
+        child.IsSelected = child.Key == _currentSelectedResource;
         child.Update(gameTime);
       }
 
-      if (_previousSelectedButtonKey != _currentSelectedButtonKey)
+      if (_previousSelectedResource != _currentSelectedResource)
       {
-        _previousSelectedButtonKey = _currentSelectedButtonKey;
+        _previousSelectedResource = _currentSelectedResource;
         RemoveChildrenByTag("modifiers");
 
         UpdateModifierValues();
@@ -136,8 +139,8 @@ namespace Village123.Shared.GUI.Controls
       var modLabel = new Label(_font, "Modifiers:", modifiersStartPosition);
       AddChild(modLabel, "modifiers");
 
-      var resource = !string.IsNullOrEmpty(_currentSelectedButtonKey) ?
-        _gwm.ResourceData.Resources[_currentSelectedButtonKey] :
+      var resource = _currentSelectedResource != null ? 
+        (ResourceData.Resource)_currentSelectedResource :
         null;
 
       modifiersStartPosition += new Vector2(modLabel.Width + 10, 0);
