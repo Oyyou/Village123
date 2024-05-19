@@ -25,6 +25,9 @@
     <None Update="Content\Data\placeTypeData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\Data\resourceModifiersData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\Data\resourceData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

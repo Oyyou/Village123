@@ -21,7 +21,7 @@ namespace Village123.Shared.GUI.Controls
 
       var buttonWidth = 200;
       var buttonHeight = buttonWidth / 5;
-      var texture = TextureHelpers.CreateBorderedTexture(_gwm.GameModel.GraphicsDevice, buttonWidth, buttonHeight, Color.White, Color.Black, 1);
+      var buttonTexture = TextureHelpers.CreateBorderedTexture(_gwm.GameModel.GraphicsDevice, buttonWidth, buttonHeight, Color.White, Color.Black, 1);
 
       var sidePadding = 20;
       var gap = 10;
@@ -31,7 +31,7 @@ namespace Village123.Shared.GUI.Controls
       for (int i = 0; i < items.Count; i++)
       {
         var item = items[i];
-        var button = new Button(_font, texture, item.Name, itemsStartPosition + new Vector2(0, (texture.Height + gap) * i));
+        var button = new Button(_font, buttonTexture, item.Name, itemsStartPosition + new Vector2(0, (buttonTexture.Height + gap) * i));
         button.Key = item.Name;
         button.OnClicked = () =>
         {
@@ -67,6 +67,17 @@ namespace Village123.Shared.GUI.Controls
         };
         AddChild(button);
       }
+
+      var craftButton = new Button(
+        _font,
+        buttonTexture,
+        "Craft",
+        new Vector2(
+          width - (20 + buttonTexture.Width),
+          height - (20 + buttonTexture.Height)
+        ));
+
+      AddChild(craftButton);
 
       IsOpen = true;
     }

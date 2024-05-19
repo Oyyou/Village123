@@ -1,38 +1,48 @@
 {
   "oak": {
     "name": "Oak",
-    "type": "wood"
+    "type": "wood",
+    "modifiers": {
+      "durability": 60,
+      "weight": 3,
+      "aestheticQuality": 4
+    }
   },
   "pine": {
     "name": "Pine",
-    "type": "wood"
-  },
-  "maple": {
-    "name": "Maple",
-    "type": "wood"
+    "type": "wood",
+    "modifiers": {
+      "durability": 50,
+      "weight": 2,
+      "aestheticQuality": 2
+    }
   },
   "iron": {
     "name": "Iron",
-    "type": "ore"
-  },
-  "copper": {
-    "name": "Copper",
-    "type": "ore"
+    "type": "ore",
+    "modifiers": {
+      "durability": 100,
+      "effectiveness": 20,
+      "weight": 8
+    }
   },
   "gold": {
     "name": "Gold",
-    "type": "ore"
+    "type": "ore",
+    "modifiers": {
+      "durability": 70,
+      "effectiveness": 25,
+      "weight": 15,
+      "aestheticQuality": 10
+    }
   },
   "granite": {
     "name": "Granite",
-    "type": "stone"
-  },
-  "marble": {
-    "name": "Marble",
-    "type": "stone"
-  },
-  "slate": {
-    "name": "Slate",
-    "type": "stone"
+    "type": "stone",
+    "modifiers": {
+      "durability": 80,
+      "weight": 14,
+      "aestheticQuality": 5
+    }
   }
 }

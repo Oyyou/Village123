@@ -18,6 +18,7 @@ namespace Village123.Shared.Managers
     public readonly PlaceCategoryData PlaceCategoryData;
     public readonly PlaceTypeData PlaceTypeData;
     public readonly ResourceData ResourceData;
+    public readonly ResourceModifiersData ResourceModifiersData;
 
     public readonly Map Map;
     public readonly IdManager IdManager;
@@ -34,6 +35,7 @@ namespace Village123.Shared.Managers
       PlaceCategoryData = PlaceCategoryData.Load();
       PlaceTypeData = PlaceTypeData.Load();
       ResourceData = ResourceData.Load();
+      ResourceModifiersData = ResourceModifiersData.Load();
 
       // TODO: Load map
       Map = new Map(20, 20);

@@ -16,6 +16,9 @@ namespace Village123.Shared.Data
 
       [JsonProperty("type")]
       public string Type { get; set; }
+
+      [JsonProperty("modifiers")]
+      public Dictionary<string, int> Modifiers { get; set; }
     }
 
     public static ResourceData Load()
@@ -40,6 +43,6 @@ namespace Village123.Shared.Data
       return data;
     }
 
-    public List<Resource> GetResourcesByType(string type) => Resources.Where(i => i.Value.Type == type).Select(i => i.Value).ToList();
+    public Dictionary<string, Resource> GetResourcesByType(string type) => Resources.Where(i => i.Value.Type == type).ToDictionary(c => c.Key, v => v.Value);
   }
 }
