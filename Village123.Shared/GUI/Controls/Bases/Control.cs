@@ -35,6 +35,8 @@ namespace Village123.Shared.GUI.Controls.Bases
     public abstract int Height { get; }
 
     public bool IsVisible { get; set; } = true;
+    public bool IsSelected { get; set; } = false;
+    public string Key { get; set; } = null;
 
     public Action OnClicked { get; set; }
     public Action OnClickedOutside { get; set; }

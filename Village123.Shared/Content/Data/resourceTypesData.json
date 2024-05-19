@@ -1,5 +1,11 @@
-[
-  "wood",
-  "ore",
-  "stone"
-]
+{
+  "wood": {
+    "name": "Wood"
+  },
+  "ore": {
+    "name": "Ore"
+  },
+  "stone": {
+    "name": "Stone"
+  }
+}
