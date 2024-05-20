@@ -1,5 +1,14 @@
 {
   "basicTool": {
     "name": "Basic tool"
+  },
+  "weapon": {
+    "name": "Weapon"
+  },
+  "armour": {
+    "name": "Armour"
+  },
+  "potion": {
+    "name": "Potion"
   }
 }
