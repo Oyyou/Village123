@@ -24,5 +24,18 @@
       "wood": 1
     },
     "requiredEquipment": []
+  },
+  "shortSword": {
+    "name": "Short sword",
+    "type": "weapon",
+    "createdAt": {
+      "category": "crafting",
+      "level": 1
+    },
+    "requiredResources": {
+      "ore": 4,
+      "wood": 1
+    },
+    "requiredEquipment": []
   }
 }
