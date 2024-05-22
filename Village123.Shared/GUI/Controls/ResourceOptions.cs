@@ -25,17 +25,16 @@ namespace Village123.Shared.GUI.Controls
     #region Overrides
     public override int Width => _backgroundTexture != null ? _backgroundTexture.Width : 0;
     public override int Height => _backgroundTexture != null ? _backgroundTexture.Height : 0;
-    public override Action OnLeftClick => () => { };
-    public override Action OnMouseOver => () => { };
-    public override Action OnLeftClickOutside => () => { };
     #endregion
 
-    public ResourceOptions(GameWorldManager gwm, string resourceType, Action<string> onResourceSelected, int width, Vector2 position) : base(position)
+    public ResourceOptions(GameWorldManager gwm, string resourceType, Action<string> onResourceSelected, int width, Vector2 position)
+      : base()
     {
       _gwm = gwm;
       _font = _gwm.GameModel.Content.Load<SpriteFont>("Font");
       _onResourceSelected = onResourceSelected;
       _width = width;
+      Position = position;
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
         gwm.GameModel.GraphicsDevice,
@@ -62,6 +61,7 @@ namespace Village123.Shared.GUI.Controls
           _currentSelectedResource = button.Key;
           _onResourceSelected(resource.Key);
         };
+        button.IsSelected = () => button.Key == _currentSelectedResource;
         AddChild(button);
 
         startPosition += new Vector2(button.Width + 5, 0);
@@ -113,11 +113,10 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Update(GameTime gameTime)
     {
-      ((IClickable)this).UpdateMouse();
+      ClickableComponent.Update(gameTime);
 
       foreach (var child in Children)
       {
-        child.IsSelected = child.Key == _currentSelectedResource;
         child.Update(gameTime);
       }
 
@@ -166,7 +165,17 @@ namespace Village123.Shared.GUI.Controls
 
       if (_backgroundTexture != null)
       {
-        spriteBatch.Draw(_backgroundTexture, Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
+        spriteBatch.Draw(
+          _backgroundTexture,
+          DrawPosition,
+          null,
+          Color.White,
+          0f,
+          new Vector2(0, 0),
+          1f,
+          SpriteEffects.None,
+          ClickableComponent.ClickLayer()
+        );
       }
     }
   }

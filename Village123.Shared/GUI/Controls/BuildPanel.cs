@@ -44,10 +44,14 @@ namespace Village123.Shared.GUI.Controls
 
     public void Draw(SpriteBatch spriteBatch)
     {
+      spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
+
       foreach (var button in _buttons)
       {
         button.Draw(spriteBatch);
       }
+
+      spriteBatch.End();
     }
   }
 }

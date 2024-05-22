@@ -5,7 +5,6 @@ using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
-using Village123.Shared.Interfaces;
 using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
@@ -21,26 +20,52 @@ namespace Village123.Shared.GUI.Controls
     {
       var items = _gwm.ItemData.GetItemsByCategory(place.Data.Category);
 
-      var buttonWidth = 200;
-      var buttonHeight = buttonWidth / 5;
-      var buttonTexture = TextureHelpers.CreateBorderedTexture(_gwm.GameModel.GraphicsDevice, buttonWidth, buttonHeight, Color.White, Color.Black, 1);
+      var buttonWidth = 115;
+      var buttonHeight = 30;
+      var buttonTexture = TextureHelpers.CreateBorderedTexture(
+        _gwm.GameModel.GraphicsDevice,
+        buttonWidth,
+        buttonHeight,
+        Color.White,
+        Color.Black,
+        1
+      );
 
       var sidePadding = 20;
       var gap = 10;
 
       AddChild(new Label(_font, "Items", new Vector2(sidePadding, 40)));
-      var itemsStartPosition = new Vector2(sidePadding, 70);
+      var itemListStartPosition = new Vector2(sidePadding, 70);
+      var itemList = new ItemList(
+        _gwm,
+        new Rectangle(
+          (int)Position.X + sidePadding,
+          (int)Position.Y + 70,
+          150,
+          (_windowTexture.Height - (int)itemListStartPosition.Y) - sidePadding
+        )
+      );
+      _itemLists.Add(itemList);
+
       for (int i = 0; i < items.Count; i++)
       {
         var item = items[i];
-        var button = new Button(_font, buttonTexture, item.Name, itemsStartPosition + new Vector2(0, (buttonTexture.Height + gap) * i));
+        var button = new Button(
+          _font,
+          buttonTexture,
+          item.Name
+        );
+        button.IsSelected = () => button.Key == _selectedItem;
+        button.ViewportPosition = new Vector2(
+          itemList.Viewport.X,
+          itemList.Viewport.Y
+        );
         button.Key = item;
         button.OnClicked = () =>
         {
           var resourceAreaX = 260;
           _selectedItem = item;
 
-          button.IsSelected = true;
           this.RemoveChildrenByTag("temp");
           AddChild(new Label(_font, "Resources required", new Vector2(resourceAreaX, 40)), "temp");
           var rrStartPosition = new Vector2(resourceAreaX, 70);
@@ -76,7 +101,8 @@ namespace Village123.Shared.GUI.Controls
             rrStartPosition = new Vector2(resourceAreaX, rrStartPosition.Y + (control.Height + gap));
           }
         };
-        AddChild(button);
+
+        itemList.AddChild(button);
       }
 
       var craftButton = new Button(
@@ -93,23 +119,23 @@ namespace Village123.Shared.GUI.Controls
       IsOpen = true;
     }
 
-    public override Action OnLeftClick => () => { };
-
-    public override Action OnMouseOver => () => { };
-
     public override void Update(GameTime gameTime)
     {
-      ((IClickable)this).UpdateMouse();
+      ClickableComponent.Update(gameTime);
 
       foreach (var child in Children)
       {
-        child.IsSelected = child.Key == _selectedItem;
         child.Update(gameTime);
 
         if (child.Tag == "craftButton")
         {
           child.IsVisible = _selectedItem != null && _selectedResources.All(r => !string.IsNullOrEmpty(r.Value));
         }
+      }
+
+      foreach (var itemList in _itemLists)
+      {
+        itemList.Update(gameTime);
       }
     }
   }

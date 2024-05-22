@@ -19,24 +19,22 @@ namespace Village123.Shared.GUI.Controls
 
     public bool Closed { get; private set; }
 
-    protected override bool IsClickable => !Closed;
     public override int Width => _backgroundTexture != null ? _backgroundTexture.Width : 0;
 
     public override int Height => _backgroundTexture != null ? _backgroundTexture.Height : 0;
 
-    public override Action OnLeftClick => () => { };
-
-    public override Action OnMouseOver => () => { };
-
-    public override Action OnLeftClickOutside => () =>
-    {
-      _isEnabled = false;
-      _closing = true;
-    };
-
-    public PlaceOptionsPanel(GameWorldManager gwm, Place place, Vector2 position) : base(position)
+    public PlaceOptionsPanel(GameWorldManager gwm, Place place, Vector2 position)
+      : base()
     {
       _gwm = gwm;
+      Position = position;
+
+      ClickableComponent.IsClickable = () => !Closed;
+      ClickableComponent.OnClickedOutside = () =>
+      {
+        _isEnabled = false;
+        _closing = true;
+      };
 
       Layer = 0.7f;
 
@@ -174,12 +172,25 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      base.Draw(spriteBatch);
+      spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
 
+      base.Draw(spriteBatch);
       if (_backgroundTexture != null)
       {
-        spriteBatch.Draw(_backgroundTexture, Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
+        spriteBatch.Draw(
+          _backgroundTexture,
+          DrawPosition,
+          null,
+          Color.White,
+          0f,
+          new Vector2(0, 0),
+          1f,
+          SpriteEffects.None,
+          ClickableComponent.ClickLayer()
+        );
       }
+
+      spriteBatch.End();
     }
   }
 }

@@ -39,11 +39,9 @@ namespace Village123.Shared.Managers
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
       _buildPanel.Draw(spriteBatch);
       _craftingWindow?.Draw(spriteBatch);
       _placeOptionsPanel?.Draw(spriteBatch);
-      spriteBatch.End();
     }
 
     public void HandlePlaceClicked(Place place)

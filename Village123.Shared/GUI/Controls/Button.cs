@@ -8,7 +8,6 @@ namespace Village123.Shared.GUI.Controls
   public class Button : Control
   {
     private bool _hasUpdated = false;
-    private bool _isMouseOver = false;
     private Label _label;
 
     public Texture2D Texture { get; init; }
@@ -27,20 +26,23 @@ namespace Village123.Shared.GUI.Controls
 
     public override int Height => Texture != null ? Texture.Height : 0;
 
-    public override Action OnLeftClick => OnClicked;
-
-    public override Action OnMouseOver => () => _isMouseOver = true;
-
-    public override Action OnLeftClickOutside => () =>
-    {
-      // OnClickedOutside?.Invoke();
-      // No option to de-select
-      // Control the `selected` from a parent class
-    };
-
-    public Button(SpriteFont font, Texture2D texture, string text, Vector2 position) : base(position)
+    public Button(Texture2D texture, Vector2 position)
+      : base()
     {
       Texture = texture;
+      Position = position;
+    }
+
+    public Button(SpriteFont font, Texture2D texture, string text)
+      : this(font, texture, text, Vector2.Zero)
+    {
+    }
+
+    public Button(SpriteFont font, Texture2D texture, string text, Vector2 position)
+      : base()
+    {
+      Texture = texture;
+      Position = position;
 
       _label = new Label(font, text, Vector2.Zero);
 
@@ -54,13 +56,14 @@ namespace Village123.Shared.GUI.Controls
 
       _hasUpdated = true;
 
-      _label.SetPosition(
-        new Vector2(
-          (Width / 2) - (_label.Width / 2),
-          (Height / 2) - (_label.Height / 2)
-          )
-        );
-      _isMouseOver = false;
+      if (_label != null)
+      {
+        _label.Position =
+          new Vector2(
+            (Width / 2) - (_label.Width / 2),
+            (Height / 2) - (_label.Height / 2)
+            );
+      }
 
       base.Update(gameTime);
     }
@@ -74,14 +77,14 @@ namespace Village123.Shared.GUI.Controls
 
       spriteBatch.Draw(
         Texture,
-        Position,
+        DrawPosition,
         null,
-        IsSelected ? SelectedBackgroundColor : (_isMouseOver ? HoverBackgroundColor : BackgroundColor),
+        IsSelected() ? SelectedBackgroundColor : (ClickableComponent.IsMouseOver ? HoverBackgroundColor : BackgroundColor),
         0f,
         new Vector2(0, 0),
         1f,
         SpriteEffects.None,
-        ClickLayer
+        ClickableComponent.ClickLayer()
       );
     }
   }

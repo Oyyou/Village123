@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Village123.Shared.Interfaces;
+using Village123.Shared.Components;
 
 namespace Village123.Shared.Input
 {
@@ -17,32 +18,32 @@ namespace Village123.Shared.Input
     /// <summary>
     /// These are objects the mouse is currently hovering over
     /// </summary>
-    public static List<IClickable> ClickableObjects = new List<IClickable>();
+    public static List<ClickableComponent> ClickableComponents = new List<ClickableComponent>();
 
     public static Action HandleClick;
 
     /// <summary>
     /// The single object we're able to click
     /// </summary>
-    public static IClickable ValidObject
+    public static ClickableComponent ValidObject
     {
       get
       {
-        return ClickableObjects
-          .Where(c => c.ClickIsVisible)
-          .OrderBy(c => c.ClickLayer).LastOrDefault();
+        return ClickableComponents
+          .Where(c => c.IsClickable())
+          .OrderBy(c => c.ClickLayer()).LastOrDefault();
       }
     }
 
-    public static void AddObject(IClickable clickableObject)
+    public static void AddObject(ClickableComponent component)
     {
-      if (!ClickableObjects.Contains(clickableObject))
-        ClickableObjects.Add(clickableObject);
+      if (!ClickableComponents.Contains(component))
+        ClickableComponents.Add(component);
     }
 
-    public static void RemoveObject(IClickable clickableObject)
+    public static void RemoveObject(ClickableComponent component)
     {
-      ClickableObjects.Remove(clickableObject);
+      ClickableComponents.Remove(component);
     }
 
     #endregion
@@ -106,6 +107,11 @@ namespace Village123.Shared.Input
       {
         return _currentMouse.Position;
       }
+    }
+
+    public static Vector2 GetPositionWithViewport(Vector2 viewportPosition)
+    {
+      return Position.ToVector2() + viewportPosition;
     }
 
     public static Point PositionWithCamera
@@ -191,7 +197,7 @@ namespace Village123.Shared.Input
 
     public static void Clear()
     {
-      ClickableObjects.Clear();
+      ClickableComponents.Clear();
     }
   }
 }

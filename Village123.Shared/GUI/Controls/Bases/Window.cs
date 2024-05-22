@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
@@ -11,18 +12,21 @@ namespace Village123.Shared.GUI.Controls.Bases
     protected readonly GameWorldManager _gwm;
     protected readonly Texture2D _windowTexture;
     protected readonly SpriteFont _font;
+    protected List<ItemList> _itemLists = new();
 
     public bool IsOpen = false;
 
-    protected override bool IsClickable => IsOpen;
-    public override int Width => _windowTexture != null ? _windowTexture.Width : 0;
-    public override int Height => _windowTexture != null ? _windowTexture.Height : 0;
-    public override Action OnLeftClickOutside => () => IsOpen = false;
+    public override int Width => _windowTexture.Width;
+    public override int Height => _windowTexture.Height;
 
     public Window(GameWorldManager gwm, Vector2 position, int width, int height, string title)
-      : base(position)
+      : base()
     {
       _gwm = gwm;
+      Position = position;
+
+      ClickableComponent.IsClickable = () => IsOpen;
+      ClickableComponent.OnClickedOutside = () => IsOpen = false;
 
       _windowTexture = TextureHelpers.CreateBorderedTexture(
         gwm.GameModel.GraphicsDevice,
@@ -46,7 +50,7 @@ namespace Village123.Shared.GUI.Controls.Bases
         _font,
         closeButtonTexture,
         "X",
-        new Vector2(this.ClickRectangle.Width - (closeButtonTexture.Width + padding), padding)
+        new Vector2(ClickRectangle.Width - (closeButtonTexture.Width + padding), padding)
       )
       {
         OnClicked = () => IsOpen = false,
@@ -55,11 +59,37 @@ namespace Village123.Shared.GUI.Controls.Bases
       return button;
     }
 
+    public override void Update(GameTime gameTime)
+    {
+      base.Update(gameTime);
+
+      foreach (var itemList in _itemLists)
+      {
+        itemList.Update(gameTime);
+      }
+    }
+
     public override void Draw(SpriteBatch spriteBatch)
     {
+      spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
       base.Draw(spriteBatch);
+      spriteBatch.Draw(
+        _windowTexture,
+        DrawPosition,
+        null,
+        Color.White,
+        0f,
+        new Vector2(0, 0),
+        1f,
+        SpriteEffects.None,
+        ClickableComponent.ClickLayer()
+      );
+      spriteBatch.End();
 
-      spriteBatch.Draw(_windowTexture, Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
+      foreach (var itemList in _itemLists)
+      {
+        itemList.Draw(spriteBatch);
+      }
     }
   }
 }

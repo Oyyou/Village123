@@ -7,31 +7,38 @@ namespace Village123.Shared.GUI.Controls
 {
   public class Label : Control
   {
-    public readonly string Text;
     private readonly SpriteFont _font;
 
-    protected override bool IsClickable => false;
-
-    public override int Width => _font != null ? (int)_font.MeasureString(Text).X : 0;
-    public override int Height => _font != null ? (int)_font.MeasureString(Text).Y : 0;
-
-    public override Action OnLeftClick => () => { };
-    public override Action OnMouseOver => () => { };
-    public override Action OnLeftClickOutside => () => { };
+    public override int Width => (int)_font.MeasureString(Text).X;
+    public override int Height => (int)_font.MeasureString(Text).Y;
 
     public Color TextColor { get; set; } = Color.Black;
+    public string Text { get; set; }
 
-    public Label(SpriteFont font, string text, Vector2 position) : base(position)
+    public Label(SpriteFont font, string text, Vector2 position) : base()
     {
       _font = font;
       Text = text;
+      Position = position;
+
+      ClickableComponent.IsClickable = () => false;
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
       base.Draw(spriteBatch);
 
-      spriteBatch.DrawString(_font, Text, Position, TextColor, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, ClickLayer);
+      spriteBatch.DrawString(
+        _font,
+        Text,
+        DrawPosition,
+        TextColor,
+        0f,
+        new Vector2(0, 0),
+        1f,
+        SpriteEffects.None,
+        ClickableComponent.ClickLayer()
+      );
     }
   }
 }
