@@ -12,15 +12,12 @@ namespace Village123.Shared.Input
   {
     private static MouseState _currentMouse;
     private static MouseState _previouseMouse;
-    private static Matrix _camera = Matrix.Identity;
 
     #region IClickable related
     /// <summary>
     /// These are objects the mouse is currently hovering over
     /// </summary>
     public static List<ClickableComponent> ClickableComponents = new List<ClickableComponent>();
-
-    public static Action HandleClick;
 
     /// <summary>
     /// The single object we're able to click
@@ -47,11 +44,6 @@ namespace Village123.Shared.Input
     }
 
     #endregion
-
-    public static void AddCamera(Matrix camera)
-    {
-      _camera = camera;
-    }
 
     public static bool IsLeftClicked
     {
@@ -111,13 +103,11 @@ namespace Village123.Shared.Input
 
     public static Vector2 GetPositionWithViewport(Vector2 viewportPosition)
     {
-      return Position.ToVector2() + viewportPosition;
+      return Position.ToVector2() - viewportPosition;
     }
 
-    public static Point PositionWithCamera
+    public static Point PositionWithCamera(Matrix _camera)
     {
-      get
-      {
         if (_camera == Matrix.Identity)
           return Position;
 
@@ -135,17 +125,13 @@ namespace Village123.Shared.Input
         return Vector2.Transform(new Vector2(X, Y), Matrix.Invert(_camera)).ToPoint();
 
         return new Point(x, y);
-      }
     }
 
-    public static Rectangle RectangleWithCamera
+    public static Rectangle RectangleWithCamera(Matrix camera)
     {
-      get
-      {
-        var x = (int)PositionWithCamera.X;
-        var y = (int)PositionWithCamera.Y;
+        var x = (int)PositionWithCamera(camera).X;
+        var y = (int)PositionWithCamera(camera).Y;
         return new Rectangle(x, y, 1, 1);
-      }
     }
 
     public static Rectangle Rectangle
@@ -187,10 +173,10 @@ namespace Village123.Shared.Input
       _currentMouse = Mouse.GetState();
     }
 
-    public static bool Intersects(Rectangle rectangle, bool withCamera = false)
+    public static bool Intersects(Rectangle rectangle, Matrix? matrix = null)
     {
-      if (withCamera)
-        return RectangleWithCamera.Intersects(rectangle);
+      if (matrix != null)
+        return RectangleWithCamera(matrix.Value).Intersects(rectangle);
 
       return Rectangle.Intersects(rectangle);
     }

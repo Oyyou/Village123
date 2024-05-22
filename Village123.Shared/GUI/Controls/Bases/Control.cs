@@ -49,12 +49,13 @@ namespace Village123.Shared.GUI.Controls.Bases
         ClickableComponent.OnClickedOutside = value;
       }
     }
-
+    public Action OnUpdated { get; set; }
 
     public Vector2? ViewportPosition { get; set; }
 
 
     public Control Parent { get; set; }
+    public Vector2? ChildrenOffset {  get; set; }
     public List<Control> Children { get; set; } = new List<Control>();
     public string Tag { get; set; }
 
@@ -66,7 +67,7 @@ namespace Village123.Shared.GUI.Controls.Bases
       {
         if (Parent != null)
         {
-          return Parent.DrawPosition + Position;
+          return Parent.DrawPosition + Position + (Parent.ChildrenOffset.HasValue ? Parent.ChildrenOffset.Value : Vector2.Zero);
         }
 
         return Position;
@@ -112,16 +113,22 @@ namespace Village123.Shared.GUI.Controls.Bases
 
     public virtual void Update(GameTime gameTime)
     {
+      if (!IsVisible) return;
+
       ClickableComponent?.Update(gameTime);
 
       foreach (var child in Children)
       {
         child.Update(gameTime);
       }
+
+      OnUpdated?.Invoke();
     }
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
+      if (!IsVisible) return;
+
       foreach (var child in Children)
       {
         child.Draw(spriteBatch);

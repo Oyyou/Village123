@@ -25,7 +25,7 @@
       "ore": 10
     },
     "producedItemTypes": [
-      "basicTool"
+      "tool"
     ]
   },
   "woodenWall": {

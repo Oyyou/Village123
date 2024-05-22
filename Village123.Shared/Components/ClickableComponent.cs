@@ -16,9 +16,11 @@ namespace Village123.Shared.Components
     public Func<bool> IsClickable { get; set; } = () => true;
     public Func<float> ClickLayer { get; set; } = () => 0.1f;
     public Action OnHover { get; set; } = null;
+    public Action OnLightHover { get; set; } = null;
     public Action OnHeld { get; set; } = null;
     public Action OnClicked { get; set; } = null;
     public Action OnClickedOutside { get; set; } = null;
+    public Matrix? Camera { get; set; } = null;
 
     public ClickableComponent()
     {
@@ -36,12 +38,13 @@ namespace Village123.Shared.Components
       IsMouseDown = false;
       IsMouseClicked = false;
 
-      if (GameMouse.Intersects(ClickRectangle()))
+      if (GameMouse.Intersects(ClickRectangle(), Camera))
       {
+        OnLightHover?.Invoke();
         if (GameMouse.ValidObject == this)
         {
-          IsMouseOver = true;
           OnHover?.Invoke();
+          IsMouseOver = true;
 
           if (GameMouse.IsLeftPressed)
           {

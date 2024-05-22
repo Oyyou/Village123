@@ -1,6 +1,6 @@
 {
-  "basicTool": {
-    "name": "Basic tool"
+  "tool": {
+    "name": "Tool"
   },
   "weapon": {
     "name": "Weapon"

@@ -1,7 +1,7 @@
 {
   "hatchet": {
     "name": "Hatchet",
-    "type": "basicTool",
+    "type": "tool",
     "createdAt": {
       "category": "crafting",
       "level": 1
@@ -14,7 +14,7 @@
   },
   "pickaxe": {
     "name": "Pickaxe",
-    "type": "basicTool",
+    "type": "tool",
     "createdAt": {
       "category": "crafting",
       "level": 1
@@ -35,6 +35,135 @@
     "requiredResources": {
       "ore": 4,
       "wood": 1
+    },
+    "requiredEquipment": []
+  },
+  "longSword": {
+    "name": "Long sword",
+    "type": "weapon",
+    "createdAt": {
+      "category": "crafting",
+      "level": 2
+    },
+    "requiredResources": {
+      "ore": 6,
+      "wood": 1
+    },
+    "requiredEquipment": []
+  },
+  "battleAxe": {
+    "name": "Battle axe",
+    "type": "weapon",
+    "createdAt": {
+      "category": "crafting",
+      "level": 2
+    },
+    "requiredResources": {
+      "ore": 8,
+      "wood": 2
+    },
+    "requiredEquipment": []
+  },
+  "woodenShield": {
+    "name": "Wooden shield",
+    "type": "armor",
+    "createdAt": {
+      "category": "crafting",
+      "level": 1
+    },
+    "requiredResources": {
+      "wood": 4
+    },
+    "requiredEquipment": []
+  },
+  "metalShield": {
+    "name": "Metal shield",
+    "type": "armor",
+    "createdAt": {
+      "category": "crafting",
+      "level": 2
+    },
+    "requiredResources": {
+      "ore": 6,
+      "wood": 2
+    },
+    "requiredEquipment": []
+  },
+  "leatherArmor": {
+    "name": "Leather armor",
+    "type": "armor",
+    "createdAt": {
+      "category": "crafting",
+      "level": 1
+    },
+    "requiredResources": {
+      "leather": 5
+    },
+    "requiredEquipment": []
+  },
+  "chainmailArmor": {
+    "name": "Chainmail armor",
+    "type": "armor",
+    "createdAt": {
+      "category": "crafting",
+      "level": 2
+    },
+    "requiredResources": {
+      "ore": 10,
+      "leather": 2
+    },
+    "requiredEquipment": []
+  },
+  "fishingRod": {
+    "name": "Fishing rod",
+    "type": "tool",
+    "createdAt": {
+      "category": "crafting",
+      "level": 1
+    },
+    "requiredResources": {
+      "wood": 3,
+      "string": 2
+    },
+    "requiredEquipment": []
+  },
+  "bow": {
+    "name": "Bow",
+    "type": "weapon",
+    "createdAt": {
+      "category": "crafting",
+      "level": 1
+    },
+    "requiredResources": {
+      "wood": 4,
+      "string": 3
+    },
+    "requiredEquipment": []
+  },
+  "crossbow": {
+    "name": "Crossbow",
+    "type": "weapon",
+    "createdAt": {
+      "category": "crafting",
+      "level": 2
+    },
+    "requiredResources": {
+      "wood": 6,
+      "ore": 4,
+      "string": 3
+    },
+    "requiredEquipment": []
+  },
+  "hammer": {
+    "name": "Hammer",
+    "type": "tool",
+    "createdAt": {
+      "category": "crafting",
+      "level": 2
+    },
+    "requiredResources": {
+      "ore": 5,
+      "wood": 2
     },
     "requiredEquipment": []
   }

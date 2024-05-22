@@ -42,7 +42,7 @@ namespace Village123.Shared.GUI.Controls
           (int)Position.X + sidePadding,
           (int)Position.Y + 70,
           150,
-          (_windowTexture.Height - (int)itemListStartPosition.Y) - sidePadding
+          300
         )
       );
       _itemLists.Add(itemList);

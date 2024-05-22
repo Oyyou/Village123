@@ -10,7 +10,7 @@ namespace Village123.Shared.GUI.Controls
     private bool _hasUpdated = false;
     private Label _label;
 
-    public Texture2D Texture { get; init; }
+    public Texture2D Texture { get; private set; }
 
     public Color BackgroundColor { get; set; } = Color.White;
     public Color TextColor
@@ -47,6 +47,11 @@ namespace Village123.Shared.GUI.Controls
       _label = new Label(font, text, Vector2.Zero);
 
       AddChild(_label);
+    }
+
+    public void UpdateTexture(Texture2D texture)
+    {
+      Texture = texture;
     }
 
     public override void Update(GameTime gameTime)

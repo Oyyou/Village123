@@ -34,10 +34,11 @@ namespace Village123.Shared.GUI.Controls
       _scrollBar = new ScrollBar(
         _gwm,
         new Rectangle(0, 0, Viewport.Width, Viewport.Height),
-        Viewport
+        new(Viewport.X, Viewport.Y),
+        this
       );
 
-      AddChild(_scrollBar);
+      _scrollBar.OnUpdated = () => _viewY = -_scrollBar.Offset;
     }
 
     protected override void OnAddChild(Control control)
@@ -57,6 +58,14 @@ namespace Village123.Shared.GUI.Controls
           position = new Vector2(5, position.Y + child.Height + 5);
         }
       }
+
+      _scrollBar.CalculateThumbSizeAndSpeed(new Rectangle(0, 0, Viewport.Width, Viewport.Height));
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+      _scrollBar.Update(gameTime);
+      base.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -74,12 +83,21 @@ namespace Village123.Shared.GUI.Controls
 
       spriteBatch.End();
 
+      var matrix = Matrix.CreateTranslation(0, _viewY, 0);
       spriteBatch.Begin(
         SpriteSortMode.FrontToBack,
-        transformMatrix: Matrix.CreateTranslation(0, _viewY, 0)
+        transformMatrix: matrix
       );
 
-      base.Draw(spriteBatch);
+      foreach (var child in Children)
+      {
+        if(child is ScrollBar)
+        {
+          continue;
+        }
+        child.ClickableComponent.Camera = matrix;
+        child.Draw(spriteBatch);
+      }
 
       spriteBatch.End();
 
