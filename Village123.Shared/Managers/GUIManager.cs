@@ -56,7 +56,12 @@ namespace Village123.Shared.Managers
         place,
         new Vector2(100, 100),
         BaseGame.ScreenWidth - 200,
-        BaseGame.ScreenHeight - 200
+        BaseGame.ScreenHeight - 200,
+        (item) =>
+        {
+          JobManager.GetInstance(_gwm).Add(item.Item, place);
+          _craftingWindow.IsOpen = false;
+        }
       );
     }
   }

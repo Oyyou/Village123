@@ -1,0 +1,14 @@
+{
+  "crafting": {
+    "name": "Crafting",
+    "produces": "item"
+  },
+  "farming": {
+    "name": "Farming",
+    "produces": "resource"
+  },
+  "mining": {
+    "name": "Mining",
+    "produces": "resource"
+  }
+}

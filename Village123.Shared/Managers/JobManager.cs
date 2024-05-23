@@ -59,26 +59,12 @@ namespace Village123.Shared.Managers
     }
     #endregion
 
-    public Job Add(string name, Point point)
+    public Job Add(ItemData.Item item, Place place)
     {
       var job = new Job()
       {
         Id = _gwm.IdManager.JobId++,
-        Name = name,
-        Point = point,
-      };
-
-      Jobs.Add(job);
-
-      return job;
-    }
-
-    public Job CraftItem(ItemData.Item item, Place place)
-    {
-      var job = new Job()
-      {
-        Id = _gwm.IdManager.JobId++,
-        Name = $"Craft {item.Name}",
+        Name = $"{item.Name}",
         Point = place.Point,
         MaxWorkers = 1,
         RequiredEquipment = item.RequiredEquipment,

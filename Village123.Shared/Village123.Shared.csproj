@@ -16,6 +16,9 @@
     <None Update="Content\Data\itemTypeData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\Data\jobTypesData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Content\Data\placeData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

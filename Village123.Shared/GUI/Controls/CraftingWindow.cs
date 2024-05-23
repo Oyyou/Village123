@@ -6,6 +6,7 @@ using Village123.Shared.Data;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.Managers;
+using Village123.Shared.Models;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
@@ -15,7 +16,14 @@ namespace Village123.Shared.GUI.Controls
     private ItemData.Item _selectedItem = null;
     private Dictionary<string, string> _selectedResources;
 
-    public CraftingWindow(GameWorldManager gwm, Place place, Vector2 position, int width, int height)
+    public CraftingWindow(
+      GameWorldManager gwm,
+      Place place,
+      Vector2 position,
+      int width,
+      int height,
+      Action<CraftItemModel> craftItem
+      )
       : base(gwm, position, width, height, "Crafting")
     {
       var items = _gwm.ItemData.GetItemsByCategory(place.Data.Category);
@@ -113,6 +121,14 @@ namespace Village123.Shared.GUI.Controls
           width - (20 + buttonTexture.Width),
           height - (20 + buttonTexture.Height)
         ));
+      craftButton.OnClicked = () =>
+      {
+        craftItem(new CraftItemModel()
+        {
+          Item = _selectedItem,
+          Resources = _selectedResources,
+        });
+      };
 
       AddChild(craftButton, "craftButton");
 
