@@ -51,8 +51,8 @@ namespace Village123.Shared.GUI.Controls.Bases
     }
     public Action OnUpdated { get; set; }
 
-    public Vector2? ViewportPosition { get; set; }
-
+    public Vector2? _viewportPosition = null;
+    public Vector2? ViewportPosition => Parent != null ? Parent.ViewportPosition : _viewportPosition;
 
     public Control Parent { get; set; }
     public Vector2? ChildrenOffset {  get; set; }
@@ -106,7 +106,7 @@ namespace Village123.Shared.GUI.Controls.Bases
 
     }
 
-    protected void RemoveChildrenByTag(string tag)
+    public void RemoveChildrenByTag(string tag)
     {
       this.Children = this.Children.Where(c => c.Tag != tag).ToList();
     }

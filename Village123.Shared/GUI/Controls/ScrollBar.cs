@@ -38,7 +38,7 @@ namespace Village123.Shared.GUI.Controls
     {
       _gwm = gwm;
       _itemList = itemList;
-      ViewportPosition = viewportPosition;
+      _viewportPosition = viewportPosition;
 
       _background = TextureHelpers.CreateBorderedTexture(
         _gwm.GameModel.GraphicsDevice,
@@ -80,10 +80,6 @@ namespace Village123.Shared.GUI.Controls
 
       _min = _topButton.ClickRectangle.Bottom + 2;
       _max = _bottomButton.Position.Y - 2 - buttonTexture.Height;
-
-      _topButton.ViewportPosition = viewportPosition;
-      _thumbButton.ViewportPosition = viewportPosition;
-      _bottomButton.ViewportPosition = viewportPosition;
 
       AddChild(_topButton);
       AddChild(_thumbButton);

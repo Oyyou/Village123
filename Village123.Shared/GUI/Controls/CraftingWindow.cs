@@ -55,6 +55,20 @@ namespace Village123.Shared.GUI.Controls
       );
       _itemLists.Add(itemList);
 
+
+      var x = itemList.Viewport.Right + sidePadding;
+      var resourcesList = new ItemList(
+        _gwm,
+        new Rectangle(
+          x,
+          (itemList.Viewport.Top),
+          ((Width - x) + (int)Position.X) - sidePadding,
+          300
+        )
+      );
+
+      _itemLists.Add(resourcesList);
+
       for (int i = 0; i < items.Count; i++)
       {
         var item = items.ElementAt(i);
@@ -65,36 +79,24 @@ namespace Village123.Shared.GUI.Controls
           item.Value.Name
         );
         button.IsSelected = () => button.Key == _selectedItem.Value;
-        button.ViewportPosition = new Vector2(
-          itemList.Viewport.X,
-          itemList.Viewport.Y
-        );
         button.Key = itemValue;
         button.OnClicked = () =>
         {
-          var resourceAreaX = 260;
+          var resourceAreaX = 200;
           _selectedItem = item;
 
           this.RemoveChildrenByTag("temp");
-          AddChild(new Label(_font, "Resources required", new Vector2(resourceAreaX, 40)), "temp");
-          var rrStartPosition = new Vector2(resourceAreaX, 70);
+          resourcesList.RemoveChildrenByTag("temp");
+          var str = "Resources required - ";
           _selectedResources = new Dictionary<string, string>();
           for (int i = 0; i < itemValue.RequiredResources.Count; i++)
           {
             var resource = itemValue.RequiredResources.ElementAt(i);
-            var label = new Label(_font, $"{resource.Key} x{resource.Value}", rrStartPosition);
-            AddChild(label, "temp");
-
-            rrStartPosition.X += label.Width + gap;
-            if (rrStartPosition.X > this.ClickRectangle.Right - sidePadding)
-            {
-              rrStartPosition = new Vector2(resourceAreaX, rrStartPosition.Y + (label.Height + gap));
-            }
-
+            str += $"{resource.Key} x{resource.Value} ";
             _selectedResources.Add(resource.Key, "");
           }
+          this.AddChild(new Label(_font, str, new Vector2(resourceAreaX, 40)), "temp");
 
-          rrStartPosition = new Vector2(resourceAreaX, rrStartPosition.Y + (Children.Last().Height + gap));
           for (int i = 0; i < itemValue.RequiredResources.Count; i++)
           {
             var resourceType = itemValue.RequiredResources.ElementAt(i);
@@ -102,12 +104,10 @@ namespace Village123.Shared.GUI.Controls
               _gwm,
               resourceType.Key, // resourceType
               (resource) => _selectedResources[resourceType.Key] = resource, // onResourceSelected
-              (ClickRectangle.Width) - (resourceAreaX + sidePadding), // width
-              rrStartPosition // position
+              resourcesList.Width - 35 // width
             );
-            AddChild(control, "temp");
 
-            rrStartPosition = new Vector2(resourceAreaX, rrStartPosition.Y + (control.Height + gap));
+            resourcesList.AddChild(control, "temp");
           }
         };
 

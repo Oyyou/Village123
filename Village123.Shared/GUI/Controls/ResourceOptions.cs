@@ -27,14 +27,13 @@ namespace Village123.Shared.GUI.Controls
     public override int Height => _backgroundTexture != null ? _backgroundTexture.Height : 0;
     #endregion
 
-    public ResourceOptions(GameWorldManager gwm, string resourceType, Action<string> onResourceSelected, int width, Vector2 position)
+    public ResourceOptions(GameWorldManager gwm, string resourceType, Action<string> onResourceSelected, int width)
       : base()
     {
       _gwm = gwm;
       _font = _gwm.GameModel.Content.Load<SpriteFont>("Font");
       _onResourceSelected = onResourceSelected;
       _width = width;
-      Position = position;
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
         gwm.GameModel.GraphicsDevice,

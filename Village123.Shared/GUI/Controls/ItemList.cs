@@ -17,10 +17,17 @@ namespace Village123.Shared.GUI.Controls
 
     private float _viewY = 0f;
 
+    public override int Width => Viewport.Width;
+    public override int Height => Viewport.Height;
+
     public ItemList(GameWorldManager gwm, Rectangle viewport)
     {
       _gwm = gwm;
       Viewport = viewport;
+      _viewportPosition = new Vector2(
+        Viewport.X,
+        Viewport.Y
+      );
 
       _backgroundTexture = TextureHelpers.CreateBorderedTexture(
         gwm.GameModel.GraphicsDevice,
