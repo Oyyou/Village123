@@ -13,7 +13,7 @@ namespace Village123.Shared.GUI.Controls
 {
   internal class CraftingWindow : Window
   {
-    private ItemData.Item _selectedItem = null;
+    private KeyValuePair<string, ItemData.Item> _selectedItem;
     private Dictionary<string, string> _selectedResources;
 
     public CraftingWindow(
@@ -57,18 +57,19 @@ namespace Village123.Shared.GUI.Controls
 
       for (int i = 0; i < items.Count; i++)
       {
-        var item = items[i];
+        var item = items.ElementAt(i);
+        var itemValue = item.Value;
         var button = new Button(
           _font,
           buttonTexture,
-          item.Name
+          item.Value.Name
         );
-        button.IsSelected = () => button.Key == _selectedItem;
+        button.IsSelected = () => button.Key == _selectedItem.Value;
         button.ViewportPosition = new Vector2(
           itemList.Viewport.X,
           itemList.Viewport.Y
         );
-        button.Key = item;
+        button.Key = itemValue;
         button.OnClicked = () =>
         {
           var resourceAreaX = 260;
@@ -78,9 +79,9 @@ namespace Village123.Shared.GUI.Controls
           AddChild(new Label(_font, "Resources required", new Vector2(resourceAreaX, 40)), "temp");
           var rrStartPosition = new Vector2(resourceAreaX, 70);
           _selectedResources = new Dictionary<string, string>();
-          for (int i = 0; i < item.RequiredResources.Count; i++)
+          for (int i = 0; i < itemValue.RequiredResources.Count; i++)
           {
-            var resource = item.RequiredResources.ElementAt(i);
+            var resource = itemValue.RequiredResources.ElementAt(i);
             var label = new Label(_font, $"{resource.Key} x{resource.Value}", rrStartPosition);
             AddChild(label, "temp");
 
@@ -94,9 +95,9 @@ namespace Village123.Shared.GUI.Controls
           }
 
           rrStartPosition = new Vector2(resourceAreaX, rrStartPosition.Y + (Children.Last().Height + gap));
-          for (int i = 0; i < item.RequiredResources.Count; i++)
+          for (int i = 0; i < itemValue.RequiredResources.Count; i++)
           {
-            var resourceType = item.RequiredResources.ElementAt(i);
+            var resourceType = itemValue.RequiredResources.ElementAt(i);
             var control = new ResourceOptions(
               _gwm,
               resourceType.Key, // resourceType
@@ -145,7 +146,7 @@ namespace Village123.Shared.GUI.Controls
 
         if (child.Tag == "craftButton")
         {
-          child.IsVisible = _selectedItem != null && _selectedResources.All(r => !string.IsNullOrEmpty(r.Value));
+          child.IsVisible = !string.IsNullOrEmpty(_selectedItem.Key) && _selectedResources.All(r => !string.IsNullOrEmpty(r.Value));
         }
       }
 

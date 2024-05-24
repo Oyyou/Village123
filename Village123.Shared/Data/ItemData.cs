@@ -17,6 +17,9 @@ namespace Village123.Shared.Data
       [JsonProperty("type")]
       public string Type { get; set; }
 
+      [JsonProperty("job")]
+      public string Job { get; set; }
+
       [JsonProperty("createdAt")]
       public CreatedAtType CreatedAt { get; set; }
 
@@ -58,6 +61,8 @@ namespace Village123.Shared.Data
       return data;
     }
 
-    public List<Item> GetItemsByCategory(string category) => Items.Where(i => i.Value.CreatedAt.Category == category).Select(i => i.Value).ToList();
+    public Dictionary<string, Item> GetItemsByCategory(string category) =>
+      Items.Where(i => i.Value.CreatedAt.Category == category)
+      .ToDictionary(c => c.Key, v => v.Value);
   }
 }

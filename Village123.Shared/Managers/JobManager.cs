@@ -1,9 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using Village123.Shared.Data;
 using Village123.Shared.Entities;
+using Village123.Shared.Models;
 
 namespace Village123.Shared.Managers
 {
@@ -59,17 +58,17 @@ namespace Village123.Shared.Managers
     }
     #endregion
 
-    public Job Add(ItemData.Item item, Place place)
+    public Job Add(Place place, CraftItemModel craftItem = null)
     {
       var job = new Job()
       {
         Id = _gwm.IdManager.JobId++,
-        Name = $"{item.Name}",
+        ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Resources = craftItem.Resources } : null,
+        Name = $"{craftItem.Item.Key}",
         Point = place.Point,
         MaxWorkers = 1,
-        RequiredEquipment = item.RequiredEquipment,
-        RequiredResources = item.RequiredResources,
-        Type = item.CreatedAt.Category,
+        // RequiredEquipment = item.RequiredEquipment,
+        Type = place.Data.Category,
         WorkerIds = new List<int>(),
       };
 

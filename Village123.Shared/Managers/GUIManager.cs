@@ -59,7 +59,7 @@ namespace Village123.Shared.Managers
         BaseGame.ScreenHeight - 200,
         (item) =>
         {
-          JobManager.GetInstance(_gwm).Add(item.Item, place);
+          JobManager.GetInstance(_gwm).Add(place, item);
           _craftingWindow.IsOpen = false;
         }
       );

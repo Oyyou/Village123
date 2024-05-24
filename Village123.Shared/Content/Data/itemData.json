@@ -1,7 +1,8 @@
 {
-  "hatchet": {
-    "name": "Hatchet",
+  "axe": {
+    "name": "Axe",
     "type": "tool",
+    "job": "woodcutting",
     "createdAt": {
       "category": "crafting",
       "level": 1
@@ -15,6 +16,7 @@
   "pickaxe": {
     "name": "Pickaxe",
     "type": "tool",
+    "job": "mining",
     "createdAt": {
       "category": "crafting",
       "level": 1
@@ -151,19 +153,6 @@
       "wood": 6,
       "ore": 4,
       "string": 3
-    },
-    "requiredEquipment": []
-  },
-  "hammer": {
-    "name": "Hammer",
-    "type": "tool",
-    "createdAt": {
-      "category": "crafting",
-      "level": 2
-    },
-    "requiredResources": {
-      "ore": 5,
-      "wood": 2
     },
     "requiredEquipment": []
   }
