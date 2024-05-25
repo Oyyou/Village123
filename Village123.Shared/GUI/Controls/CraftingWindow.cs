@@ -132,6 +132,20 @@ namespace Village123.Shared.GUI.Controls
       };
 
       AddChild(craftButton, "craftButton");
+      AddChild(
+        new CraftQueue(
+          _gwm,
+          place,
+          ClickRectangle.Width - (sidePadding * 2),
+          50
+        )
+        {
+          Position = new Vector2(
+            20,
+            itemListStartPosition.Y + itemList.Height + 20
+          ),
+        }
+      );
 
       IsOpen = true;
     }

@@ -60,7 +60,7 @@ namespace Village123.Shared.Managers
         (item) =>
         {
           JobManager.GetInstance(_gwm).Add(place, item);
-          _craftingWindow.IsOpen = false;
+          // _craftingWindow.IsOpen = false;
         }
       );
     }

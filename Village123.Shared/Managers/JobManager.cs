@@ -63,6 +63,7 @@ namespace Village123.Shared.Managers
       var job = new Job()
       {
         Id = _gwm.IdManager.JobId++,
+        PlaceId = place.Id,
         ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Resources = craftItem.Resources } : null,
         Name = $"{craftItem.Item.Key}",
         Point = place.Point,
