@@ -15,15 +15,13 @@ namespace Village123.Shared.GUI.Controls
     private readonly ItemList _itemList;
     private readonly Texture2D _background;
 
-    private Button _topButton;
-    private Button _thumbButton;
-    private Button _bottomButton;
+    private readonly Button _topButton;
+    private readonly Button _thumbButton;
+    private readonly Button _bottomButton;
 
-    private float _min;
-    private float _max;
     private float _speed = 1f;
-    private float _remaining;
     private int _previousScrollValue;
+
     public override int Width => _background != null ? _background.Width : 0;
     public override int Height => _background != null ? _background.Height : 0;
 
@@ -75,11 +73,12 @@ namespace Village123.Shared.GUI.Controls
       );
 
       _topButton = new Button(buttonTexture, new Vector2(4, 4));
-      _thumbButton = new Button(buttonTexture, _topButton.DrawPosition + new Vector2(0, buttonTexture.Height + 4));
+      _thumbButton = new Button(buttonTexture, _topButton.DrawPosition + new Vector2(0, buttonTexture.Height + 2));
       _bottomButton = new Button(buttonTexture, new Vector2(4, _background.Height - (buttonTexture.Height + 4)));
 
-      _min = _topButton.ClickRectangle.Bottom + 2;
-      _max = _bottomButton.Position.Y - 2 - buttonTexture.Height;
+
+      _topButton.OnClicked = () => SetBarButtonY(_thumbButton.Position.Y - _speed);
+      _bottomButton.OnClicked = () => SetBarButtonY(_thumbButton.Position.Y + _speed);
 
       AddChild(_topButton);
       AddChild(_thumbButton);
@@ -92,20 +91,18 @@ namespace Village123.Shared.GUI.Controls
 
     public void CalculateThumbSizeAndSpeed(Rectangle parentContainer)
     {
-      float contentHeight = GetContentHeight();
-      float parentHeight = parentContainer.Height;
+      var contentHeight = GetContentHeight();
+      var viewportHeight = parentContainer.Height;
 
-      if(contentHeight < parentHeight)
+      if(contentHeight < viewportHeight)
       {
         this.IsVisible = false;
         return;
       }
 
-      float viewportHeight = parentHeight;
-      float availableHeight = _max - _min;
-      float thumbHeight = Math.Max(viewportHeight * (viewportHeight / contentHeight), 20);
-
-      thumbHeight = Math.Min(thumbHeight, availableHeight);
+      var viewableRatio = viewportHeight / contentHeight;
+      var scrollBarArea = (_bottomButton.ClickRectangle.Top - _topButton.ClickRectangle.Bottom) - 8;
+      var thumbHeight = scrollBarArea * viewableRatio;
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
         _gwm.GameModel.GraphicsDevice,
@@ -117,11 +114,12 @@ namespace Village123.Shared.GUI.Controls
       );
 
       _thumbButton.UpdateTexture(buttonTexture);
-      _max = _bottomButton.Position.Y - 2 - buttonTexture.Height;
 
       this.IsVisible = true;
 
-      _speed = (contentHeight - viewportHeight) / (availableHeight - thumbHeight);
+      var scrollTrackSpace = contentHeight - viewportHeight;
+      var scrollThumbSpace = viewportHeight - thumbHeight;
+      _speed = (scrollTrackSpace / scrollThumbSpace) * 10;
     }
 
     private float GetContentHeight()
@@ -137,10 +135,13 @@ namespace Village123.Shared.GUI.Controls
 
     private void SetBarButtonY(float y)
     {
-      var newY = MathHelper.Clamp(y, _min, _max);
+      var min = _topButton.Position.Y + _topButton.Height + 2;
+      var max = (_bottomButton.Position.Y - 2) - _thumbButton.Height;
 
-      var change = newY - _min;
-      var percentage = change / (_max - _min);
+      var newY = MathHelper.Clamp(y, min, max);
+
+      var change = newY - min;
+      var percentage = change / (max - min);
       Offset = percentage * (GetContentHeight() - Height);
 
       _thumbButton.Position = new Vector2(_thumbButton.Position.X, newY);
