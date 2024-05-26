@@ -1,14 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System.IO;
 using Village123.Shared.Data;
-using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.Entities
 {
-  public class Item : IEntity, IStorable
+  public class Item : IEntity
   {
+    private int _craftPercentage = 0;
+
     public int Id { get; set; }
+
+    public string Name { get; set; }
 
     /// <summary>
     /// The villager holding the item
@@ -30,19 +34,14 @@ namespace Village123.Shared.Entities
     [JsonIgnore]
     public ItemData.Item Data { get; private set; }
 
-    [JsonProperty]
-    public int StorableId => Id;
-    [JsonIgnore]
-    public string Name => Data.Name;
-    [JsonIgnore]
-    public string Type => this.GetType().Name;
-
     public Item() { }
 
     public Item(ItemData.Item data, Texture2D texture, Point point)
     {
       Texture = texture;
       Point = point;
+
+      Name = Path.GetFileName(Texture.Name);
 
       SetData(data);
     }
@@ -59,12 +58,12 @@ namespace Village123.Shared.Entities
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      if (!VillagerId.HasValue && !StorageId.HasValue)
+      if (VillagerId.HasValue || StorageId.HasValue)
       {
         return;
       }
 
-      spriteBatch.Draw(Texture, Position, Color.White);
+      spriteBatch.Draw(Texture, Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.1f);
     }
   }
 }

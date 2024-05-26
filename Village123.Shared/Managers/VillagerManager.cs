@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Village123.Shared.Data;
 using Village123.Shared.Entities;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Models;
@@ -99,11 +99,11 @@ namespace Village123.Shared.Managers
     }
     #endregion
 
-    public void Update()
+    public void Update(GameTime gameTime)
     {
       foreach (var villager in Villagers)
       {
-        villager.Update();
+        villager.Update(gameTime);
 
         DetermineNextActions(villager);
       }
@@ -115,7 +115,17 @@ namespace Village123.Shared.Managers
           continue;
         }
 
+        foreach (var villager in Villagers)
+        {
+          if (villager.JobIds.Count > 0)
+          {
+            continue;
+          }
 
+          villager.JobIds.Add(job.Id);
+          job.WorkerIds.Add(villager.Id);
+          break;
+        }
       }
     }
 
@@ -141,6 +151,15 @@ namespace Village123.Shared.Managers
           action.Execute(villager, _gwm);
           return;
         }
+      }
+
+      if (villager.JobIds.Count > 0)
+      {
+        var job = JobManager.GetInstance(_gwm).Jobs.FirstOrDefault(a => a.Id == villager.JobIds[0]);
+
+        villager.AddAction(new WalkAction(villager, _gwm, job.Point, false));
+        villager.AddAction(new CraftAction(villager, _gwm, job));
+        return;
       }
 
       villager.AddAction(new IdleAction(villager, _gwm));

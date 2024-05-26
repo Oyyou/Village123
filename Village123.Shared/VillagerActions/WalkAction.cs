@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Village123.Shared.Entities;
 using Village123.Shared.Managers;
 using Village123.Shared.Maps;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -50,7 +49,7 @@ namespace Village123.Shared.VillagerActions
       _map = _gwm.Map;
     }
 
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
       _timer += 1f;
 

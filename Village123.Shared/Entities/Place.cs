@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
-using Village123.Shared.Interfaces;
 using Village123.Shared.Managers;
 
 namespace Village123.Shared.Entities
@@ -34,7 +32,10 @@ namespace Village123.Shared.Entities
     [JsonIgnore]
     public Texture2D Texture { get; set; }
 
-    public List<IStorable> Inventory { get; set; }
+    /// <summary>
+    /// Depending on the place type will depend on what content it can store (items/resources)
+    /// </summary>
+    public List<int> Inventory { get; set; }
 
     public Place() { }
 
@@ -48,9 +49,9 @@ namespace Village123.Shared.Entities
       Name = Path.GetFileName(Texture.Name);
     }
 
-    public void AddToInventory(IStorable storable)
+    public void AddToInventory(int id)
     {
-      Inventory.Add(storable);
+      Inventory.Add(id);
     }
 
     public void SetData(PlaceData.Place data)

@@ -69,7 +69,7 @@
   },
   "woodenChest": {
     "name": "Wooden chest",
-    "type": "storage",
+    "type": "itemStorage",
     "category": "furniture",
     "size": {
       "X": 1,

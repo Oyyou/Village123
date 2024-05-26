@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Village123.Shared.Data;
-using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.Entities
 {
-  public class Resource : IEntity, IStorable
+  public class Resource : IEntity
   {
     public int Id { get; set; }
 

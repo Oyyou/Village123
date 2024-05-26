@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using Village123.Shared.Logging;
 using Village123.Shared.Models;
@@ -51,6 +50,8 @@ namespace Village123.Shared.Entities
     /// </summary>
     public Dictionary<string, Condition> Conditions { get; set; } = new();
 
+    public List<int> JobIds { get; set; } = new();
+
     [JsonIgnore]
     public Villager Father { get; set; }
 
@@ -70,7 +71,7 @@ namespace Village123.Shared.Entities
       ActionQueue.Enqueue(action);
     }
 
-    public void Update()
+    public void Update(GameTime gameTime)
     {
       if (ActionQueue.Count > 0)
       {
@@ -81,7 +82,7 @@ namespace Village123.Shared.Entities
           Logger.WriteLine($"Villager '{FirstName} {LastName}' started {currentAction.Name}");
           currentAction.Started = true;
         }
-        currentAction.Update();
+        currentAction.Update(gameTime);
 
         if (currentAction.IsComplete())
         {

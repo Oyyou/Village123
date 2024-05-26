@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Village123.Shared.Entities;
 using Village123.Shared.Managers;
-using Village123.Shared.Models;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -40,6 +40,6 @@ namespace Village123.Shared.VillagerActions
 
     public abstract void Start();
 
-    public abstract void Update();
+    public abstract void Update(GameTime gameTime);
   }
 }

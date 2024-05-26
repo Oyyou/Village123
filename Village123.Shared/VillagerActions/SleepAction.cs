@@ -1,4 +1,5 @@
-﻿using Village123.Shared.Entities;
+﻿using Microsoft.Xna.Framework;
+using Village123.Shared.Entities;
 using Village123.Shared.Managers;
 
 namespace Village123.Shared.VillagerActions
@@ -23,7 +24,7 @@ namespace Village123.Shared.VillagerActions
     {
     }
 
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
 
     }

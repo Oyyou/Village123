@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
+using Village123.Shared.Models;
 
 namespace Village123.Shared.Managers
 {
@@ -55,10 +56,29 @@ namespace Village123.Shared.Managers
       foreach (var item in manager.Items)
       {
         item.SetData(gwm.ItemData.Items[item.Name]);
+        item.Texture = gwm.GameModel.Content.Load<Texture2D>($"Items/{item.Name}");
       }
 
       return manager;
     }
     #endregion
+
+    public void AddCraftedItem(ProducedItemModel item)
+    {
+      var name = item.ItemName;
+
+      var data = _gwm.ItemData.Items[name];
+      var texture = _gwm.GameModel.Content.Load<Texture2D>($"Items/{name}");
+
+      Items.Add(new Item(data, texture, new Microsoft.Xna.Framework.Point(4, 3)));
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+      foreach (var item in Items)
+      {
+        item.Draw(spriteBatch);
+      }
+    }
   }
 }

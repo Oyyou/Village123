@@ -14,6 +14,7 @@ namespace Village123.Shared.Entities
     public Point Point { get; set; }
     public List<int> WorkerIds { get; set; } = new();
     public int MaxWorkers { get; set; } = 1;
+    public int Progress {  get; set; } = 0;
     // public List<string> RequiredEquipment { get; set; } = new();
   }
 }

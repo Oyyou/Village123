@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using Village123.Shared.Data;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
-using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Managers
 {
@@ -62,6 +61,7 @@ namespace Village123.Shared.Managers
       VillagerManager.GetInstance(this).Save();
       PlaceManager.GetInstance(this).Save();
       JobManager.GetInstance(this).Save();
+      ItemManager.GetInstance(this).Save();
     }
 
     public void Update(GameTime gameTime)
@@ -74,7 +74,7 @@ namespace Village123.Shared.Managers
       GUIManager.Update(gameTime);
 
       PlaceManager.GetInstance(this).Update(gameTime);
-      VillagerManager.GetInstance(this).Update();
+      VillagerManager.GetInstance(this).Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -82,6 +82,7 @@ namespace Village123.Shared.Managers
       spriteBatch.Begin();
       PlaceManager.GetInstance(this).Draw(spriteBatch);
       VillagerManager.GetInstance(this).Draw(spriteBatch);
+      ItemManager.GetInstance(this).Draw(spriteBatch);
       spriteBatch.End();
 
       GUIManager.Draw(spriteBatch);

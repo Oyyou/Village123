@@ -77,5 +77,13 @@ namespace Village123.Shared.Managers
 
       return job;
     }
+
+    public void CompleteJob(Villager villager, Job job)
+    {
+      Jobs.Remove(job);
+      villager.JobIds.RemoveAt(0);
+
+      ItemManager.GetInstance(_gwm).AddCraftedItem(job.ProducedItem);
+    }
   }
 }
