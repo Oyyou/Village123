@@ -1,25 +1,32 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.Managers
 {
-  public class ItemManager
+  public class ResourceManager
   {
-    private static ItemManager _instance;
+    private static ResourceManager _instance;
     private static readonly object _lock = new();
 
-    private const string fileName = "items.json";
+    private const string fileName = "villagers.json";
 
     private GameWorldManager _gwm;
 
-    public List<Item> Items { get; private set; } = new();
+    public List<Resource> Resources { get; private set; } = new();
 
-    private ItemManager() { }
+    public ResourceManager()
+    {
 
-    public static ItemManager GetInstance(GameWorldManager gwm)
+    }
+
+    public static ResourceManager GetInstance(GameWorldManager gwm)
     {
       lock (_lock)
       {
@@ -40,21 +47,21 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    private static ItemManager Load(GameWorldManager gwm)
+    private static ResourceManager Load(GameWorldManager gwm)
     {
-      var manager = new ItemManager();
+      var manager = new ResourceManager();
 
       if (File.Exists(fileName))
       {
         var jsonString = File.ReadAllText(fileName);
-        manager = JsonConvert.DeserializeObject<ItemManager>(jsonString)!;
+        manager = JsonConvert.DeserializeObject<ResourceManager>(jsonString)!;
       }
 
       manager._gwm = gwm;
 
-      foreach (var item in manager.Items)
+      foreach (var resource in manager.Resources)
       {
-        item.SetData(gwm.ItemData.Items[item.Name]);
+        resource.SetData(gwm.ResourceData.Resources[resource.Name]);
       }
 
       return manager;

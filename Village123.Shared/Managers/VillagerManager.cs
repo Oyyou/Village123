@@ -107,6 +107,16 @@ namespace Village123.Shared.Managers
 
         DetermineNextActions(villager);
       }
+
+      foreach (var job in JobManager.GetInstance(_gwm).Jobs)
+      {
+        if (job.WorkerIds.Count == job.MaxWorkers)
+        {
+          continue;
+        }
+
+
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)

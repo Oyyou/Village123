@@ -30,7 +30,7 @@ namespace Village123.Shared.Data
       /// Once built, does it block the path
       /// </summary>
       [JsonProperty("blocksPath")]
-      public bool BlocksPath { get; set; }
+      public bool BlocksPath { get; set; } = false;
 
       /// <summary>
       /// If it's a blocking object, these points will be walkable

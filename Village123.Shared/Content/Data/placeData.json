@@ -66,5 +66,17 @@
     "buildResourceTypes": {
       "stone": 1
     }
+  },
+  "woodenChest": {
+    "name": "Wooden chest",
+    "type": "storage",
+    "category": "furniture",
+    "size": {
+      "X": 1,
+      "Y": 1
+    },
+    "buildResourceTypes": {
+      "wood": 4
+    }
   }
 }

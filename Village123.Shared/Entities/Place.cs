@@ -6,14 +6,13 @@ using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
+using Village123.Shared.Interfaces;
 using Village123.Shared.Managers;
 
 namespace Village123.Shared.Entities
 {
   public class Place : IEntity
   {
-    private bool _hasLeftClicked = false;
-
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     private float _destroyTimer = 0f;
 
@@ -35,6 +34,8 @@ namespace Village123.Shared.Entities
     [JsonIgnore]
     public Texture2D Texture { get; set; }
 
+    public List<IStorable> Inventory { get; set; }
+
     public Place() { }
 
     public Place(PlaceData.Place data, Texture2D texture, Point point)
@@ -45,6 +46,11 @@ namespace Village123.Shared.Entities
       Point = point;
 
       Name = Path.GetFileName(Texture.Name);
+    }
+
+    public void AddToInventory(IStorable storable)
+    {
+      Inventory.Add(storable);
     }
 
     public void SetData(PlaceData.Place data)
@@ -64,8 +70,6 @@ namespace Village123.Shared.Entities
 
     public void Update(GameWorldManager gwm, GameTime gameTime)
     {
-      _hasLeftClicked = false;
-
       ClickableComponent.Update(gameTime);
 
       if (ClickableComponent.IsMouseClicked)

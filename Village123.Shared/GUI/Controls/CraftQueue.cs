@@ -57,8 +57,7 @@ namespace Village123.Shared.GUI.Controls
 
     protected override void OnAddChild(Control control)
     {
-      
-      for(int i = 0; i < Children.Count; i++)
+      for (int i = 0; i < Children.Count; i++)
       {
         var child = Children[i];
         child.Position = new Vector2(2 + ((child.Width + 2) * i), 2);

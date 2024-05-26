@@ -42,23 +42,23 @@ namespace Village123.Shared.Managers
 
     private static PlaceManager Load(GameWorldManager gwm)
     {
-      var placeManager = new PlaceManager();
+      var manager = new PlaceManager();
 
       if (File.Exists(fileName))
       {
         var jsonString = File.ReadAllText(fileName);
-        placeManager = JsonConvert.DeserializeObject<PlaceManager>(jsonString)!;
+        manager = JsonConvert.DeserializeObject<PlaceManager>(jsonString)!;
       }
 
-      placeManager._gwm = gwm;
+      manager._gwm = gwm;
 
-      foreach (var place in placeManager.Places)
+      foreach (var place in manager.Places)
       {
         place.SetData(gwm.PlaceData.Places[place.Name]);
         place.Texture = gwm.GameModel.Content.Load<Texture2D>($"Places/{place.Name}");
       }
 
-      return placeManager;
+      return manager;
     }
     #endregion
 
