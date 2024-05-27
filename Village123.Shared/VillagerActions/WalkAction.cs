@@ -39,7 +39,7 @@ namespace Village123.Shared.VillagerActions
       var pf = new Pathfinder(_map);
       _path = StandOnDestination ?
         pf.GetPath(_villager.Point, Destination) :
-        pf.GetPathNextTo(_villager.Point, Destination, true, true);
+        pf.GetPathNextTo(_villager.Point, Destination, false, true);
 
       _conditionManager.SetRate("Energy", -0.15f);
     }

@@ -10,6 +10,7 @@ namespace Village123.Shared.Maps
     private Dictionary<Point, KeyValuePair<float, Func<bool>>> _waitingPoints = new Dictionary<Point, KeyValuePair<float, Func<bool>>>();
 
     public float[,] Data { get; private set; }
+    public int[,] EntityData { get; private set; }
 
     public int Width => Data.GetLength(1);
 
@@ -23,6 +24,7 @@ namespace Village123.Shared.Maps
     public Map(List<char[]> data)
     {
       Data = new float[data.Count, data[0].Length];
+      EntityData = new int[data.Count, data[0].Length];
 
       for (int y = 0; y < Height; y++)
       {
@@ -36,6 +38,7 @@ namespace Village123.Shared.Maps
     public Map(int width, int height)
     {
       Data = new float[height, width];
+      EntityData = new int[height, width];
 
       for (int y = 0; y < Height; y++)
       {
@@ -69,6 +72,11 @@ namespace Village123.Shared.Maps
     //    }
     //  }
     //}
+
+    public void Add(Point position, Point size, bool isEntity)
+    {
+
+    }
 
     public void Update()
     {
