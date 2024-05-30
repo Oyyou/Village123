@@ -87,6 +87,11 @@ namespace Village123.Shared.Maps
       var neighbours = GetNeighbours(end, includeCorners);
       var results = neighbours.Select(c => GetPath(start, c));
 
+      if (neighbours.Contains(start))
+      {
+        return new List<Point>();
+      }
+
       if (results.Count() == 0)
         return new List<Point>();
 

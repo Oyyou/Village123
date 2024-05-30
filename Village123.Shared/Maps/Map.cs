@@ -21,20 +21,6 @@ namespace Village123.Shared.Maps
       Data = data;
     }
 
-    public Map(List<char[]> data)
-    {
-      Data = new float[data.Count, data[0].Length];
-      EntityData = new int[data.Count, data[0].Length];
-
-      for (int y = 0; y < Height; y++)
-      {
-        for (int x = 0; x < Width; x++)
-        {
-          Data[y, x] = data[y][x];
-        }
-      }
-    }
-
     public Map(int width, int height)
     {
       Data = new float[height, width];
@@ -45,6 +31,7 @@ namespace Village123.Shared.Maps
         for (int x = 0; x < Width; x++)
         {
           Data[y, x] = 0;
+          EntityData[y, x] = 0;
         }
       }
     }
@@ -73,9 +60,20 @@ namespace Village123.Shared.Maps
     //  }
     //}
 
-    public void Add(Point position, Point size, bool isEntity)
+    public void Add(Point position, Point size)
     {
+      var bottom = position.Y + size.Y;
+      var right = position.X + size.X;
 
+      for (int y = position.Y; y < bottom; y++)
+      {
+        for (int x = position.X; x < right; x++)
+        {
+          EntityData[y, x] = 1;
+        }
+      }
+
+      WriteMap(EntityData);
     }
 
     public void Update()
@@ -168,7 +166,7 @@ namespace Village123.Shared.Maps
       return true;
     }
 
-    public void WriteMap()
+    public void WriteMap<T>(T[,] map)
     {
       Console.Clear();
 
@@ -176,7 +174,7 @@ namespace Village123.Shared.Maps
       {
         for (int x = 0; x < Width; x++)
         {
-          Console.Write(Data[y, x]);
+          Console.Write(map[y, x]);
         }
         Console.WriteLine();
       }
@@ -185,6 +183,12 @@ namespace Village123.Shared.Maps
     public bool IsPassable(int x, int y)
     {
       return Data[y, x] < 1;
+    }
+
+    public bool CanAddPlace(Point point)
+    {
+      return EntityData[point.Y, point.X] < 1;
+
     }
 
     public bool IsPassable(Point point)

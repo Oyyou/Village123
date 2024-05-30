@@ -40,10 +40,10 @@ namespace Village123.Shared.VillagerActions
     {
       _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-      if (_timer >= 0.025f)
+      if (_timer >= 0.01f)
       {
         _timer = 0;
-        _job.Progress++;
+        _job.Progress += 5;
       }
     }
 

@@ -43,14 +43,11 @@ namespace Village123.Shared.Managers
       GUIManager = new GUIManager(this);
 
       //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
-      //v1.AddAction(new WalkAction(v1, this, new Point(2, 2), true));
 
       //var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
       //bed.AddOwner(v1);
 
-      //var anvil = PlaceManager.GetInstance(this).Add("anvil", new Point(5, 3));
-
-      //var makeSword = JobManager.GetInstance(this).Add("createBronzeSword", anvil.Point);
+      //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
 
       //Save();
     }

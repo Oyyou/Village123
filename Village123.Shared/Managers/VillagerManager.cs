@@ -103,9 +103,9 @@ namespace Village123.Shared.Managers
     {
       foreach (var villager in Villagers)
       {
-        villager.Update(gameTime);
-
         DetermineNextActions(villager);
+
+        villager.Update(gameTime);
       }
 
       foreach (var job in JobManager.GetInstance(_gwm).Jobs)

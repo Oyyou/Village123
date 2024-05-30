@@ -80,12 +80,14 @@ namespace Village123.Shared.Managers
 
     public Place Add(PlaceData.Place data, Point point)
     {
-      var place = new Place(data, _gwm.GameModel.Content.Load<Texture2D>($"Places/{data.Name}"), point)
+      var place = new Place(data, _gwm.GameModel.Content.Load<Texture2D>($"Places/{data.Key}"), point)
       {
         Id = _gwm.IdManager.PlaceId++,
       };
 
       Places.Add(place);
+
+      _gwm.Map.Add(point, place.Data.Size);
 
       return place;
     }
