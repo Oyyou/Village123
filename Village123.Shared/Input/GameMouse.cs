@@ -13,6 +13,8 @@ namespace Village123.Shared.Input
     private static MouseState _currentMouse;
     private static MouseState _previouseMouse;
 
+    public static bool ClickEnabled { get; set; } = true;
+
     #region IClickable related
     /// <summary>
     /// These are objects the mouse is currently hovering over
@@ -26,6 +28,8 @@ namespace Village123.Shared.Input
     {
       get
       {
+        if (!ClickEnabled) return null;
+
         return ClickableComponents
           .Where(c => c.IsClickable())
           .OrderBy(c => c.ClickLayer()).LastOrDefault();
@@ -101,6 +105,17 @@ namespace Village123.Shared.Input
       }
     }
 
+    public static Point MapPoint
+    {
+      get
+      {
+        return new Point(
+          (int)Math.Floor((double)Position.X / BaseGame.TileSize),
+          (int)Math.Floor((double)Position.Y / BaseGame.TileSize)
+        );
+      }
+    }
+
     public static Vector2 GetPositionWithViewport(Vector2 viewportPosition)
     {
       return Position.ToVector2() - viewportPosition;
@@ -108,30 +123,30 @@ namespace Village123.Shared.Input
 
     public static Point PositionWithCamera(Matrix _camera)
     {
-        if (_camera == Matrix.Identity)
-          return Position;
+      if (_camera == Matrix.Identity)
+        return Position;
 
-        Vector3 scale;
-        _camera.Decompose(out scale, out _, out _);
+      Vector3 scale;
+      _camera.Decompose(out scale, out _, out _);
 
-        var translation = _camera.Translation;
+      var translation = _camera.Translation;
 
-        var scaleX = 1f / scale.X;
-        var scaleY = 1f / scale.Y;
+      var scaleX = 1f / scale.X;
+      var scaleY = 1f / scale.Y;
 
-        var x = (int)((Position.X - translation.X) * scaleX);
-        var y = (int)((Position.Y - translation.Y) * scaleY);
+      var x = (int)((Position.X - translation.X) * scaleX);
+      var y = (int)((Position.Y - translation.Y) * scaleY);
 
-        return Vector2.Transform(new Vector2(X, Y), Matrix.Invert(_camera)).ToPoint();
+      return Vector2.Transform(new Vector2(X, Y), Matrix.Invert(_camera)).ToPoint();
 
-        return new Point(x, y);
+      return new Point(x, y);
     }
 
     public static Rectangle RectangleWithCamera(Matrix camera)
     {
-        var x = (int)PositionWithCamera(camera).X;
-        var y = (int)PositionWithCamera(camera).Y;
-        return new Rectangle(x, y, 1, 1);
+      var x = (int)PositionWithCamera(camera).X;
+      var y = (int)PositionWithCamera(camera).Y;
+      return new Rectangle(x, y, 1, 1);
     }
 
     public static Rectangle Rectangle

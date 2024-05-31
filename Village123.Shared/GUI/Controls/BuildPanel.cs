@@ -32,6 +32,19 @@ namespace Village123.Shared.GUI.Controls
           Layer = 0.8f,
         }
       ).ToList();
+
+      _buttons.Add(new Button(
+        font,
+        texture,
+        "Build Anvil",
+        _buttons.Last().Position + new Vector2(buttonWidth, 0)
+      )
+      {
+        OnClicked = () =>
+        {
+          _gwm.BuildManager.Build(_gwm.PlaceData.Places["anvil"]);
+        }
+      });
     }
 
     public void Update(GameTime gameTime)

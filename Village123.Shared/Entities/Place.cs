@@ -37,6 +37,9 @@ namespace Village123.Shared.Entities
     /// </summary>
     public List<int> Inventory { get; set; }
 
+    public Color Colour { get; set; } = Color.White;
+    public float Opacity { get; set; } = 1f;
+
     public Place() { }
 
     public Place(PlaceData.Place data, Texture2D texture, Point point)
@@ -81,7 +84,7 @@ namespace Village123.Shared.Entities
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(Texture, Position, Color.White);
+      spriteBatch.Draw(Texture, Position, Colour * Opacity);
     }
 
     public void AddOwner(Villager villager)

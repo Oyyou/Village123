@@ -72,8 +72,6 @@ namespace Village123.Shared.Maps
           EntityData[y, x] = 1;
         }
       }
-
-      WriteMap(EntityData);
     }
 
     public void Update()
@@ -187,6 +185,10 @@ namespace Village123.Shared.Maps
 
     public bool CanAddPlace(Point point)
     {
+      if (!FitsOnMap(point, new Point(1, 1)))
+      {
+        return false;
+      }
       return EntityData[point.Y, point.X] < 1;
 
     }

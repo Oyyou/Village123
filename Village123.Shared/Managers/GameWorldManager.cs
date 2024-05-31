@@ -2,11 +2,18 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Village123.Shared.Data;
+using Village123.Shared.Input;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
 
 namespace Village123.Shared.Managers
 {
+  public enum GameStates
+  {
+    Playing,
+    Building,
+  }
+
   public class GameWorldManager
   {
     public readonly GameModel GameModel;
@@ -23,6 +30,9 @@ namespace Village123.Shared.Managers
     public readonly IdManager IdManager;
 
     public readonly GUIManager GUIManager;
+    public readonly BuildManager BuildManager;
+
+    public GameStates State = GameStates.Playing;
 
     public GameWorldManager(GameModel gameModel)
     {
@@ -41,15 +51,16 @@ namespace Village123.Shared.Managers
 
       IdManager = IdManager.Load();
       GUIManager = new GUIManager(this);
+      BuildManager = new BuildManager(this);
 
-      //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
+      var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
 
-      //var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
-      //bed.AddOwner(v1);
+      var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
+      bed.AddOwner(v1);
 
-      //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
+      var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
 
-      //Save();
+      // Save();
     }
 
     public void Save()
@@ -63,12 +74,14 @@ namespace Village123.Shared.Managers
 
     public void Update(GameTime gameTime)
     {
+      GameMouse.ClickEnabled = State == GameStates.Playing;
       if (Keyboard.GetState().IsKeyDown(Keys.Space))
       {
         this.Save();
       }
 
       GUIManager.Update(gameTime);
+      BuildManager.Update(gameTime);
 
       PlaceManager.GetInstance(this).Update(gameTime);
       VillagerManager.GetInstance(this).Update(gameTime);
@@ -81,6 +94,8 @@ namespace Village123.Shared.Managers
       VillagerManager.GetInstance(this).Draw(spriteBatch);
       ItemManager.GetInstance(this).Draw(spriteBatch);
       spriteBatch.End();
+
+      BuildManager.Draw(spriteBatch);
 
       GUIManager.Draw(spriteBatch);
     }
