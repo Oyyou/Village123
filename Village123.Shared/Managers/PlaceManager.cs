@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
 
@@ -103,5 +104,7 @@ namespace Village123.Shared.Managers
       place.CancelDestruction();
       // TODO: Remove destruction job
     }
+
+    public IEnumerable<Place> GetPlacesByType(string type) => Places.Where(p => p.Data.Type == type);
   }
 }

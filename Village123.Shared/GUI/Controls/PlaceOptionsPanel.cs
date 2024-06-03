@@ -66,7 +66,8 @@ namespace Village123.Shared.GUI.Controls
         AddChild(new Label(font, place.Data.Name, new Vector2(10, 10)) { IsVisible = true });
 
         var placeCategory = _gwm.PlaceCategoryData.Categories[place.Data.Category];
-        if (!string.IsNullOrEmpty(placeCategory.ButtonLabel))
+        // TODO: Find a better way to determine what windows are opened by the buttons
+        if (placeCategory.ButtonLabel == "Craft")
         {
           AddChild(new Button(font, texture, placeCategory.ButtonLabel, new Vector2(10, 30))
           {
@@ -75,6 +76,18 @@ namespace Village123.Shared.GUI.Controls
             {
               _closing = true;
               _gwm.GUIManager.HandleCraftClicked(place);
+            }
+          });
+        }
+        if (placeCategory.ButtonLabel == "Manage")
+        {
+          AddChild(new Button(font, texture, placeCategory.ButtonLabel, new Vector2(10, 30))
+          {
+            IsVisible = false,
+            OnClicked = () =>
+            {
+              _closing = true;
+              _gwm.GUIManager.HandleManageStorageClicked(place);
             }
           });
         }

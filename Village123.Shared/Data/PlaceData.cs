@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,6 +12,9 @@ namespace Village123.Shared.Data
 
     public class Place
     {
+      private const int MaxRadius = 10;
+      private int _radius = 0;
+
       [JsonProperty("key")]
       public string Key { get; set; }
 
@@ -22,6 +26,13 @@ namespace Village123.Shared.Data
 
       [JsonProperty("category")]
       public string Category { get; set; }
+
+      [JsonProperty("radius")]
+      public int Radius
+      {
+        get => _radius;
+        set => _radius = Math.Min(value, MaxRadius);
+      }
 
       /// <summary>
       /// The dimensions of the place (used for blocking paths)

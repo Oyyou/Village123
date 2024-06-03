@@ -36,6 +36,19 @@ namespace Village123.Shared.GUI.Controls
       _buttons.Add(new Button(
         font,
         texture,
+        "Build Wooden Chest",
+        _buttons.Last().Position + new Vector2(buttonWidth, 0)
+      )
+      {
+        OnClicked = () =>
+        {
+          _gwm.BuildManager.Build(_gwm.PlaceData.Places["woodenChest"]);
+        }
+      });
+
+      _buttons.Add(new Button(
+        font,
+        texture,
         "Build Anvil",
         _buttons.Last().Position + new Vector2(buttonWidth, 0)
       )

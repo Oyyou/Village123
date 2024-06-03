@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls;
+using Village123.Shared.GUI.Controls.Bases;
+using Village123.Shared.GUI.Controls.Windows;
 
 namespace Village123.Shared.Managers
 {
@@ -10,7 +12,7 @@ namespace Village123.Shared.Managers
     private readonly GameWorldManager _gwm;
 
     private readonly BuildPanel _buildPanel;
-    private CraftingWindow _craftingWindow;
+    private Window _window;
     private PlaceOptionsPanel _placeOptionsPanel;
 
     public GUIManager(GameWorldManager gwm)
@@ -27,20 +29,20 @@ namespace Village123.Shared.Managers
         _placeOptionsPanel = null;
       }
 
-      if (_craftingWindow != null && !_craftingWindow.IsOpen)
+      if (_window != null && !_window.IsOpen)
       {
-        _craftingWindow = null;
+        _window = null;
       }
 
       _buildPanel.Update(gameTime);
-      _craftingWindow?.Update(gameTime);
+      _window?.Update(gameTime);
       _placeOptionsPanel?.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
       _buildPanel.Draw(spriteBatch);
-      _craftingWindow?.Draw(spriteBatch);
+      _window?.Draw(spriteBatch);
       _placeOptionsPanel?.Draw(spriteBatch);
     }
 
@@ -51,7 +53,7 @@ namespace Village123.Shared.Managers
 
     public void HandleCraftClicked(Place place)
     {
-      _craftingWindow = new CraftingWindow(
+      _window = new CraftingWindow(
         _gwm,
         place,
         new Vector2(100, 100),
@@ -60,8 +62,18 @@ namespace Village123.Shared.Managers
         (item) =>
         {
           JobManager.GetInstance(_gwm).Add(place, item);
-          // _craftingWindow.IsOpen = false;
         }
+      );
+    }
+
+    public void HandleManageStorageClicked(Place place)
+    {
+      _window = new ManageStorageWindow(
+        _gwm,
+        place,
+        new Vector2(100, 100),
+        BaseGame.ScreenWidth - 200,
+        BaseGame.ScreenHeight - 200
       );
     }
   }

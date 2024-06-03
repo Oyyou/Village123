@@ -40,6 +40,8 @@ namespace Village123.Shared.Entities
     public Color Colour { get; set; } = Color.White;
     public float Opacity { get; set; } = 1f;
 
+    public List<Point> RadiusPoints = new();
+
     public Place() { }
 
     public Place(PlaceData.Place data, Texture2D texture, Point point)

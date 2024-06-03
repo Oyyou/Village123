@@ -6,6 +6,10 @@
   "furniture": {
     "name": "Furniture"
   },
+  "storage": {
+    "name": "Storage",
+    "buttonLabel": "Manage"
+  },
   "path": {
     "name": "Path"
   }
