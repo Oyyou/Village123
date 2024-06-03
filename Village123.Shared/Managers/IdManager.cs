@@ -7,9 +7,9 @@ namespace Village123.Shared.Managers
   {
     private const string fileName = "ids.json";
 
-    public int VillagerId { get; set; }
-    public int PlaceId { get; set; }
-    public int JobId { get; set; }
+    public int VillagerId { get; set; } = 1;
+    public int PlaceId { get; set; } = 1;
+    public int JobId { get; set; } = 1;
 
     public void Save()
     {

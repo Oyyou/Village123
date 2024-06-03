@@ -19,6 +19,7 @@ namespace Village123.Shared.Entities
 
     public int Id { get; set; }
     public List<int> OwnerIds { get; set; } = new();
+    public string Key { get; set; }
     public string Name { get; set; }
     public Point Point { get; set; }
     public bool BeingDestroyed { get; private set; }
@@ -52,6 +53,7 @@ namespace Village123.Shared.Entities
       Point = point;
 
       Name = Path.GetFileName(Texture.Name);
+      Key = data.Key;
     }
 
     public void AddToInventory(int id)

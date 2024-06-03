@@ -9,6 +9,7 @@ namespace Village123.Shared.GUI.Controls.Windows
 {
   internal class ManageStorageWindow : Window
   {
+    private string selectedTag = "all";
     public ManageStorageWindow(GameWorldManager gwm, Place place, Vector2 position, int width, int height)
       : base(gwm, position, width, height, "Manage storage")
     {
@@ -42,20 +43,52 @@ namespace Village123.Shared.GUI.Controls.Windows
         .GetPlacesByType("workstation")
         .Where(p => place.RadiusPoints.Contains(p.Point));
 
-      itemList.AddChild(new Button(_font, buttonTexture, "All")
+      itemList.AddChild(new Button(_font, buttonTexture, "--All--")
       {
-
+        OnClicked = () =>
+        {
+          selectedTag = "all";
+        }
       });
 
       foreach (var p in places)
       {
         itemList.AddChild(new Button(_font, buttonTexture, p.Name)
         {
-
-        });
+          OnClicked = () =>
+          {
+            selectedTag = p.Name;
+          },
+          IsSelected = () =>
+          {
+            return p.Name == selectedTag || selectedTag == "all";
+          }
+        }, p.Name);
       }
+      AddChild(new Button(_font, buttonTexture, "Apply", new Vector2(sidePadding + ((itemList.Width - buttonWidth) / 2), (70 + itemList.Height) + 10))
+      {
+        OnClicked = () =>
+        {
+
+        }
+      });
 
       IsOpen = true;
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+      ClickableComponent.Update(gameTime);
+
+      foreach (var child in Children)
+      {
+        child.Update(gameTime);
+      }
+
+      foreach (var itemList in _itemLists)
+      {
+        itemList.Update(gameTime);
+      }
     }
   }
 }

@@ -63,7 +63,7 @@ namespace Village123.Shared.GUI.Controls
       }
       else
       {
-        AddChild(new Label(font, place.Data.Name, new Vector2(10, 10)) { IsVisible = true });
+        AddChild(new Label(font, place.Name, new Vector2(10, 10)) { IsVisible = true });
 
         var placeCategory = _gwm.PlaceCategoryData.Categories[place.Data.Category];
         // TODO: Find a better way to determine what windows are opened by the buttons

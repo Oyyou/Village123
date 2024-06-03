@@ -18,7 +18,7 @@ namespace Village123.Shared.VillagerActions.DetermineActions
 
     public void Execute(Villager villager, GameWorldManager gwm)
     {
-      var beds = PlaceManager.GetInstance(gwm).Places.Where(p => p.Name.Contains("Bed"));
+      var beds = PlaceManager.GetInstance(gwm).Places.Where(p => p.Name.Contains("bed"));
       var villagerBed = beds.FirstOrDefault(b => b.OwnerIds.Contains(villager.Id));
 
       if (villagerBed == null)

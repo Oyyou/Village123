@@ -55,8 +55,8 @@ namespace Village123.Shared.Managers
 
       foreach (var place in manager.Places)
       {
-        place.SetData(gwm.PlaceData.Places[place.Name]);
-        place.Texture = gwm.GameModel.Content.Load<Texture2D>($"Places/{place.Name}");
+        place.SetData(gwm.PlaceData.Places[place.Key]);
+        place.Texture = gwm.GameModel.Content.Load<Texture2D>($"Places/{place.Key}");
       }
 
       return manager;
@@ -81,9 +81,11 @@ namespace Village123.Shared.Managers
 
     public Place Add(PlaceData.Place data, Point point)
     {
+      var id = _gwm.IdManager.PlaceId++;
       var place = new Place(data, _gwm.GameModel.Content.Load<Texture2D>($"Places/{data.Key}"), point)
       {
-        Id = _gwm.IdManager.PlaceId++,
+        Id = id,
+        Name = $"{data.Name} {id}",
       };
 
       Places.Add(place);

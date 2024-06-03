@@ -84,7 +84,7 @@ namespace Village123.Shared.GUI.Controls
         Texture,
         DrawPosition,
         null,
-        IsSelected() ? SelectedBackgroundColor : (ClickableComponent.IsMouseOver ? HoverBackgroundColor : BackgroundColor),
+        ClickableComponent.IsMouseOver ? HoverBackgroundColor : (IsSelected() ? SelectedBackgroundColor : BackgroundColor),
         0f,
         new Vector2(0, 0),
         1f,
