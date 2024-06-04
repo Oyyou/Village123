@@ -27,7 +27,7 @@ namespace Village123.Shared.GUI.Controls.Windows
 
       AddChild(new Label(_font, "Accept items from...", new Vector2(sidePadding, 40)));
       var itemListStartPosition = new Vector2(sidePadding, 70);
-      var itemList = new ItemList(
+      var availablePlacesList = new ItemList(
         new Rectangle(
           (int)Position.X + sidePadding,
           (int)Position.Y + 70,
@@ -35,13 +35,13 @@ namespace Village123.Shared.GUI.Controls.Windows
           300
         )
       );
-      _itemLists.Add(itemList);
+      _itemLists.Add(availablePlacesList);
 
       var places = BaseGame.GWM.PlaceManager
         .GetPlacesByType("workstation")
         .Where(p => place.RadiusPoints.Contains(p.Point));
 
-      itemList.AddChild(new Button(_font, buttonTexture, "--All--")
+      availablePlacesList.AddChild(new Button(_font, buttonTexture, "--All--")
       {
         OnClicked = () =>
         {
@@ -51,7 +51,7 @@ namespace Village123.Shared.GUI.Controls.Windows
 
       foreach (var p in places)
       {
-        itemList.AddChild(new Button(_font, buttonTexture, p.Name)
+        availablePlacesList.AddChild(new Button(_font, buttonTexture, p.Name)
         {
           OnClicked = () =>
           {
@@ -63,13 +63,38 @@ namespace Village123.Shared.GUI.Controls.Windows
           }
         }, p.Name);
       }
-      AddChild(new Button(_font, buttonTexture, "Apply", new Vector2(sidePadding + ((itemList.Width - buttonWidth) / 2), (70 + itemList.Height) + 10))
+      AddChild(new Button(_font, buttonTexture, "Apply", new Vector2(sidePadding + ((availablePlacesList.Width - buttonWidth) / 2), (70 + availablePlacesList.Height) + 10))
       {
         OnClicked = () =>
         {
 
         }
       });
+
+      var inventoryList = new ItemList(
+        new Rectangle(
+          (int)Position.X + sidePadding + availablePlacesList.Width + sidePadding,
+          (int)Position.Y + 70,
+          720,
+          300
+        )
+      );
+      _itemLists.Add(inventoryList);
+
+      var itemButtonTexture = TextureHelpers.CreateBorderedTexture(
+        BaseGame.GWM.GameModel.GraphicsDevice,
+        64,
+        64,
+        Color.White,
+        Color.Black,
+        1
+      );
+
+      var items = BaseGame.GWM.ItemManager.Items.Where(i => i.StorageId == place.Id);
+      foreach(var item in items)
+      {
+        inventoryList.AddChild(new Button(itemButtonTexture));
+      }
 
       IsOpen = true;
     }

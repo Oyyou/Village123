@@ -26,6 +26,12 @@ namespace Village123.Shared.GUI.Controls
 
     public override int Height => Texture != null ? Texture.Height : 0;
 
+    public Button(Texture2D texture)
+      : base()
+    {
+      Texture = texture;
+    }
+
     public Button(Texture2D texture, Vector2 position)
       : base()
     {

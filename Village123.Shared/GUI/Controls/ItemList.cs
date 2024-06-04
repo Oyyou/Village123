@@ -10,6 +10,7 @@ namespace Village123.Shared.GUI.Controls
   {
     public readonly Rectangle Viewport;
     private readonly Texture2D _backgroundTexture;
+    private readonly Texture2D _forgroundTexture;
 
     private readonly ScrollBar _scrollBar;
 
@@ -31,6 +32,15 @@ namespace Village123.Shared.GUI.Controls
         Viewport.Width,
         Viewport.Height,
         Color.White,
+        Color.Black,
+        1
+      );
+
+      _forgroundTexture = TextureHelpers.CreateBorderedTexture(
+        BaseGame.GWM.GameModel.GraphicsDevice,
+        Viewport.Width,
+        Viewport.Height,
+        new Color(0, 0, 0, 0),
         Color.Black,
         1
       );
@@ -77,9 +87,7 @@ namespace Village123.Shared.GUI.Controls
 
       BaseGame.GWM.GameModel.GraphicsDevice.Viewport = new Viewport(Viewport);
 
-      spriteBatch.Begin(
-        SpriteSortMode.FrontToBack
-      );
+      spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
 
       spriteBatch.Draw(_backgroundTexture, new Vector2(0, 0), Color.Red);
       _scrollBar.Draw(spriteBatch);
@@ -102,6 +110,11 @@ namespace Village123.Shared.GUI.Controls
         child.Draw(spriteBatch);
       }
 
+      spriteBatch.End();
+
+      // Draws a boarder on top layer to ensure children are below
+      spriteBatch.Begin();
+      spriteBatch.Draw(_forgroundTexture, new Vector2(0, 0), Color.White);
       spriteBatch.End();
 
       BaseGame.GWM.GameModel.GraphicsDevice.Viewport = originalVp;
