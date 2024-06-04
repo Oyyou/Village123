@@ -10,12 +10,15 @@ namespace Village123.Shared
   {
     protected GraphicsDeviceManager _graphics;
     protected SpriteBatch _spriteBatch;
+    protected GameModel _gameModel;
 
     public const short TileSize = 32;
 
     public static Random Random = new();
     public static int ScreenWidth = 1280;
     public static int ScreenHeight = 720;
+
+    public static GameWorldManager GWM;
 
     public BaseGame()
     {
@@ -29,6 +32,13 @@ namespace Village123.Shared
       _graphics.PreferredBackBufferWidth = BaseGame.ScreenWidth;
       _graphics.PreferredBackBufferHeight = BaseGame.ScreenHeight;
       _graphics.ApplyChanges();
+
+      _gameModel = new GameModel(
+        _graphics,
+        Content,
+        _spriteBatch);
+
+      GWM = new GameWorldManager(_gameModel);
 
       base.Initialize();
     }

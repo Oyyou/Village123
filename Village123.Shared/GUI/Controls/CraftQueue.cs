@@ -34,7 +34,7 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Update(GameTime gameTime)
     {
-      var jobs = JobManager.GetInstance(_gwm).Jobs.Where(j => j.PlaceId == _place.Id);
+      var jobs = JobManager.GetInstance().Jobs.Where(j => j.PlaceId == _place.Id);
       foreach (var job in jobs)
       {
         if (!Children.Any(c => (int)c.Key == job.Id))

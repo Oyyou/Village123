@@ -53,12 +53,12 @@ namespace Village123.Shared.Managers
       GUIManager = new GUIManager(this);
       BuildManager = new BuildManager(this);
 
-      var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
+      //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
 
-      var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
-      bed.AddOwner(v1);
+      //var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
+      //bed.AddOwner(v1);
 
-      var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
+      //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
 
       // Save();
     }
@@ -68,7 +68,7 @@ namespace Village123.Shared.Managers
       IdManager.Save();
       VillagerManager.GetInstance(this).Save();
       PlaceManager.GetInstance(this).Save();
-      JobManager.GetInstance(this).Save();
+      JobManager.GetInstance().Save();
       ItemManager.GetInstance(this).Save();
     }
 
@@ -85,6 +85,7 @@ namespace Village123.Shared.Managers
 
       PlaceManager.GetInstance(this).Update(gameTime);
       VillagerManager.GetInstance(this).Update(gameTime);
+      ItemManager.GetInstance(this).Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)

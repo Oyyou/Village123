@@ -33,7 +33,7 @@ namespace Village123.Shared.VillagerActions
 
     protected override void OnInitialize()
     {
-      _job = JobManager.GetInstance(_gwm).Jobs.FirstOrDefault(j => j.Id == _jobId);
+      _job = JobManager.GetInstance().Jobs.FirstOrDefault(j => j.Id == _jobId);
     }
 
     public override void Update(GameTime gameTime)
@@ -54,7 +54,21 @@ namespace Village123.Shared.VillagerActions
 
     public override void OnComplete()
     {
-      JobManager.GetInstance(_gwm).CompleteJob(_villager, _job);
+      JobManager.GetInstance().CompleteJob(_villager, _job);
+
+      // If the project was async this wouldn't work..
+      var item = ItemManager.GetInstance(_gwm).Items.Last();
+
+      var storage = PlaceManager.GetInstance(_gwm).GetPlacesByType("itemStorage")
+        .FirstOrDefault(); // TODO: Make smart
+
+      if (storage != null)
+      {
+        _villager.AddAction(new WalkAction(_villager, _gwm, item.Point, true));
+        _villager.AddAction(new CarryAction(_villager, _gwm, item.Carriable));
+        _villager.AddAction(new WalkAction(_villager, _gwm, storage.Point, false));
+        _villager.AddAction(new StoreAction(_villager, _gwm, item, storage));
+      }
     }
   }
 }

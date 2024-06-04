@@ -76,7 +76,7 @@ namespace Village123.Shared.Managers
 
       if (spawnPoint != null)
       {
-        Items.Add(new Item(data, texture, spawnPoint.Value));
+        Items.Add(new Item(_gwm.IdManager.ItemId++, data, texture, spawnPoint.Value));
         _gwm.Map.Add(spawnPoint.Value, new Point(1, 1));
       }
       else
@@ -127,6 +127,14 @@ namespace Village123.Shared.Managers
       }
 
       return null; // No available spot found
+    }
+
+    public void Update(GameTime gameTime)
+    {
+      foreach(var item in Items)
+      {
+        item.Update(gameTime);
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)

@@ -108,7 +108,7 @@ namespace Village123.Shared.Managers
         villager.Update(gameTime);
       }
 
-      foreach (var job in JobManager.GetInstance(_gwm).Jobs)
+      foreach (var job in JobManager.GetInstance().Jobs)
       {
         if (job.WorkerIds.Count == job.MaxWorkers)
         {
@@ -155,7 +155,7 @@ namespace Village123.Shared.Managers
 
       if (villager.JobIds.Count > 0)
       {
-        var job = JobManager.GetInstance(_gwm).Jobs.FirstOrDefault(a => a.Id == villager.JobIds[0]);
+        var job = JobManager.GetInstance().Jobs.FirstOrDefault(a => a.Id == villager.JobIds[0]);
 
         villager.AddAction(new WalkAction(villager, _gwm, job.Point, false));
         villager.AddAction(new CraftAction(villager, _gwm, job));
