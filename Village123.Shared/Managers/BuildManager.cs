@@ -12,19 +12,15 @@ namespace Village123.Shared.Managers
 {
   public class BuildManager
   {
-    private GameWorldManager _gwm;
-
     private Place _place;
 
     private readonly Texture2D _radiusTexture;
     private List<Point> _radiusPoints = new();
 
-    public BuildManager(GameWorldManager gwm)
+    public BuildManager()
     {
-      _gwm = gwm;
-
       _radiusTexture = TextureHelpers.CreateBorderedTexture(
-        _gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         BaseGame.TileSize,
         BaseGame.TileSize,
         Color.White,
@@ -36,12 +32,12 @@ namespace Village123.Shared.Managers
     public void Build(PlaceData.Place place)
     {
       // Can't build while building
-      if (_gwm.State == GameStates.Building)
+      if (BaseGame.GWM.State == GameStates.Building)
         return;
 
-      _gwm.State = GameStates.Building;
+      BaseGame.GWM.State = GameStates.Building;
 
-      var texture = _gwm.GameModel.Content.Load<Texture2D>($"Places/{place.Key}");
+      var texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Places/{place.Key}");
 
       _place = new Place(place, texture, Point.Zero)
       {
@@ -51,12 +47,12 @@ namespace Village123.Shared.Managers
 
     public void Update(GameTime gameTime)
     {
-      if (_gwm.State != GameStates.Building)
+      if (BaseGame.GWM.State != GameStates.Building)
         return;
 
       if (GameMouse.IsRightClicked || Keyboard.GetState().IsKeyDown(Keys.Escape))
       {
-        _gwm.State = GameStates.Playing;
+        BaseGame.GWM.State = GameStates.Playing;
         _place = null;
         return;
       }
@@ -66,7 +62,7 @@ namespace Village123.Shared.Managers
 
       CalculateRadiusPoints(_place.Point, _place.Data.Radius);
 
-      if (!_gwm.Map.CanAddPlace(_place.Point))
+      if (!BaseGame.GWM.Map.CanAddPlace(_place.Point))
       {
         _place.Colour = Color.Red;
         return;
@@ -74,9 +70,9 @@ namespace Village123.Shared.Managers
 
       if (GameMouse.IsLeftClicked)
       {
-        var place = PlaceManager.GetInstance(_gwm).Add(_place.Data, _place.Point);
+        var place = BaseGame.GWM.PlaceManager.Add(_place.Data, _place.Point);
         place.RadiusPoints = _radiusPoints.ToList();
-        _gwm.State = GameStates.Playing;
+        BaseGame.GWM.State = GameStates.Playing;
         _place = null;
       }
     }
@@ -101,7 +97,7 @@ namespace Village123.Shared.Managers
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      if (_gwm.State != GameStates.Building)
+      if (BaseGame.GWM.State != GameStates.Building)
         return;
 
       spriteBatch.Begin();

@@ -18,25 +18,34 @@ namespace Village123.Shared.Managers
   {
     public readonly GameModel GameModel;
 
-    public readonly ItemData ItemData;
-    public readonly ItemTypeData ItemTypeData;
-    public readonly PlaceData PlaceData;
-    public readonly PlaceCategoryData PlaceCategoryData;
-    public readonly PlaceTypeData PlaceTypeData;
-    public readonly ResourceData ResourceData;
-    public readonly ResourceModifiersData ResourceModifiersData;
+    public ItemData ItemData { get; set; }
+    public ItemTypeData ItemTypeData { get; set; }
+    public PlaceData PlaceData { get; set; }
+    public PlaceCategoryData PlaceCategoryData { get; set; }
+    public PlaceTypeData PlaceTypeData { get; set; }
+    public ResourceData ResourceData { get; set; }
+    public ResourceModifiersData ResourceModifiersData { get; set; }
 
-    public readonly Map Map;
-    public readonly IdManager IdManager;
+    public Map Map { get; set; }
+    public IdManager IdManager { get; set; }
 
-    public readonly GUIManager GUIManager;
-    public readonly BuildManager BuildManager;
+    public GUIManager GUIManager { get; set; }
+    public BuildManager BuildManager { get; set; }
+
+    public VillagerManager VillagerManager { get; set; }
+    public PlaceManager PlaceManager { get; set; }
+    public JobManager JobManager { get; set; }
+    public ItemManager ItemManager { get; set; }
 
     public GameStates State = GameStates.Playing;
 
     public GameWorldManager(GameModel gameModel)
     {
       GameModel = gameModel;
+    }
+
+    public void Load()
+    {
 
       ItemData = ItemData.Load();
       ItemTypeData = ItemTypeData.Load();
@@ -50,15 +59,20 @@ namespace Village123.Shared.Managers
       Map = new Map(20, 20);
 
       IdManager = IdManager.Load();
-      GUIManager = new GUIManager(this);
-      BuildManager = new BuildManager(this);
+      GUIManager = new GUIManager();
+      BuildManager = new BuildManager();
 
-      var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
+      ItemManager = ItemManager.Load();
+      PlaceManager = PlaceManager.Load();
+      VillagerManager = VillagerManager.Load();
+      JobManager = JobManager.Load();
 
-      var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
-      bed.AddOwner(v1);
+      //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
 
-      var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
+      //var bed = PlaceManager.GetInstance(this).Add(PlaceData.Places["singleBed"], new Point(3, 3));
+      //bed.AddOwner(v1);
+
+      //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
 
       // Save();
     }
@@ -66,10 +80,10 @@ namespace Village123.Shared.Managers
     public void Save()
     {
       IdManager.Save();
-      VillagerManager.GetInstance(this).Save();
-      PlaceManager.GetInstance(this).Save();
-      JobManager.GetInstance(this).Save();
-      ItemManager.GetInstance(this).Save();
+      VillagerManager.Save();
+      PlaceManager.Save();
+      JobManager.Save();
+      ItemManager.Save();
     }
 
     public void Update(GameTime gameTime)
@@ -83,16 +97,17 @@ namespace Village123.Shared.Managers
       GUIManager.Update(gameTime);
       BuildManager.Update(gameTime);
 
-      PlaceManager.GetInstance(this).Update(gameTime);
-      VillagerManager.GetInstance(this).Update(gameTime);
+      BaseGame.GWM.PlaceManager.Update(gameTime);
+      BaseGame.GWM.VillagerManager.Update(gameTime);
+      BaseGame.GWM.ItemManager.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
       spriteBatch.Begin();
-      PlaceManager.GetInstance(this).Draw(spriteBatch);
-      VillagerManager.GetInstance(this).Draw(spriteBatch);
-      ItemManager.GetInstance(this).Draw(spriteBatch);
+      BaseGame.GWM.PlaceManager.Draw(spriteBatch);
+      BaseGame.GWM.VillagerManager.Draw(spriteBatch);
+      BaseGame.GWM.ItemManager.Draw(spriteBatch);
       spriteBatch.End();
 
       BuildManager.Draw(spriteBatch);

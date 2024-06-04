@@ -9,17 +9,14 @@ namespace Village123.Shared.Managers
 {
   public class GUIManager
   {
-    private readonly GameWorldManager _gwm;
 
     private readonly BuildPanel _buildPanel;
     private Window _window;
     private PlaceOptionsPanel _placeOptionsPanel;
 
-    public GUIManager(GameWorldManager gwm)
+    public GUIManager()
     {
-      _gwm = gwm;
-
-      _buildPanel = new BuildPanel(_gwm);
+      _buildPanel = new BuildPanel();
     }
 
     public void Update(GameTime gameTime)
@@ -48,20 +45,19 @@ namespace Village123.Shared.Managers
 
     public void HandlePlaceClicked(Place place)
     {
-      _placeOptionsPanel = new PlaceOptionsPanel(_gwm, place, place.Position);
+      _placeOptionsPanel = new PlaceOptionsPanel(place, place.Position);
     }
 
     public void HandleCraftClicked(Place place)
     {
       _window = new CraftingWindow(
-        _gwm,
         place,
         new Vector2(100, 100),
         BaseGame.ScreenWidth - 200,
         BaseGame.ScreenHeight - 200,
         (item) =>
         {
-          JobManager.GetInstance(_gwm).Add(place, item);
+          BaseGame.GWM.JobManager.Add(place, item);
         }
       );
     }
@@ -69,7 +65,6 @@ namespace Village123.Shared.Managers
     public void HandleManageStorageClicked(Place place)
     {
       _window = new ManageStorageWindow(
-        _gwm,
         place,
         new Vector2(100, 100),
         BaseGame.ScreenWidth - 200,

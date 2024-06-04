@@ -2,7 +2,6 @@
 using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
-using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls.Windows
@@ -10,13 +9,13 @@ namespace Village123.Shared.GUI.Controls.Windows
   internal class ManageStorageWindow : Window
   {
     private string selectedTag = "all";
-    public ManageStorageWindow(GameWorldManager gwm, Place place, Vector2 position, int width, int height)
-      : base(gwm, position, width, height, "Manage storage")
+    public ManageStorageWindow(Place place, Vector2 position, int width, int height)
+      : base(position, width, height, "Manage storage")
     {
       var buttonWidth = 115;
       var buttonHeight = 30;
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
-        _gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         buttonWidth,
         buttonHeight,
         Color.White,
@@ -29,7 +28,6 @@ namespace Village123.Shared.GUI.Controls.Windows
       AddChild(new Label(_font, "Accept items from...", new Vector2(sidePadding, 40)));
       var itemListStartPosition = new Vector2(sidePadding, 70);
       var itemList = new ItemList(
-        _gwm,
         new Rectangle(
           (int)Position.X + sidePadding,
           (int)Position.Y + 70,
@@ -39,7 +37,7 @@ namespace Village123.Shared.GUI.Controls.Windows
       );
       _itemLists.Add(itemList);
 
-      var places = PlaceManager.GetInstance(_gwm)
+      var places = BaseGame.GWM.PlaceManager
         .GetPlacesByType("workstation")
         .Where(p => place.RadiusPoints.Contains(p.Point));
 

@@ -2,18 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
-using Village123.Shared.Content;
 using Village123.Shared.Data;
 using Village123.Shared.GUI.Controls.Bases;
-using Village123.Shared.Interfaces;
-using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
 {
   public class ResourceOptions : Control
   {
-    private readonly GameWorldManager _gwm;
     private readonly SpriteFont _font;
     private readonly Action<string> _onResourceSelected;
     private readonly int _width;
@@ -27,16 +23,15 @@ namespace Village123.Shared.GUI.Controls
     public override int Height => _backgroundTexture != null ? _backgroundTexture.Height : 0;
     #endregion
 
-    public ResourceOptions(GameWorldManager gwm, string resourceType, Action<string> onResourceSelected, int width)
+    public ResourceOptions(string resourceType, Action<string> onResourceSelected, int width)
       : base()
     {
-      _gwm = gwm;
-      _font = _gwm.GameModel.Content.Load<SpriteFont>("Font");
+      _font = BaseGame.GWM.GameModel.Content.Load<SpriteFont>("Font");
       _onResourceSelected = onResourceSelected;
       _width = width;
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
-        gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         100,
         20,
         Color.White,
@@ -49,7 +44,7 @@ namespace Village123.Shared.GUI.Controls
 
       var startPosition = new Vector2(5, 5 + titleLabel.Height + 10);
 
-      var resourceOptions = gwm.ResourceData.GetResourcesByType(resourceType);
+      var resourceOptions = BaseGame.GWM.ResourceData.GetResourcesByType(resourceType);
       for (int i = 0; i < resourceOptions.Count; i++)
       {
         var resource = resourceOptions.ElementAt(i);
@@ -71,10 +66,10 @@ namespace Village123.Shared.GUI.Controls
       }
 
       UpdateModifierValues();
-      UpdateBackgroundTexture(gwm);
+      UpdateBackgroundTexture();
     }
 
-    private void UpdateBackgroundTexture(GameWorldManager gwm)
+    private void UpdateBackgroundTexture()
     {
       var childRectangles = Children
         .Where(c => c.IsVisible)
@@ -101,7 +96,7 @@ namespace Village123.Shared.GUI.Controls
       }
 
       _backgroundTexture = TextureHelpers.CreateBorderedTexture(
-        gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         _width,
         bounds.Height + 20,
         Color.White,
@@ -125,26 +120,26 @@ namespace Village123.Shared.GUI.Controls
         RemoveChildrenByTag("modifiers");
 
         UpdateModifierValues();
-        UpdateBackgroundTexture(_gwm);
+        UpdateBackgroundTexture();
       }
     }
 
     private void UpdateModifierValues()
     {
-      UpdateBackgroundTexture(_gwm);
+      UpdateBackgroundTexture();
 
       var modifiersStartPosition = new Vector2(5, ClickRectangle.Height - 5);
       var modLabel = new Label(_font, "Modifiers:", modifiersStartPosition);
       AddChild(modLabel, "modifiers");
 
-      var resource = _currentSelectedResource != null ? 
+      var resource = _currentSelectedResource != null ?
         (ResourceData.Resource)_currentSelectedResource :
         null;
 
       modifiersStartPosition += new Vector2(modLabel.Width + 10, 0);
-      for (int i = 0; i < _gwm.ResourceModifiersData.ResourceModifiers.Count; i++)
+      for (int i = 0; i < BaseGame.GWM.ResourceModifiersData.ResourceModifiers.Count; i++)
       {
-        var modifier = _gwm.ResourceModifiersData.ResourceModifiers.ElementAt(i);
+        var modifier = BaseGame.GWM.ResourceModifiersData.ResourceModifiers.ElementAt(i);
         var label = new Label(_font, $"{modifier.Key}:", modifiersStartPosition);
         AddChild(label, "modifiers");
         AddChild(new Label(

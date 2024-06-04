@@ -10,6 +10,7 @@ namespace Village123.Shared.Managers
     public int VillagerId { get; set; } = 1;
     public int PlaceId { get; set; } = 1;
     public int JobId { get; set; } = 1;
+    public int ItemId { get; set; } = 1;
 
     public void Save()
     {

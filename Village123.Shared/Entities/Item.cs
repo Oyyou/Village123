@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System.IO;
+using Village123.Shared.Components;
 using Village123.Shared.Data;
 
 namespace Village123.Shared.Entities
@@ -26,7 +27,7 @@ namespace Village123.Shared.Entities
     public Point Point { get; set; }
 
     [JsonIgnore]
-    public Vector2 Position => Point.ToVector2() * BaseGame.TileSize;
+    public Vector2 Position => Carriable.BeingCarried ? Carriable.Position : Point.ToVector2() * BaseGame.TileSize;
 
     [JsonIgnore]
     public Texture2D Texture { get; set; }
@@ -34,14 +35,21 @@ namespace Village123.Shared.Entities
     [JsonIgnore]
     public ItemData.Item Data { get; private set; }
 
+    #region Components
+    public CarriableComponent Carriable { get; set; }
+    #endregion
+
     public Item() { }
 
-    public Item(ItemData.Item data, Texture2D texture, Point point)
+    public Item(int id, ItemData.Item data, Texture2D texture, Point point)
     {
+      Id = id;
       Texture = texture;
       Point = point;
 
       Name = Path.GetFileName(Texture.Name);
+
+      Carriable = new CarriableComponent(this);
 
       SetData(data);
     }
@@ -49,6 +57,11 @@ namespace Village123.Shared.Entities
     public void SetData(ItemData.Item data)
     {
       Data = data;
+    }
+
+    public void Update(GameTime gameTime)
+    {
+      Carriable?.Update();
     }
 
     public void DrawInInventory(SpriteBatch spriteBatch, Vector2 position)

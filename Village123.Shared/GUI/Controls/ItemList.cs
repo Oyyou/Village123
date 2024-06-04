@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Village123.Shared.GUI.Controls.Bases;
-using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
 {
   public class ItemList : Control
   {
-    private readonly GameWorldManager _gwm;
     public readonly Rectangle Viewport;
     private readonly Texture2D _backgroundTexture;
 
@@ -20,9 +18,8 @@ namespace Village123.Shared.GUI.Controls
     public override int Width => Viewport.Width;
     public override int Height => Viewport.Height;
 
-    public ItemList(GameWorldManager gwm, Rectangle viewport)
+    public ItemList(Rectangle viewport)
     {
-      _gwm = gwm;
       Viewport = viewport;
       _viewportPosition = new Vector2(
         Viewport.X,
@@ -30,7 +27,7 @@ namespace Village123.Shared.GUI.Controls
       );
 
       _backgroundTexture = TextureHelpers.CreateBorderedTexture(
-        gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         Viewport.Width,
         Viewport.Height,
         Color.White,
@@ -39,7 +36,6 @@ namespace Village123.Shared.GUI.Controls
       );
 
       _scrollBar = new ScrollBar(
-        _gwm,
         new Rectangle(0, 0, Viewport.Width, Viewport.Height),
         new(Viewport.X, Viewport.Y),
         this
@@ -77,9 +73,9 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-      var originalVp = _gwm.GameModel.GraphicsDevice.Viewport;
+      var originalVp = BaseGame.GWM.GameModel.GraphicsDevice.Viewport;
 
-      _gwm.GameModel.GraphicsDevice.Viewport = new Viewport(Viewport);
+      BaseGame.GWM.GameModel.GraphicsDevice.Viewport = new Viewport(Viewport);
 
       spriteBatch.Begin(
         SpriteSortMode.FrontToBack
@@ -98,7 +94,7 @@ namespace Village123.Shared.GUI.Controls
 
       foreach (var child in Children)
       {
-        if(child is ScrollBar)
+        if (child is ScrollBar)
         {
           continue;
         }
@@ -108,7 +104,7 @@ namespace Village123.Shared.GUI.Controls
 
       spriteBatch.End();
 
-      _gwm.GameModel.GraphicsDevice.Viewport = originalVp;
+      BaseGame.GWM.GameModel.GraphicsDevice.Viewport = originalVp;
     }
   }
 }

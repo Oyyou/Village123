@@ -3,30 +3,26 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
 {
   public class BuildPanel
   {
-    private readonly GameWorldManager _gwm;
     private readonly List<Button> _buttons;
 
-    public BuildPanel(GameWorldManager gwm)
+    public BuildPanel()
     {
-      _gwm = gwm;
+      var categories = BaseGame.GWM.PlaceCategoryData.Categories;
 
-      var categories = _gwm.PlaceCategoryData.Categories;
-
-      var font = gwm.GameModel.Content.Load<SpriteFont>("Font");
+      var font = BaseGame.GWM.GameModel.Content.Load<SpriteFont>("Font");
 
       var buttonWidth = Math.Min(200, BaseGame.ScreenWidth / categories.Count);
       var buttonHeight = buttonWidth / 5;
 
-      var texture = TextureHelpers.CreateBorderedTexture(_gwm.GameModel.GraphicsDevice, buttonWidth, buttonHeight, Color.White, Color.Black, 1);
+      var texture = TextureHelpers.CreateBorderedTexture(BaseGame.GWM.GameModel.GraphicsDevice, buttonWidth, buttonHeight, Color.White, Color.Black, 1);
 
-      _buttons = _gwm.PlaceCategoryData.Categories.Select((c, i) =>
+      _buttons = BaseGame.GWM.PlaceCategoryData.Categories.Select((c, i) =>
         new Button(font, texture, c.Value.Name, new Vector2(i * buttonWidth, BaseGame.ScreenHeight - buttonHeight))
         {
           Layer = 0.8f,
@@ -42,7 +38,7 @@ namespace Village123.Shared.GUI.Controls
       {
         OnClicked = () =>
         {
-          _gwm.BuildManager.Build(_gwm.PlaceData.Places["woodenChest"]);
+          BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["woodenChest"]);
         }
       });
 
@@ -55,7 +51,7 @@ namespace Village123.Shared.GUI.Controls
       {
         OnClicked = () =>
         {
-          _gwm.BuildManager.Build(_gwm.PlaceData.Places["anvil"]);
+          BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["anvil"]);
         }
       });
     }

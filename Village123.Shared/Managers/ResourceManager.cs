@@ -12,8 +12,6 @@ namespace Village123.Shared.Managers
 
     private const string fileName = "villagers.json";
 
-    private GameWorldManager _gwm;
-
     public List<Resource> Resources { get; private set; } = new();
 
     public ResourceManager()
@@ -21,11 +19,11 @@ namespace Village123.Shared.Managers
 
     }
 
-    public static ResourceManager GetInstance(GameWorldManager gwm)
+    public static ResourceManager GetInstance()
     {
       lock (_lock)
       {
-        _instance ??= Load(gwm);
+        _instance ??= Load();
       }
 
       return _instance;
@@ -42,7 +40,7 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    private static ResourceManager Load(GameWorldManager gwm)
+    private static ResourceManager Load()
     {
       var manager = new ResourceManager();
 
@@ -52,11 +50,9 @@ namespace Village123.Shared.Managers
         manager = JsonConvert.DeserializeObject<ResourceManager>(jsonString)!;
       }
 
-      manager._gwm = gwm;
-
       foreach (var resource in manager.Resources)
       {
-        resource.SetData(gwm.ResourceData.Resources[resource.Name]);
+        resource.SetData(BaseGame.GWM.ResourceData.Resources[resource.Name]);
       }
 
       return manager;

@@ -8,27 +8,12 @@ namespace Village123.Shared.Managers
 {
   public class JobManager
   {
-    private static JobManager _instance;
-    private static readonly object _lock = new();
-
     private const string fileName = "jobs.json";
-
-    private GameWorldManager _gwm;
 
     public List<Job> Jobs { get; private set; } = new();
 
     private JobManager()
     {
-    }
-
-    public static JobManager GetInstance(GameWorldManager gwm)
-    {
-      lock (_lock)
-      {
-        _instance ??= Load(gwm);
-      }
-
-      return _instance;
     }
 
     #region Serialization
@@ -42,7 +27,7 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    private static JobManager Load(GameWorldManager gwm)
+    public static JobManager Load()
     {
       var mamager = new JobManager();
 
@@ -52,8 +37,6 @@ namespace Village123.Shared.Managers
         mamager = JsonConvert.DeserializeObject<JobManager>(jsonString)!;
       }
 
-      mamager._gwm = gwm;
-
       return mamager;
     }
     #endregion
@@ -62,7 +45,7 @@ namespace Village123.Shared.Managers
     {
       var job = new Job()
       {
-        Id = _gwm.IdManager.JobId++,
+        Id = BaseGame.GWM.IdManager.JobId++,
         PlaceId = place.Id,
         ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Resources = craftItem.Resources } : null,
         Name = $"{craftItem.Item.Key}",
@@ -83,7 +66,7 @@ namespace Village123.Shared.Managers
       Jobs.Remove(job);
       villager.JobIds.RemoveAt(0);
 
-      ItemManager.GetInstance(_gwm).AddCraftedItem(job.ProducedItem, job.Point);
+      BaseGame.GWM.ItemManager.AddCraftedItem(job.ProducedItem, job.Point);
     }
   }
 }
