@@ -11,24 +11,10 @@ namespace Village123.Shared.Managers
 {
   public class PlaceManager
   {
-    private static PlaceManager _instance;
-    private static readonly object _lock = new();
-
     private const string fileName = "places.json";
-    private GameWorldManager _gwm;
     public List<Place> Places { get; private set; } = new();
 
     private PlaceManager() { }
-
-    public static PlaceManager GetInstance(GameWorldManager gwm)
-    {
-      lock (_lock)
-      {
-        _instance ??= Load(gwm);
-      }
-
-      return _instance;
-    }
 
     #region Serialization
     public void Save()
@@ -41,7 +27,7 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    private static PlaceManager Load(GameWorldManager gwm)
+    public static PlaceManager Load()
     {
       var manager = new PlaceManager();
 
@@ -51,12 +37,10 @@ namespace Village123.Shared.Managers
         manager = JsonConvert.DeserializeObject<PlaceManager>(jsonString)!;
       }
 
-      manager._gwm = gwm;
-
       foreach (var place in manager.Places)
       {
-        place.SetData(gwm.PlaceData.Places[place.Key]);
-        place.Texture = gwm.GameModel.Content.Load<Texture2D>($"Places/{place.Key}");
+        place.SetData(BaseGame.GWM.PlaceData.Places[place.Key]);
+        place.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Places/{place.Key}");
       }
 
       return manager;
@@ -67,7 +51,7 @@ namespace Village123.Shared.Managers
     {
       foreach (var place in Places)
       {
-        place.Update(_gwm, gameTime);
+        place.Update(gameTime);
       }
     }
 
@@ -81,8 +65,8 @@ namespace Village123.Shared.Managers
 
     public Place Add(PlaceData.Place data, Point point)
     {
-      var id = _gwm.IdManager.PlaceId++;
-      var place = new Place(data, _gwm.GameModel.Content.Load<Texture2D>($"Places/{data.Key}"), point)
+      var id = BaseGame.GWM.IdManager.PlaceId++;
+      var place = new Place(data, BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Places/{data.Key}"), point)
       {
         Id = id,
         Name = $"{data.Name} {id}",
@@ -90,7 +74,7 @@ namespace Village123.Shared.Managers
 
       Places.Add(place);
 
-      _gwm.Map.Add(point, place.Data.Size);
+      BaseGame.GWM.Map.Add(point, place.Data.Size);
 
       return place;
     }

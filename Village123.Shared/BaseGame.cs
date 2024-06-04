@@ -39,6 +39,7 @@ namespace Village123.Shared
         _spriteBatch);
 
       GWM = new GameWorldManager(_gameModel);
+      GWM.Load();
 
       base.Initialize();
     }

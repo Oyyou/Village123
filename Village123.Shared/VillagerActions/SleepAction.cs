@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Village123.Shared.Entities;
-using Village123.Shared.Managers;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -10,7 +9,7 @@ namespace Village123.Shared.VillagerActions
 
     public SleepAction() { }
 
-    public SleepAction(Villager villager, GameWorldManager gwm) : base(villager, gwm)
+    public SleepAction(Villager villager) : base(villager)
     {
 
     }

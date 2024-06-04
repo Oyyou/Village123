@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
-using Village123.Shared.Managers;
 
 namespace Village123.Shared.Entities
 {
@@ -76,13 +75,13 @@ namespace Village123.Shared.Entities
       };
     }
 
-    public void Update(GameWorldManager gwm, GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
       ClickableComponent.Update(gameTime);
 
       if (ClickableComponent.IsMouseClicked)
       {
-        gwm.GUIManager.HandlePlaceClicked(this);
+        BaseGame.GWM.GUIManager.HandlePlaceClicked(this);
       }
     }
 

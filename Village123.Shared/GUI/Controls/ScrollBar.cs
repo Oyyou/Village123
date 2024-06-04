@@ -1,17 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Linq;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.Input;
-using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
 {
   public class ScrollBar : Control
   {
-    private readonly GameWorldManager _gwm;
     private readonly ItemList _itemList;
     private readonly Texture2D _background;
 
@@ -28,18 +25,16 @@ namespace Village123.Shared.GUI.Controls
     public float Offset { get; private set; } = 0;
 
     public ScrollBar(
-      GameWorldManager gwm,
       Rectangle parentContainer,
       Vector2 viewportPosition,
       ItemList itemList
       )
     {
-      _gwm = gwm;
       _itemList = itemList;
       _viewportPosition = viewportPosition;
 
       _background = TextureHelpers.CreateBorderedTexture(
-        _gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         20,
         parentContainer.Height - 10,
         Color.LightGray,
@@ -64,7 +59,7 @@ namespace Village123.Shared.GUI.Controls
       );
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
-        _gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         _background.Width - 8,
         _background.Width - 8,
         Color.DarkGray,
@@ -94,7 +89,7 @@ namespace Village123.Shared.GUI.Controls
       var contentHeight = GetContentHeight();
       var viewportHeight = parentContainer.Height;
 
-      if(contentHeight < viewportHeight)
+      if (contentHeight < viewportHeight)
       {
         this.IsVisible = false;
         return;
@@ -105,7 +100,7 @@ namespace Village123.Shared.GUI.Controls
       var thumbHeight = scrollBarArea * viewableRatio;
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
-        _gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         _background.Width - 8,
         (int)thumbHeight,
         Color.DarkGray,

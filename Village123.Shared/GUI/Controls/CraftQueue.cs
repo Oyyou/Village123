@@ -3,27 +3,24 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
-using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
 {
   internal class CraftQueue : Control
   {
-    private readonly GameWorldManager _gwm;
     private readonly Place _place;
     private readonly Texture2D _backgroundTexture;
 
     public override int Width => _backgroundTexture.Width;
     public override int Height => _backgroundTexture.Height;
 
-    public CraftQueue(GameWorldManager gwm, Place place, int width, int height)
+    public CraftQueue(Place place, int width, int height)
     {
-      _gwm = gwm;
       _place = place;
 
       _backgroundTexture = TextureHelpers.CreateBorderedTexture(
-        gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         width,
         height,
         Color.White,
@@ -34,13 +31,13 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Update(GameTime gameTime)
     {
-      var jobs = JobManager.GetInstance().Jobs.Where(j => j.PlaceId == _place.Id);
+      var jobs = BaseGame.GWM.JobManager.Jobs.Where(j => j.PlaceId == _place.Id);
       foreach (var job in jobs)
       {
         if (!Children.Any(c => (int)c.Key == job.Id))
         {
           var texture = TextureHelpers.CreateBorderedTexture(
-            _gwm.GameModel.GraphicsDevice,
+            BaseGame.GWM.GameModel.GraphicsDevice,
             Height - 4,
             Height - 4,
             Color.White,

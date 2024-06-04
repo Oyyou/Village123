@@ -1,5 +1,4 @@
 ﻿using Village123.Shared.Entities;
-using Village123.Shared.Managers;
 
 namespace Village123.Shared.Interfaces
 {
@@ -7,7 +6,7 @@ namespace Village123.Shared.Interfaces
   {
     string Name { get; }
     float Priority { get; }
-    bool CanExecute(Villager villager, GameWorldManager gwm);
-    void Execute(Villager villager, GameWorldManager gwm);
+    bool CanExecute(Villager villager);
+    void Execute(Villager villager);
   }
 }

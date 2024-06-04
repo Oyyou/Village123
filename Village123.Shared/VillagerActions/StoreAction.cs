@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.Linq;
 using Village123.Shared.Entities;
-using Village123.Shared.Managers;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -24,8 +23,8 @@ namespace Village123.Shared.VillagerActions
 
     }
 
-    public StoreAction(Villager villager, GameWorldManager gwm, Item item, Place place)
-      : base(villager, gwm)
+    public StoreAction(Villager villager, Item item, Place place)
+      : base(villager)
     {
       _item = item;
       _place = place;
@@ -36,8 +35,8 @@ namespace Village123.Shared.VillagerActions
 
     protected override void OnInitialize()
     {
-      _item = ItemManager.GetInstance(_gwm).Items.FirstOrDefault(i => i.Id == _itemId);
-      _place = PlaceManager.GetInstance(_gwm).Places.FirstOrDefault(p => p.Id == _placeId);
+      _item = BaseGame.GWM.ItemManager.Items.FirstOrDefault(i => i.Id == _itemId);
+      _place = BaseGame.GWM.PlaceManager.Places.FirstOrDefault(p => p.Id == _placeId);
 
     }
 

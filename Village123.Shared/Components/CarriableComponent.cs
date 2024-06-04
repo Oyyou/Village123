@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
-using System;
 using Village123.Shared.Entities;
-using Village123.Shared.Managers;
 
 namespace Village123.Shared.Components
 {
@@ -48,7 +45,7 @@ namespace Village123.Shared.Components
       {
         return;
       }
-      Position = VillagerManager.GetInstance(BaseGame.GWM).Villagers.Find(v => v.Id == CarrierId).Position;
+      Position = BaseGame.GWM.VillagerManager.Villagers.Find(v => v.Id == CarrierId).Position;
     }
   }
 }

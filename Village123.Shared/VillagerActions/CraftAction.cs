@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.Linq;
 using Village123.Shared.Entities;
-using Village123.Shared.Managers;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -20,7 +19,7 @@ namespace Village123.Shared.VillagerActions
 
     public CraftAction() { }
 
-    public CraftAction(Villager villager, GameWorldManager gwm, Job job) : base(villager, gwm)
+    public CraftAction(Villager villager, Job job) : base(villager)
     {
       _job = job;
       _jobId = job.Id;
@@ -33,7 +32,7 @@ namespace Village123.Shared.VillagerActions
 
     protected override void OnInitialize()
     {
-      _job = JobManager.GetInstance().Jobs.FirstOrDefault(j => j.Id == _jobId);
+      _job = BaseGame.GWM.JobManager.Jobs.FirstOrDefault(j => j.Id == _jobId);
     }
 
     public override void Update(GameTime gameTime)
@@ -54,20 +53,20 @@ namespace Village123.Shared.VillagerActions
 
     public override void OnComplete()
     {
-      JobManager.GetInstance().CompleteJob(_villager, _job);
+      BaseGame.GWM.JobManager.CompleteJob(_villager, _job);
 
       // If the project was async this wouldn't work..
-      var item = ItemManager.GetInstance(_gwm).Items.Last();
+      var item = BaseGame.GWM.ItemManager.Items.Last();
 
-      var storage = PlaceManager.GetInstance(_gwm).GetPlacesByType("itemStorage")
+      var storage = BaseGame.GWM.PlaceManager.GetPlacesByType("itemStorage")
         .FirstOrDefault(); // TODO: Make smart
 
       if (storage != null)
       {
-        _villager.AddAction(new WalkAction(_villager, _gwm, item.Point, true));
-        _villager.AddAction(new CarryAction(_villager, _gwm, item.Carriable));
-        _villager.AddAction(new WalkAction(_villager, _gwm, storage.Point, false));
-        _villager.AddAction(new StoreAction(_villager, _gwm, item, storage));
+        _villager.AddAction(new WalkAction(_villager, item.Point, true));
+        _villager.AddAction(new CarryAction(_villager, item.Carriable));
+        _villager.AddAction(new WalkAction(_villager, storage.Point, false));
+        _villager.AddAction(new StoreAction(_villager, item, storage));
       }
     }
   }

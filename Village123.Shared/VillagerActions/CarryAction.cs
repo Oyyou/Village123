@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using Village123.Shared.Components;
 using Village123.Shared.Entities;
-using Village123.Shared.Managers;
-using static Village123.Shared.Data.ItemData;
 
 namespace Village123.Shared.VillagerActions
 {
@@ -21,8 +19,8 @@ namespace Village123.Shared.VillagerActions
 
     public override string Name => "Carry";
 
-    public CarryAction(Villager villager, GameWorldManager gwm, CarriableComponent carriable)
-      : base(villager, gwm)
+    public CarryAction(Villager villager, CarriableComponent carriable)
+      : base(villager)
     {
       _carriable = carriable;
     }
@@ -30,10 +28,10 @@ namespace Village123.Shared.VillagerActions
     protected override void OnInitialize()
     {
       //if (_villagerId.HasValue)
-      //  _carriable = VillagerManager.GetInstance(_gwm).Villagers.Find(v => v.Id == _villagerId.Value).Carriable;
+      //  _carriable = VillagerManager.GetInstance(BaseGame.GWM).Villagers.Find(v => v.Id == _villagerId.Value).Carriable;
 
       if (_itemId.HasValue)
-        _carriable = ItemManager.GetInstance(_gwm).Items.Find(v => v.Id == _itemId.Value).Carriable;
+        _carriable = BaseGame.GWM.ItemManager.Items.Find(v => v.Id == _itemId.Value).Carriable;
     }
 
     public override bool IsComplete()

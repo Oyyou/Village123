@@ -15,16 +15,11 @@ namespace Village123.Shared.Managers
 {
   public class VillagerManager
   {
-    private static VillagerManager _instance;
-    private static readonly object _lock = new();
-
     private const string fileName = "villagers.json";
 
     private static List<string> MaleFirstNames = new();
     private static List<string> FemaleFirstNames = new();
     private static List<string> LastNames = new();
-
-    private GameWorldManager _gwm;
 
     private List<IDetermineAction> _determineActions;
 
@@ -37,16 +32,6 @@ namespace Village123.Shared.Managers
       LastNames = File.ReadAllLines("Content/lastNames.txt").ToList();
 
       LoadDetermineActions();
-    }
-
-    public static VillagerManager GetInstance(GameWorldManager gwm)
-    {
-      lock (_lock)
-      {
-        _instance ??= Load(gwm);
-      }
-
-      return _instance;
     }
 
     private void LoadDetermineActions()
@@ -74,7 +59,7 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    private static VillagerManager Load(GameWorldManager gwm)
+    public static VillagerManager Load()
     {
       var villagerManager = new VillagerManager();
 
@@ -84,14 +69,12 @@ namespace Village123.Shared.Managers
         villagerManager = JsonConvert.DeserializeObject<VillagerManager>(jsonString)!;
       }
 
-      villagerManager._gwm = gwm;
-
       foreach (var villager in villagerManager.Villagers)
       {
-        villager.Texture = gwm.GameModel.Content.Load<Texture2D>("Circle");
+        villager.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>("Circle");
         foreach (var action in villager.ActionQueue)
         {
-          action.Initialize(villager, gwm);
+          action.Initialize(villager);
         }
       }
 
@@ -108,7 +91,7 @@ namespace Village123.Shared.Managers
         villager.Update(gameTime);
       }
 
-      foreach (var job in JobManager.GetInstance().Jobs)
+      foreach (var job in BaseGame.GWM.JobManager.Jobs)
       {
         if (job.WorkerIds.Count == job.MaxWorkers)
         {
@@ -146,32 +129,32 @@ namespace Village123.Shared.Managers
 
       foreach (var action in _determineActions.OrderByDescending(a => a.Priority))
       {
-        if (action.CanExecute(villager, _gwm))
+        if (action.CanExecute(villager))
         {
-          action.Execute(villager, _gwm);
+          action.Execute(villager);
           return;
         }
       }
 
       if (villager.JobIds.Count > 0)
       {
-        var job = JobManager.GetInstance().Jobs.FirstOrDefault(a => a.Id == villager.JobIds[0]);
+        var job = BaseGame.GWM.JobManager.Jobs.FirstOrDefault(a => a.Id == villager.JobIds[0]);
 
-        villager.AddAction(new WalkAction(villager, _gwm, job.Point, false));
-        villager.AddAction(new CraftAction(villager, _gwm, job));
+        villager.AddAction(new WalkAction(villager, job.Point, false));
+        villager.AddAction(new CraftAction(villager, job));
         return;
       }
 
-      villager.AddAction(new IdleAction(villager, _gwm));
+      villager.AddAction(new IdleAction(villager));
     }
 
     public Villager CreateRandomVillager()
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
+      var villager = new Villager(BaseGame.GWM.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _gwm.IdManager.VillagerId++,
+        Id = BaseGame.GWM.IdManager.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = LastNames[BaseGame.Random.Next(0, firstNames.Count)],
         Gender = gender,
@@ -194,9 +177,9 @@ namespace Village123.Shared.Managers
     {
       var gender = BaseGame.Random.Next(0, 2) == 0 ? Genders.Male : Genders.Female;
       var firstNames = (gender == Genders.Male ? MaleFirstNames : FemaleFirstNames);
-      var villager = new Villager(_gwm.GameModel.Content.Load<Texture2D>("Circle"))
+      var villager = new Villager(BaseGame.GWM.GameModel.Content.Load<Texture2D>("Circle"))
       {
-        Id = _gwm.IdManager.VillagerId++,
+        Id = BaseGame.GWM.IdManager.VillagerId++,
         FirstName = firstNames[BaseGame.Random.Next(0, firstNames.Count)],
         LastName = father.LastName,
         Gender = gender,

@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using Village123.Shared.Entities;
-using Village123.Shared.Managers;
 using Village123.Shared.Maps;
 
 namespace Village123.Shared.VillagerActions
@@ -27,8 +26,8 @@ namespace Village123.Shared.VillagerActions
 
     public WalkAction() { }
 
-    public WalkAction(Villager villager, GameWorldManager gwm, Point destination, bool standOnDestination)
-      : base(villager, gwm)
+    public WalkAction(Villager villager, Point destination, bool standOnDestination)
+      : base(villager)
     {
       Destination = destination;
       StandOnDestination = standOnDestination;
@@ -46,7 +45,7 @@ namespace Village123.Shared.VillagerActions
 
     protected override void OnInitialize()
     {
-      _map = _gwm.Map;
+      _map = BaseGame.GWM.Map;
     }
 
     public override void Update(GameTime gameTime)

@@ -4,14 +4,12 @@ using System;
 using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
-using Village123.Shared.Managers;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
 {
   public class PlaceOptionsPanel : Control
   {
-    private GameWorldManager _gwm;
 
     private float _timer = 0f;
     private bool _closing = false;
@@ -23,10 +21,9 @@ namespace Village123.Shared.GUI.Controls
 
     public override int Height => _backgroundTexture != null ? _backgroundTexture.Height : 0;
 
-    public PlaceOptionsPanel(GameWorldManager gwm, Place place, Vector2 position)
+    public PlaceOptionsPanel(Place place, Vector2 position)
       : base()
     {
-      _gwm = gwm;
       Position = position;
 
       ClickableComponent.IsClickable = () => !Closed;
@@ -38,9 +35,9 @@ namespace Village123.Shared.GUI.Controls
 
       Layer = 0.7f;
 
-      var font = gwm.GameModel.Content.Load<SpriteFont>("Font");
+      var font = BaseGame.GWM.GameModel.Content.Load<SpriteFont>("Font");
       var texture = TextureHelpers.CreateBorderedTexture(
-        gwm.GameModel.GraphicsDevice,
+        BaseGame.GWM.GameModel.GraphicsDevice,
         100,
         20,
         Color.White,
@@ -57,7 +54,7 @@ namespace Village123.Shared.GUI.Controls
           OnClicked = () =>
           {
             _closing = true;
-            PlaceManager.GetInstance(_gwm).CancelDestruction(place);
+            BaseGame.GWM.PlaceManager.CancelDestruction(place);
           }
         });
       }
@@ -65,7 +62,7 @@ namespace Village123.Shared.GUI.Controls
       {
         AddChild(new Label(font, place.Name, new Vector2(10, 10)) { IsVisible = true });
 
-        var placeCategory = _gwm.PlaceCategoryData.Categories[place.Data.Category];
+        var placeCategory = BaseGame.GWM.PlaceCategoryData.Categories[place.Data.Category];
         // TODO: Find a better way to determine what windows are opened by the buttons
         if (placeCategory.ButtonLabel == "Craft")
         {
@@ -75,7 +72,7 @@ namespace Village123.Shared.GUI.Controls
             OnClicked = () =>
             {
               _closing = true;
-              _gwm.GUIManager.HandleCraftClicked(place);
+              BaseGame.GWM.GUIManager.HandleCraftClicked(place);
             }
           });
         }
@@ -87,7 +84,7 @@ namespace Village123.Shared.GUI.Controls
             OnClicked = () =>
             {
               _closing = true;
-              _gwm.GUIManager.HandleManageStorageClicked(place);
+              BaseGame.GWM.GUIManager.HandleManageStorageClicked(place);
             }
           });
         }
@@ -97,7 +94,7 @@ namespace Village123.Shared.GUI.Controls
           OnClicked = () =>
           {
             _closing = true;
-            PlaceManager.GetInstance(_gwm).Destroy(place);
+            BaseGame.GWM.PlaceManager.Destroy(place);
           }
         });
       }
@@ -174,7 +171,7 @@ namespace Village123.Shared.GUI.Controls
       }
 
       _backgroundTexture = TextureHelpers.CreateBorderedTexture(
-          _gwm.GameModel.GraphicsDevice,
+          BaseGame.GWM.GameModel.GraphicsDevice,
           bounds.Width + 20,
           bounds.Height + 20,
           Color.White,
