@@ -12,5 +12,8 @@
   },
   "path": {
     "name": "Path"
+  },
+  "farming": {
+    "name": "Farming"
   }
 }

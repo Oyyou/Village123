@@ -79,5 +79,15 @@
     "buildResourceTypes": {
       "wood": 4
     }
+  },
+  "farmPlot": {
+    "name": "Farm plot",
+    "type": "farm",
+    "category": "farming",
+    "size": {
+      "X": 1,
+      "Y": 1
+    },
+    "draggable": true
   }
 }

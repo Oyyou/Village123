@@ -2,6 +2,7 @@
   "bed",
   "workstation",
   "gatherable",
+  "farm",
   "itemStorage",
   "resourceStorage",
   "chair"

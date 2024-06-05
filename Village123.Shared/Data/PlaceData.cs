@@ -27,6 +27,9 @@ namespace Village123.Shared.Data
       [JsonProperty("category")]
       public string Category { get; set; }
 
+      [JsonProperty("draggable")]
+      public bool Draggable { get; set; } = false;
+
       [JsonProperty("radius")]
       public int Radius
       {

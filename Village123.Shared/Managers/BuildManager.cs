@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Village123.Shared.Data;
@@ -16,6 +17,10 @@ namespace Village123.Shared.Managers
 
     private readonly Texture2D _radiusTexture;
     private List<Point> _radiusPoints = new();
+
+    private Point? _dragStart = null;
+    private List<Point> _draggedPoints = new();
+    private bool _isValidDrag = true;
 
     public BuildManager()
     {
@@ -48,12 +53,13 @@ namespace Village123.Shared.Managers
     public void Update(GameTime gameTime)
     {
       if (BaseGame.GWM.State != GameStates.Building)
+      {
         return;
+      }
 
       if (GameMouse.IsRightClicked || Keyboard.GetState().IsKeyDown(Keys.Escape))
       {
-        BaseGame.GWM.State = GameStates.Playing;
-        _place = null;
+        Reset();
         return;
       }
 
@@ -68,13 +74,75 @@ namespace Village123.Shared.Managers
         return;
       }
 
-      if (GameMouse.IsLeftClicked)
+      if (_place.Data.Draggable)
+      {
+        if (GameMouse.IsLeftReleased)
+        {
+          _dragStart = null;
+        }
+
+        if (GameMouse.IsLeftPressed)
+        {
+          if (_dragStart == null)
+          {
+            _dragStart = GameMouse.MapPoint;
+          }
+
+          _draggedPoints = GetRectanglePoints(_dragStart.Value, GameMouse.MapPoint);
+
+          _isValidDrag = _draggedPoints.All(d => BaseGame.GWM.Map.CanAddPlace(d));
+        }
+        else
+        {
+          if (_draggedPoints.Count > 0)
+          {
+            if (_isValidDrag)
+            {
+              foreach (var point in _draggedPoints)
+              {
+                BaseGame.GWM.PlaceManager.Add(_place.Data, point);
+              }
+              Reset();
+            }
+            else
+            {
+              _draggedPoints = new List<Point>();
+            }
+          }
+        }
+      }
+      else if (GameMouse.IsLeftClicked)
       {
         var place = BaseGame.GWM.PlaceManager.Add(_place.Data, _place.Point);
         place.RadiusPoints = _radiusPoints.ToList();
-        BaseGame.GWM.State = GameStates.Playing;
-        _place = null;
+        Reset();
       }
+    }
+
+    private void Reset()
+    {
+      BaseGame.GWM.State = GameStates.Playing;
+      _place = null;
+      _draggedPoints = new List<Point>();
+    }
+
+    private List<Point> GetRectanglePoints(Point start, Point end)
+    {
+      var points = new List<Point>();
+      int left = Math.Min(start.X, end.X);
+      int right = Math.Max(start.X, end.X);
+      int top = Math.Min(start.Y, end.Y);
+      int bottom = Math.Max(start.Y, end.Y);
+
+      for (int x = left; x <= right; x++)
+      {
+        for (int y = top; y <= bottom; y++)
+        {
+          points.Add(new Point(x, y));
+        }
+      }
+
+      return points;
     }
 
     private void CalculateRadiusPoints(Point center, int radius)
@@ -106,6 +174,12 @@ namespace Village123.Shared.Managers
       {
         spriteBatch.Draw(_radiusTexture, point.ToVector2() * BaseGame.TileSize, Color.White * 0.75f);
       }
+
+      foreach (var point in _draggedPoints)
+      {
+        spriteBatch.Draw(_place.Texture, point.ToVector2() * BaseGame.TileSize, null, (_isValidDrag ? Color.Green : Color.Red) * 0.75f, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 1f);
+      }
+
       spriteBatch.End();
     }
   }
