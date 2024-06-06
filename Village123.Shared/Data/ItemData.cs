@@ -23,8 +23,8 @@ namespace Village123.Shared.Data
       [JsonProperty("createdAt")]
       public CreatedAtType CreatedAt { get; set; }
 
-      [JsonProperty("requiredResources")]
-      public Dictionary<string, int> RequiredResources { get; set; } = new();
+      [JsonProperty("requiredMaterials")]
+      public Dictionary<string, int> RequiredMaterials { get; set; } = new();
 
       [JsonProperty("requiredEquipment")]
       public List<string> RequiredEquipment { get; set; } = new();

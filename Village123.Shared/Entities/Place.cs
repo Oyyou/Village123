@@ -33,7 +33,7 @@ namespace Village123.Shared.Entities
     public Texture2D Texture { get; set; }
 
     /// <summary>
-    /// Depending on the place type will depend on what content it can store (items/resources)
+    /// Depending on the place type will depend on what content it can store (items/materials)
     /// </summary>
     public List<int> Inventory { get; set; }
 

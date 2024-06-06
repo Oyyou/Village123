@@ -8,7 +8,7 @@
       "Y": 2
     },
     "blocksPath": false,
-    "buildResourceTypes": {
+    "requiredMaterials": {
       "wood": 5
     }
   },
@@ -21,7 +21,7 @@
       "Y": 1
     },
     "blocksPath": false,
-    "buildResourceTypes": {
+    "requiredMaterials": {
       "ore": 10
     },
     "producedItemTypes": [
@@ -37,7 +37,7 @@
       "Y": 1
     },
     "blocksPath": true,
-    "buildResourceTypes": {
+    "requiredMaterials": {
       "wood": 4
     }
   },
@@ -50,7 +50,7 @@
       "Y": 1
     },
     "blocksPath": true,
-    "buildResourceTypes": {
+    "requiredMaterials": {
       "stone": 4
     }
   },
@@ -63,7 +63,7 @@
       "Y": 1
     },
     "blocksPath": false,
-    "buildResourceTypes": {
+    "requiredMaterials": {
       "stone": 1
     }
   },
@@ -76,7 +76,7 @@
       "X": 1,
       "Y": 1
     },
-    "buildResourceTypes": {
+    "requiredMaterials": {
       "wood": 4
     }
   },

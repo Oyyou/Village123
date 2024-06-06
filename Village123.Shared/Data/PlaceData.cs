@@ -58,8 +58,8 @@ namespace Village123.Shared.Data
       /// <summary>
       /// The resources required to build
       /// </summary>
-      [JsonProperty("requiredBuildResources")]
-      public Dictionary<string, int> RequiredBuildResources { get; set; } = new();
+      [JsonProperty("requiredMaterials")]
+      public Dictionary<string, int> RequiredMaterials { get; set; } = new();
 
       /// <summary>
       /// The skills required by the villager to be built

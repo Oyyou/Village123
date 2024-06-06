@@ -48,7 +48,7 @@ namespace Village123.Shared.Managers
       {
         Id = BaseGame.GWM.IdManager.JobId++,
         PlaceId = place.Id,
-        ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Resources = craftItem.Resources } : null,
+        ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Materials = craftItem.Materials } : null,
         Name = $"{craftItem.Item.Key}",
         Point = place.Point,
         MaxWorkers = 1,

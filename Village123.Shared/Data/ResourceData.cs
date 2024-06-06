@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,14 +12,16 @@ namespace Village123.Shared.Data
 
     public class Resource
     {
-      [JsonProperty("name")]
-      public string Name { get; set; }
-
       [JsonProperty("type")]
       public string Type { get; set; }
+      [JsonProperty("drop")]
+      public string Drop { get; set; }
 
-      [JsonProperty("modifiers")]
-      public Dictionary<string, int> Modifiers { get; set; }
+      [JsonProperty("size")]
+      public Point Size { get; set; }
+
+      [JsonProperty("pointOffset")]
+      public Point PointOffset { get; set; }
     }
 
     public static ResourceData Load()
@@ -42,7 +45,5 @@ namespace Village123.Shared.Data
 
       return data;
     }
-
-    public Dictionary<string, Resource> GetResourcesByType(string type) => Resources.Where(i => i.Value.Type == type).ToDictionary(c => c.Key, v => v.Value);
   }
 }
