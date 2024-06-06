@@ -5,6 +5,7 @@ using Village123.Shared.Data;
 using Village123.Shared.Input;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
+using Village123.Shared.Sprites;
 
 namespace Village123.Shared.Managers
 {
@@ -36,8 +37,11 @@ namespace Village123.Shared.Managers
     public PlaceManager PlaceManager { get; set; }
     public JobManager JobManager { get; set; }
     public ItemManager ItemManager { get; set; }
+    public ResourceManager ResourceManager { get; set; }
 
     public GameStates State = GameStates.Playing;
+
+    private Sprite _tree;
 
     public GameWorldManager(GameModel gameModel)
     {
@@ -66,6 +70,7 @@ namespace Village123.Shared.Managers
       PlaceManager = PlaceManager.Load();
       VillagerManager = VillagerManager.Load();
       JobManager = JobManager.Load();
+      ResourceManager = ResourceManager.Load();
 
       //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
 
@@ -73,8 +78,13 @@ namespace Village123.Shared.Managers
       //bed.AddOwner(v1);
 
       //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
+      // ResourceManager.AddResource("pine", new Point(7, 1));
 
       // Save();
+      _tree = new Sprite(GameModel.Content.Load<Texture2D>("Nature/Tree"))
+      {
+        Position = new Vector2(256, 128),
+      };
     }
 
     public void Save()
@@ -84,6 +94,7 @@ namespace Village123.Shared.Managers
       PlaceManager.Save();
       JobManager.Save();
       ItemManager.Save();
+      ResourceManager.Save();
     }
 
     public void Update(GameTime gameTime)
@@ -97,17 +108,19 @@ namespace Village123.Shared.Managers
       GUIManager.Update(gameTime);
       BuildManager.Update(gameTime);
 
-      BaseGame.GWM.PlaceManager.Update(gameTime);
-      BaseGame.GWM.VillagerManager.Update(gameTime);
-      BaseGame.GWM.ItemManager.Update(gameTime);
+      PlaceManager.Update(gameTime);
+      VillagerManager.Update(gameTime);
+      ItemManager.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
       spriteBatch.Begin();
-      BaseGame.GWM.PlaceManager.Draw(spriteBatch);
-      BaseGame.GWM.VillagerManager.Draw(spriteBatch);
-      BaseGame.GWM.ItemManager.Draw(spriteBatch);
+      PlaceManager.Draw(spriteBatch);
+      VillagerManager.Draw(spriteBatch);
+      ItemManager.Draw(spriteBatch);
+      ResourceManager.Draw(spriteBatch);
+      _tree.Draw(spriteBatch);
       spriteBatch.End();
 
       BuildManager.Draw(spriteBatch);

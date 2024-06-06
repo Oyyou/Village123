@@ -1,48 +1,22 @@
 {
-  "oak": {
-    "name": "Oak",
-    "type": "wood",
-    "modifiers": {
-      "durability": 60,
-      "weight": 3,
-      "aestheticQuality": 4
-    }
+  "wood": {
+    "name": "Wood",
+    "job": "woodcutting"
   },
-  "pine": {
-    "name": "Pine",
-    "type": "wood",
-    "modifiers": {
-      "durability": 50,
-      "weight": 2,
-      "aestheticQuality": 2
-    }
+  "ore": {
+    "name": "Ore",
+    "job": "mining"
   },
-  "iron": {
-    "name": "Iron",
-    "type": "ore",
-    "modifiers": {
-      "durability": 100,
-      "effectiveness": 20,
-      "weight": 8
-    }
+  "stone": {
+    "name": "Stone",
+    "job": "mining"
   },
-  "gold": {
-    "name": "Gold",
-    "type": "ore",
-    "modifiers": {
-      "durability": 70,
-      "effectiveness": 25,
-      "weight": 15,
-      "aestheticQuality": 10
-    }
+  "fish": {
+    "name": "Fish",
+    "job": "fishing"
   },
-  "granite": {
-    "name": "Granite",
-    "type": "stone",
-    "modifiers": {
-      "durability": 80,
-      "weight": 14,
-      "aestheticQuality": 5
-    }
+  "crop": {
+    "name": "Crop",
+    "job": "farming"
   }
 }

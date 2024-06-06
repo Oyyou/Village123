@@ -1,32 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
+using static Village123.Shared.Data.ItemData;
 
 namespace Village123.Shared.Managers
 {
   public class ResourceManager
   {
-    private static ResourceManager _instance;
-    private static readonly object _lock = new();
-
-    private const string fileName = "villagers.json";
+    private const string fileName = "resources.json";
 
     public List<Resource> Resources { get; private set; } = new();
 
     public ResourceManager()
     {
 
-    }
-
-    public static ResourceManager GetInstance()
-    {
-      lock (_lock)
-      {
-        _instance ??= Load();
-      }
-
-      return _instance;
     }
 
     #region Serialization
@@ -40,7 +30,7 @@ namespace Village123.Shared.Managers
       File.WriteAllText(fileName, jsonString);
     }
 
-    private static ResourceManager Load()
+    public static ResourceManager Load()
     {
       var manager = new ResourceManager();
 
@@ -53,10 +43,29 @@ namespace Village123.Shared.Managers
       foreach (var resource in manager.Resources)
       {
         resource.SetData(BaseGame.GWM.ResourceData.Resources[resource.Name]);
+        resource.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{resource.Name}");
       }
 
       return manager;
     }
     #endregion
+
+    public void AddResource(string resourceName, Point emitterPoint)
+    {
+      var data = BaseGame.GWM.ResourceData.Resources[resourceName];
+      var texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{resourceName}");
+
+      Resources.Add(new Resource(
+        BaseGame.GWM.IdManager.ResourceId++, data, texture, emitterPoint
+      ));
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+      foreach (var resource in Resources)
+      {
+        resource.Draw(spriteBatch);
+      }
+    }
   }
 }

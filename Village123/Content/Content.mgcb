@@ -44,6 +44,18 @@
 /processorParam:TextureFormat=Color
 /build:Items/axe.png
 
+#begin Nature/Nature.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Nature/Nature.png;Nature/Tree.png
+
 #begin Places/Anvil.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -91,4 +103,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Places/woodenChest.png
+
+#begin Resources/pine.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Resources/pine.png
 

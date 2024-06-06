@@ -10,5 +10,13 @@
   "mining": {
     "name": "Mining",
     "produces": "resource"
+  },
+  "woodcutting": {
+    "name": "Woodcutting",
+    "produces": "resource"
+  },
+  "fishing": {
+    "name": "Fishing",
+    "produces": "resource"
   }
 }

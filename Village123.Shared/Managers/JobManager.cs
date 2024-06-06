@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.Models;
 
@@ -68,5 +69,15 @@ namespace Village123.Shared.Managers
 
       BaseGame.GWM.ItemManager.AddCraftedItem(job.ProducedItem, job.Point);
     }
+
+    //public Job GetNextAvailableJob()
+    //{
+    //  var unworkedJobs = Jobs.Where(c => c.WorkerIds.Count < c.MaxWorkers);
+
+    //  foreach (var job in unworkedJobs)
+    //  {
+
+    //  }
+    //}
   }
 }
