@@ -97,6 +97,7 @@ namespace Village123.Shared.GUI.Controls
       var matrix = Matrix.CreateTranslation(0, _viewY, 0);
       spriteBatch.Begin(
         SpriteSortMode.FrontToBack,
+        samplerState: SamplerState.PointClamp, // Upscale pixels
         transformMatrix: matrix
       );
 

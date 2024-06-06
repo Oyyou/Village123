@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Village123.Shared.GUI.Controls.Bases;
+using Village123.Shared.Sprites;
 
 namespace Village123.Shared.GUI.Controls
 {
@@ -11,6 +11,8 @@ namespace Village123.Shared.GUI.Controls
     private Label _label;
 
     public Texture2D Texture { get; private set; }
+
+    public Sprite Sprite { get; private set; }
 
     public Color BackgroundColor { get; set; } = Color.White;
     public Color TextColor
@@ -22,9 +24,15 @@ namespace Village123.Shared.GUI.Controls
 
     public Color SelectedBackgroundColor { get; set; } = Color.Yellow;
     public string Text => _label.Text;
-    public override int Width => Texture != null ? Texture.Width : 0;
+    public override int Width => Texture != null ? Texture.Width : (Sprite != null ? (int)Sprite.Width : 0);
 
-    public override int Height => Texture != null ? Texture.Height : 0;
+    public override int Height => Texture != null ? Texture.Height : (Sprite != null ? (int)Sprite.Height : 0);
+
+    public Button(Sprite sprite)
+      : base()
+    {
+      Sprite = sprite;
+    }
 
     public Button(Texture2D texture)
       : base()
@@ -86,17 +94,27 @@ namespace Village123.Shared.GUI.Controls
 
       base.Draw(spriteBatch);
 
-      spriteBatch.Draw(
-        Texture,
-        DrawPosition,
-        null,
-        ClickableComponent.IsMouseOver ? HoverBackgroundColor : (IsSelected() ? SelectedBackgroundColor : BackgroundColor),
-        0f,
-        new Vector2(0, 0),
-        1f,
-        SpriteEffects.None,
-        ClickableComponent.ClickLayer()
-      );
+      if (Texture != null)
+      {
+        spriteBatch.Draw(
+          Texture,
+          DrawPosition,
+          null,
+          ClickableComponent.IsMouseOver ? HoverBackgroundColor : (IsSelected() ? SelectedBackgroundColor : BackgroundColor),
+          0f,
+          new Vector2(0, 0),
+          1f,
+          SpriteEffects.None,
+          ClickableComponent.ClickLayer()
+        );
+      }
+
+      if (Sprite != null)
+      {
+        Sprite.Position = DrawPosition;
+        Sprite.Colour = ClickableComponent.IsMouseOver ? HoverBackgroundColor : (IsSelected() ? SelectedBackgroundColor : BackgroundColor);
+        Sprite.Draw(spriteBatch);
+      }
     }
   }
 }
