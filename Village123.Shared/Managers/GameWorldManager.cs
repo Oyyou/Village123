@@ -89,21 +89,20 @@ namespace Village123.Shared.Managers
 
     public void GenerateTrees(double density)
     {
-      Random random = new Random();
       int mapWidth = Map.Width;
       int mapHeight = Map.Height;
       int totalCells = mapWidth * mapHeight;
       int numberOfTrees = (int)(totalCells * density);
 
-      HashSet<Point> occupiedPoints = new HashSet<Point>();
+      var occupiedPoints = new HashSet<Point>();
 
       for (int i = 0; i < numberOfTrees; i++)
       {
         Point point;
         do
         {
-          int x = random.Next(2, mapWidth - 2);
-          int y = random.Next(2, mapHeight - 2);
+          var x = BaseGame.Random.Next(2, mapWidth - 2);
+          var y = BaseGame.Random.Next(2, mapHeight - 2);
           point = new Point(x, y);
         } while (occupiedPoints.Contains(point));
 
@@ -118,23 +117,18 @@ namespace Village123.Shared.Managers
       // Load grass textures
       for (int i = 0; i < 4; i++)
       {
-        textures.Add(GameModel.Content.Load<Texture2D>($"Tiles/Grass/Grass_0{i + 1}"));
+        textures.Add(GameModel.Content.Load<Texture2D>($"Tiles/Grass/Grass_{(i + 1):00}"));
       }
-
-      Random random = new Random();
 
       for (int y = 0; y < Map.Height; y++)
       {
         for (int x = 0; x < Map.Width; x++)
         {
-          // Choose a random grass texture
-          Texture2D grassTexture = textures[random.Next(4)];
-          // Create a new Sprite for the grass tile
-          Sprite grassTile = new Sprite(grassTexture)
+          var grassTexture = textures[BaseGame.Random.Next(4)];
+          var grassTile = new Sprite(grassTexture)
           {
             Position = new Vector2(x, y) * BaseGame.TileSize
           };
-          // Add the grass tile to the _grass list
           _grass.Add(grassTile);
         }
       }
