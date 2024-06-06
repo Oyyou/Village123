@@ -3,21 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using Village123.Shared.Data;
 using Village123.Shared.Entities;
-using static Village123.Shared.Data.ItemData;
 
 namespace Village123.Shared.Managers
 {
   public class ResourceManager
   {
-    private const string fileName = "resources.json";
-
+    private const string fileName = "resoruces.json";
     public List<Resource> Resources { get; private set; } = new();
 
-    public ResourceManager()
-    {
-
-    }
+    private ResourceManager() { }
 
     #region Serialization
     public void Save()
@@ -40,32 +36,58 @@ namespace Village123.Shared.Managers
         manager = JsonConvert.DeserializeObject<ResourceManager>(jsonString)!;
       }
 
-      foreach (var resource in manager.Resources)
+      foreach (var value in manager.Resources)
       {
-        resource.SetData(BaseGame.GWM.ResourceData.Resources[resource.Name]);
-        resource.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{resource.Name}");
+        value.SetData(BaseGame.GWM.ResourceData.Resources[value.Name]);
+        value.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{value.Name}");
       }
 
       return manager;
     }
     #endregion
 
-    public void AddResource(string resourceName, Point emitterPoint)
+    public void Update(GameTime gameTime)
     {
-      var data = BaseGame.GWM.ResourceData.Resources[resourceName];
-      var texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{resourceName}");
-
-      Resources.Add(new Resource(
-        BaseGame.GWM.IdManager.ResourceId++, data, texture, emitterPoint
-      ));
+      foreach (var place in Resources)
+      {
+        place.Update(gameTime);
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      foreach (var resource in Resources)
+      foreach (var place in Resources)
       {
-        resource.Draw(spriteBatch);
+        place.Draw(spriteBatch);
       }
+    }
+
+    public Resource Add(string resourceName, Point point)
+    {
+      var data = BaseGame.GWM.ResourceData.Resources[resourceName];
+      var id = BaseGame.GWM.IdManager.ResourceId++;
+      var resource = new Resource(id, data, BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{resourceName}"), point)
+      {
+        Name = $"{resourceName} {id}",
+      };
+
+      Resources.Add(resource);
+
+      BaseGame.GWM.Map.Add(point, resource.Data.Size);
+
+      return resource;
+    }
+
+    public void Destroy(Place place)
+    {
+      place.StartDestruction();
+      // TODO: Add destruction job
+    }
+
+    public void CancelDestruction(Place place)
+    {
+      place.CancelDestruction();
+      // TODO: Remove destruction job
     }
   }
 }

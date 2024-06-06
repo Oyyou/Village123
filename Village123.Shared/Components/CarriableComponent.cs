@@ -9,7 +9,7 @@ namespace Village123.Shared.Components
 
     public int? VillagerId { get; set; }
 
-    public int? ResourceId { get; set; }
+    public int? MaterialId { get; set; }
 
     /// <summary>
     /// The villager carrying
@@ -25,9 +25,9 @@ namespace Village123.Shared.Components
 
     }
 
-    public CarriableComponent(Resource resource)
+    public CarriableComponent(Material material)
     {
-      ResourceId = resource.Id;
+      MaterialId = material.Id;
     }
 
     public CarriableComponent(Item item)

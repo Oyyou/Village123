@@ -6,6 +6,6 @@ namespace Village123.Shared.Models
   public class CraftItemModel
   {
     public KeyValuePair<string, ItemData.Item> Item { get; set; }
-    public Dictionary<string, string> Resources { get; set; }
+    public Dictionary<string, string> Materials { get; set; }
   }
 }

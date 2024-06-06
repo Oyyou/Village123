@@ -13,7 +13,7 @@ namespace Village123.Shared.GUI.Controls.Windows
   internal class CraftingWindow : Window
   {
     private KeyValuePair<string, ItemData.Item> _selectedItem;
-    private Dictionary<string, string> _selectedResources;
+    private Dictionary<string, string> _selectedOptions;
 
     public CraftingWindow(
       Place place,
@@ -53,7 +53,7 @@ namespace Village123.Shared.GUI.Controls.Windows
 
 
       var x = itemList.Viewport.Right + sidePadding;
-      var resourcesList = new ItemList(
+      var optionsList = new ItemList(
         new Rectangle(
           x,
           itemList.Viewport.Top,
@@ -62,7 +62,7 @@ namespace Village123.Shared.GUI.Controls.Windows
         )
       );
 
-      _itemLists.Add(resourcesList);
+      _itemLists.Add(optionsList);
 
       for (int i = 0; i < items.Count; i++)
       {
@@ -77,31 +77,31 @@ namespace Village123.Shared.GUI.Controls.Windows
         button.Key = itemValue;
         button.OnClicked = () =>
         {
-          var resourceAreaX = 200;
+          var materialAreaX = 200;
           _selectedItem = item;
 
           RemoveChildrenByTag("temp");
-          resourcesList.RemoveChildrenByTag("temp");
-          var str = "Resources required - ";
-          _selectedResources = new Dictionary<string, string>();
-          for (int i = 0; i < itemValue.RequiredResources.Count; i++)
+          optionsList.RemoveChildrenByTag("temp");
+          var str = "Materials required - ";
+          _selectedOptions = new Dictionary<string, string>();
+          for (int i = 0; i < itemValue.RequiredMaterials.Count; i++)
           {
-            var resource = itemValue.RequiredResources.ElementAt(i);
-            str += $"{resource.Key} x{resource.Value} ";
-            _selectedResources.Add(resource.Key, "");
+            var option = itemValue.RequiredMaterials.ElementAt(i);
+            str += $"{option.Key} x{option.Value} ";
+            _selectedOptions.Add(option.Key, "");
           }
-          AddChild(new Label(_font, str, new Vector2(resourceAreaX, 40)), "temp");
+          AddChild(new Label(_font, str, new Vector2(materialAreaX, 40)), "temp");
 
-          for (int i = 0; i < itemValue.RequiredResources.Count; i++)
+          for (int i = 0; i < itemValue.RequiredMaterials.Count; i++)
           {
-            var resourceType = itemValue.RequiredResources.ElementAt(i);
-            var control = new ResourceOptions(
-              resourceType.Key, // resourceType
-              (resource) => _selectedResources[resourceType.Key] = resource, // onResourceSelected
-              resourcesList.Width - 35 // width
+            var optionType = itemValue.RequiredMaterials.ElementAt(i);
+            var control = new MaterialOptions(
+              optionType.Key,
+              (option) => _selectedOptions[optionType.Key] = option, // onOptionSelected
+              optionsList.Width - 35 // width
             );
 
-            resourcesList.AddChild(control, "temp");
+            optionsList.AddChild(control, "temp");
           }
         };
 
@@ -121,7 +121,7 @@ namespace Village123.Shared.GUI.Controls.Windows
         craftItem(new CraftItemModel()
         {
           Item = _selectedItem,
-          Resources = _selectedResources,
+          Materials = _selectedOptions,
         });
       };
 
@@ -153,7 +153,7 @@ namespace Village123.Shared.GUI.Controls.Windows
 
         if (child.Tag == "craftButton")
         {
-          child.IsVisible = !string.IsNullOrEmpty(_selectedItem.Key) && _selectedResources.All(r => !string.IsNullOrEmpty(r.Value));
+          child.IsVisible = !string.IsNullOrEmpty(_selectedItem.Key) && _selectedOptions.All(r => !string.IsNullOrEmpty(r.Value));
         }
       }
 

@@ -8,26 +8,26 @@ using Village123.Shared.Utils;
 
 namespace Village123.Shared.GUI.Controls
 {
-  public class ResourceOptions : Control
+  public class MaterialOptions : Control
   {
     private readonly SpriteFont _font;
-    private readonly Action<string> _onResourceSelected;
+    private readonly Action<string> _onOptionSelected;
     private readonly int _width;
 
     private Texture2D _backgroundTexture;
-    private object _previousSelectedResource = null;
-    private object _currentSelectedResource = null;
+    private object _previousSelectedOption = null;
+    private object _currentSelectedOption = null;
 
     #region Overrides
     public override int Width => _backgroundTexture != null ? _backgroundTexture.Width : 0;
     public override int Height => _backgroundTexture != null ? _backgroundTexture.Height : 0;
     #endregion
 
-    public ResourceOptions(string resourceType, Action<string> onResourceSelected, int width)
+    public MaterialOptions(string materialType, Action<string> onOptionSelected, int width)
       : base()
     {
       _font = BaseGame.GWM.GameModel.Content.Load<SpriteFont>("Font");
-      _onResourceSelected = onResourceSelected;
+      _onOptionSelected = onOptionSelected;
       _width = width;
 
       var buttonTexture = TextureHelpers.CreateBorderedTexture(
@@ -39,23 +39,23 @@ namespace Village123.Shared.GUI.Controls
         1
       );
 
-      var titleLabel = new Label(_font, $"{resourceType} options", new Vector2(5, 5));
+      var titleLabel = new Label(_font, $"{materialType} options", new Vector2(5, 5));
       AddChild(titleLabel);
 
       var startPosition = new Vector2(5, 5 + titleLabel.Height + 10);
 
-      var resourceOptions = BaseGame.GWM.ResourceData.GetResourcesByType(resourceType);
-      for (int i = 0; i < resourceOptions.Count; i++)
+      var options = BaseGame.GWM.MaterialsData.GetByType(materialType);
+      for (int i = 0; i < options.Count; i++)
       {
-        var resource = resourceOptions.ElementAt(i);
-        var button = new Button(_font, buttonTexture, resource.Value.Name, startPosition);
-        button.Key = resource.Value;
+        var option = options.ElementAt(i);
+        var button = new Button(_font, buttonTexture, option.Value.Name, startPosition);
+        button.Key = option.Value;
         button.OnClicked = () =>
         {
-          _currentSelectedResource = button.Key;
-          _onResourceSelected(resource.Key);
+          _currentSelectedOption = button.Key;
+          _onOptionSelected(option.Key);
         };
-        button.IsSelected = () => button.Key == _currentSelectedResource;
+        button.IsSelected = () => button.Key == _currentSelectedOption;
         AddChild(button);
 
         startPosition += new Vector2(button.Width + 5, 0);
@@ -114,9 +114,9 @@ namespace Village123.Shared.GUI.Controls
         child.Update(gameTime);
       }
 
-      if (_previousSelectedResource != _currentSelectedResource)
+      if (_previousSelectedOption != _currentSelectedOption)
       {
-        _previousSelectedResource = _currentSelectedResource;
+        _previousSelectedOption = _currentSelectedOption;
         RemoveChildrenByTag("modifiers");
 
         UpdateModifierValues();
@@ -132,20 +132,20 @@ namespace Village123.Shared.GUI.Controls
       var modLabel = new Label(_font, "Modifiers:", modifiersStartPosition);
       AddChild(modLabel, "modifiers");
 
-      var resource = _currentSelectedResource != null ?
-        (ResourceData.Resource)_currentSelectedResource :
+      var option = _currentSelectedOption != null ?
+        (MaterialData.Material)_currentSelectedOption :
         null;
 
       modifiersStartPosition += new Vector2(modLabel.Width + 10, 0);
-      for (int i = 0; i < BaseGame.GWM.ResourceModifiersData.ResourceModifiers.Count; i++)
+      for (int i = 0; i < BaseGame.GWM.MaterialsModifiersData.MaterialModifiers.Count; i++)
       {
-        var modifier = BaseGame.GWM.ResourceModifiersData.ResourceModifiers.ElementAt(i);
+        var modifier = BaseGame.GWM.MaterialsModifiersData.MaterialModifiers.ElementAt(i);
         var label = new Label(_font, $"{modifier.Key}:", modifiersStartPosition);
         AddChild(label, "modifiers");
         AddChild(new Label(
           _font,
-          resource != null && resource.Modifiers.ContainsKey(modifier.Key) ?
-            resource.Modifiers[modifier.Key].ToString() :
+          option != null && option.Modifiers.ContainsKey(modifier.Key) ?
+            option.Modifiers[modifier.Key].ToString() :
             $"-",
           modifiersStartPosition + new Vector2(150, 0)), "modifiers");
 
