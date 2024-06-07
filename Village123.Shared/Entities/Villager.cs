@@ -26,6 +26,8 @@ namespace Village123.Shared.Entities
 
     public Point Point { get; set; }
 
+    public Color Colour { get; set; }
+
     [JsonIgnore]
     public Vector2 Position => (Point.ToVector2() * BaseGame.TileSize) + PositionOffset;
 
@@ -101,7 +103,7 @@ namespace Village123.Shared.Entities
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(Texture, Position, Color.White);
+      spriteBatch.Draw(Texture, Position, Colour);
     }
   }
 }

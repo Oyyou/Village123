@@ -43,6 +43,11 @@ namespace Village123.Shared.Managers
       _placeOptionsPanel?.Draw(spriteBatch);
     }
 
+    public void OpenContextMenu()
+    {
+
+    }
+
     public void HandlePlaceClicked(Place place)
     {
       _placeOptionsPanel = new PlaceOptionsPanel(place, place.Position);

@@ -60,7 +60,7 @@ namespace Village123.Shared.Managers
       if (spawnPoint != null)
       {
         Items.Add(new Item(BaseGame.GWM.IdManager.ItemId++, data, texture, spawnPoint.Value));
-        BaseGame.GWM.Map.Add(spawnPoint.Value, new Point(1, 1));
+        BaseGame.GWM.Map.AddEntity(spawnPoint.Value, new Point(1, 1));
       }
       else
       {

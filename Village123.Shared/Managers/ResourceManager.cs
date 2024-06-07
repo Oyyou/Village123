@@ -73,7 +73,7 @@ namespace Village123.Shared.Managers
 
       Resources.Add(resource);
 
-      BaseGame.GWM.Map.Add(point, resource.Data.Size);
+      BaseGame.GWM.Map.AddObstacle(point, resource.Data.Size);
 
       return resource;
     }

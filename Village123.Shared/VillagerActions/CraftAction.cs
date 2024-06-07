@@ -42,7 +42,7 @@ namespace Village123.Shared.VillagerActions
       if (_timer >= 0.01f)
       {
         _timer = 0;
-        _job.Progress += 5;
+        _job.Progress += 1;
       }
     }
 
@@ -59,6 +59,7 @@ namespace Village123.Shared.VillagerActions
       var item = BaseGame.GWM.ItemManager.Items.Last();
 
       var storage = BaseGame.GWM.PlaceManager.GetPlacesByType("itemStorage")
+        .OrderBy(s => Vector2.Distance(s.Position, item.Position))
         .FirstOrDefault(); // TODO: Make smart
 
       if (storage != null)

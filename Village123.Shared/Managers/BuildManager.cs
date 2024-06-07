@@ -13,6 +13,7 @@ namespace Village123.Shared.Managers
 {
   public class BuildManager
   {
+    private bool _hasUpdated = false;
     private Place _place;
 
     private readonly Texture2D _radiusTexture;
@@ -48,6 +49,7 @@ namespace Village123.Shared.Managers
       {
         Opacity = 0.75f,
       };
+      _hasUpdated = false;
     }
 
     public void Update(GameTime gameTime)
@@ -62,6 +64,8 @@ namespace Village123.Shared.Managers
         Reset();
         return;
       }
+
+      _hasUpdated = true;
 
       _place.Colour = Color.Green;
       _place.Point = GameMouse.MapPoint;
@@ -167,6 +171,8 @@ namespace Village123.Shared.Managers
     {
       if (BaseGame.GWM.State != GameStates.Building)
         return;
+
+      if (!_hasUpdated) return;
 
       spriteBatch.Begin();
       _place.Draw(spriteBatch);

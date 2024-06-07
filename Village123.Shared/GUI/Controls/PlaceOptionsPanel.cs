@@ -10,7 +10,6 @@ namespace Village123.Shared.GUI.Controls
 {
   public class PlaceOptionsPanel : Control
   {
-
     private float _timer = 0f;
     private bool _closing = false;
     private Texture2D _backgroundTexture;

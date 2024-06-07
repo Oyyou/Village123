@@ -68,6 +68,19 @@ namespace Village123.Shared.GUI.Controls
           BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["farmPlot"]);
         }
       });
+
+      _buttons.Add(new Button(
+        font,
+        texture,
+        "Spawn Villager",
+        _buttons.Last().Position + new Vector2(buttonWidth, 0)
+      )
+      {
+        OnClicked = () =>
+        {
+          BaseGame.GWM.VillagerManager.CreateRandomVillager();
+        }
+      });
     }
 
     public void Update(GameTime gameTime)

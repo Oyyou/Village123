@@ -67,6 +67,10 @@ namespace Village123.Shared.Entities
     {
       ClickableComponent.Update(gameTime);
 
+      if (ClickableComponent.IsMouseClicked)
+      {
+        BaseGame.GWM.GUIManager.OpenContextMenu();
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)

@@ -161,7 +161,8 @@ namespace Village123.Shared.Managers
         Conditions = new Dictionary<string, Condition>()
         {
           { "Energy", new(100f, -0.10f) }
-        }
+        },
+        Colour = new Color(BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255)),
       };
 
       Villagers.Add(villager);

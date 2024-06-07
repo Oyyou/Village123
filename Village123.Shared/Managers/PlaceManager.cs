@@ -74,7 +74,7 @@ namespace Village123.Shared.Managers
 
       Places.Add(place);
 
-      BaseGame.GWM.Map.Add(point, place.Data.Size);
+      BaseGame.GWM.Map.AddEntity(point, place.Data.Size);
 
       return place;
     }
