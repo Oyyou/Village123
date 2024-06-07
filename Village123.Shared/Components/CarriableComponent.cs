@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.Components
@@ -19,6 +20,8 @@ namespace Village123.Shared.Components
     public bool BeingCarried { get; set; } = false;
 
     public Vector2 Position { get; set; } = Vector2.Zero;
+
+    public Action OnPickup { get; set; } = null;
 
     public CarriableComponent()
     {
@@ -44,6 +47,8 @@ namespace Village123.Shared.Components
     {
       CarrierId = carrier.Id;
       BeingCarried = true;
+
+      OnPickup?.Invoke();
     }
 
     public void Update()

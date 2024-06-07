@@ -49,14 +49,20 @@ namespace Village123.Shared.Entities
 
       Name = Path.GetFileName(Texture.Name);
 
-      Carriable = new CarriableComponent(this);
-
       SetData(data);
     }
 
     public void SetData(ItemData.Item data)
     {
       Data = data;
+
+      Carriable = new CarriableComponent(this)
+      {
+        OnPickup = () =>
+        {
+          BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
+        }
+      };
     }
 
     public void Update(GameTime gameTime)
