@@ -11,6 +11,7 @@ namespace Village123.Shared.GUI.Controls.Bases
   public abstract class Control
   {
     protected bool _isEnabled = true;
+    protected bool _isClickable = true;
 
     public ClickableComponent ClickableComponent { get; protected set; }
 
@@ -79,7 +80,7 @@ namespace Village123.Shared.GUI.Controls.Bases
       ClickableComponent = new ClickableComponent()
       {
         ClickLayer = () => Parent != null ? Parent.ClickableComponent.ClickLayer() + 0.01f : Layer,
-        IsClickable = () => Parent != null ? Parent.ClickableComponent.IsClickable() : true,
+        IsClickable = () => Parent != null ? Parent.ClickableComponent.IsClickable() : _isClickable,
         ClickRectangle = () =>
         {
           var position = DrawPosition;
