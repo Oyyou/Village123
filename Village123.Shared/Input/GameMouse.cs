@@ -30,9 +30,11 @@ namespace Village123.Shared.Input
       {
         if (!ClickEnabled) return null;
 
-        return ClickableComponents
+        var resp = ClickableComponents
           .Where(c => c.IsClickable())
           .OrderBy(c => c.ClickLayer()).LastOrDefault();
+
+        return resp;
       }
     }
 

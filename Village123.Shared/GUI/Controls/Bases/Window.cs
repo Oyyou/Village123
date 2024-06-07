@@ -55,6 +55,12 @@ namespace Village123.Shared.GUI.Controls.Bases
       return button;
     }
 
+    protected void AddItemList(ItemList itemList)
+    {
+      itemList.ClickableComponent.IsClickable = () => this.ClickableComponent.IsClickable();
+      _itemLists.Add(itemList);
+    }
+
     public override void Update(GameTime gameTime)
     {
       base.Update(gameTime);

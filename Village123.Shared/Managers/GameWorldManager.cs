@@ -72,8 +72,8 @@ namespace Village123.Shared.Managers
 
       ItemManager = ItemManager.Load();
       PlaceManager = PlaceManager.Load();
-      VillagerManager = VillagerManager.Load();
       JobManager = JobManager.Load();
+      VillagerManager = VillagerManager.Load();
       MaterialManager = MaterialManager.Load();
       ResourceManager = ResourceManager.Load();
 

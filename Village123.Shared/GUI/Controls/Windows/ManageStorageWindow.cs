@@ -46,7 +46,7 @@ namespace Village123.Shared.GUI.Controls.Windows
           300
         )
       );
-      _itemLists.Add(availablePlacesList);
+      AddItemList(availablePlacesList);
 
       var places = BaseGame.GWM.PlaceManager
         .GetPlacesByType("workstation")
@@ -90,7 +90,7 @@ namespace Village123.Shared.GUI.Controls.Windows
           300
         )
       );
-      _itemLists.Add(_inventoryList);
+      AddItemList(_inventoryList);
 
       var itemButtonTexture = TextureHelpers.CreateBorderedTexture(
         BaseGame.GWM.GameModel.GraphicsDevice,

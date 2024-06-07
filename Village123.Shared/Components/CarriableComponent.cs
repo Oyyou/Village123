@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Text.Json.Serialization;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.Components
@@ -21,6 +22,7 @@ namespace Village123.Shared.Components
 
     public Vector2 Position { get; set; } = Vector2.Zero;
 
+    [JsonIgnore]
     public Action OnPickup { get; set; } = null;
 
     public CarriableComponent()

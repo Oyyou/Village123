@@ -36,6 +36,7 @@ namespace Village123.Shared.Entities
     public ItemData.Item Data { get; private set; }
 
     #region Components
+    [JsonIgnore]
     public CarriableComponent Carriable { get; set; }
     #endregion
 

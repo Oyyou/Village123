@@ -49,7 +49,7 @@ namespace Village123.Shared.GUI.Controls.Windows
           300
         )
       );
-      _itemLists.Add(itemList);
+      AddItemList(itemList);
 
 
       var x = itemList.Viewport.Right + sidePadding;
@@ -62,7 +62,7 @@ namespace Village123.Shared.GUI.Controls.Windows
         )
       );
 
-      _itemLists.Add(optionsList);
+      AddItemList(optionsList);
 
       for (int i = 0; i < items.Count; i++)
       {
