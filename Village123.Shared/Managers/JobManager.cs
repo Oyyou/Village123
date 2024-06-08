@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,14 +43,29 @@ namespace Village123.Shared.Managers
     }
     #endregion
 
+    public Job AddJob(Point point, HarvestedResourceModel heavestedResource)
+    {
+      var job = new Job()
+      {
+        Id = BaseGame.GWM.IdManager.JobId++,
+        HarvestedResource = heavestedResource,
+        Point = point,
+        MaxWorkers = 1,
+        // Type = place.Data.Category,
+        WorkerIds = new List<int>(),
+      };
+
+      Jobs.Add(job);
+
+      return job;
+    }
+
     public Job Add(Place place, CraftItemModel craftItem = null)
     {
       var job = new Job()
       {
         Id = BaseGame.GWM.IdManager.JobId++,
-        PlaceId = place.Id,
         ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Materials = craftItem.Materials } : null,
-        Name = $"{craftItem.Item.Key}",
         Point = place.Point,
         MaxWorkers = 1,
         // RequiredEquipment = item.RequiredEquipment,
@@ -57,6 +73,7 @@ namespace Village123.Shared.Managers
         WorkerIds = new List<int>(),
       };
 
+      place.JobIds.Add(job.Id);
       Jobs.Add(job);
 
       return job;
@@ -67,17 +84,24 @@ namespace Village123.Shared.Managers
       Jobs.Remove(job);
       villager.JobIds.RemoveAt(0);
 
-      BaseGame.GWM.ItemManager.AddCraftedItem(job.ProducedItem, job.Point);
+      if (job.ProducedItem != null)
+      {
+        BaseGame.GWM.ItemManager.AddCraftedItem(job.ProducedItem, job.Point);
+      }
+
+      if (job.HarvestedResource != null)
+      {
+        //  BaseGame.GWM.ResourceManager.Add(job.HarvestedResource.ResourceName, job.Point);
+      }
+
+      foreach (var place in BaseGame.GWM.PlaceManager.Places)
+      {
+        if (place.JobIds.Contains(job.Id))
+        {
+          place.JobIds.Remove(job.Id);
+          break;
+        }
+      }
     }
-
-    //public Job GetNextAvailableJob()
-    //{
-    //  var unworkedJobs = Jobs.Where(c => c.WorkerIds.Count < c.MaxWorkers);
-
-    //  foreach (var job in unworkedJobs)
-    //  {
-
-    //  }
-    //}
   }
 }

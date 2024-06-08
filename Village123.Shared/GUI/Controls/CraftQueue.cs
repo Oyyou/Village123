@@ -31,9 +31,9 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Update(GameTime gameTime)
     {
-      var jobs = BaseGame.GWM.JobManager.Jobs.Where(j => j.PlaceId == _place.Id);
-      foreach (var job in jobs)
+      foreach (var id in _place.JobIds)
       {
+        var job = BaseGame.GWM.JobManager.Jobs.FirstOrDefault(j => j.Id == id);
         if (!Children.Any(c => (int)c.Key == job.Id))
         {
           var texture = TextureHelpers.CreateBorderedTexture(

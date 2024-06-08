@@ -4,6 +4,7 @@ using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.GUI.Controls.Windows;
+using Village123.Shared.Models;
 
 namespace Village123.Shared.Managers
 {
@@ -13,6 +14,7 @@ namespace Village123.Shared.Managers
     private readonly BuildPanel _buildPanel;
     private Window _window;
     private PlaceOptionsPanel _placeOptionsPanel;
+    private ContextMenu _contextMenu;
 
     public GUIManager()
     {
@@ -26,6 +28,11 @@ namespace Village123.Shared.Managers
         _placeOptionsPanel = null;
       }
 
+      if (_contextMenu != null && _contextMenu.Closed)
+      {
+        _contextMenu = null;
+      }
+
       if (_window != null && !_window.IsOpen)
       {
         _window = null;
@@ -34,6 +41,7 @@ namespace Village123.Shared.Managers
       _buildPanel.Update(gameTime);
       _window?.Update(gameTime);
       _placeOptionsPanel?.Update(gameTime);
+      _contextMenu?.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -41,11 +49,12 @@ namespace Village123.Shared.Managers
       _buildPanel.Draw(spriteBatch);
       _window?.Draw(spriteBatch);
       _placeOptionsPanel?.Draw(spriteBatch);
+      _contextMenu?.Draw(spriteBatch);
     }
 
-    public void OpenContextMenu()
+    public void OpenContextMenu(ContextMenuModel model)
     {
-
+      _contextMenu = new ContextMenu(model);
     }
 
     public void HandlePlaceClicked(Place place)

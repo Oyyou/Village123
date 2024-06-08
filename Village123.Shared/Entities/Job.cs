@@ -7,9 +7,8 @@ namespace Village123.Shared.Entities
   public class Job : IEntity
   {
     public int Id { get; set; }
-    public int PlaceId { get; set; }
+    public HarvestedResourceModel HarvestedResource { get; set; } = null;
     public ProducedItemModel ProducedItem { get; set; } = null;
-    public string Name { get; set; }
     public string Type { get; set; }
     public Point Point { get; set; }
     public List<int> WorkerIds { get; set; } = new();

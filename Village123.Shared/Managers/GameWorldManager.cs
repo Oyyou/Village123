@@ -29,6 +29,7 @@ namespace Village123.Shared.Managers
     public PlaceCategoryData PlaceCategoryData { get; set; }
     public PlaceTypeData PlaceTypeData { get; set; }
     public ResourceData ResourceData { get; set; }
+    public ResourceTypeData ResourceTypeData { get; set; }
 
     public Map Map { get; set; }
     public IdManager IdManager { get; set; }
@@ -62,6 +63,7 @@ namespace Village123.Shared.Managers
       MaterialsData = MaterialData.Load();
       MaterialsModifiersData = MaterialModifiersData.Load();
       ResourceData = ResourceData.Load();
+      ResourceTypeData = ResourceTypeData.Load();
 
       // TODO: Load map
       Map = new Map(100, 100);

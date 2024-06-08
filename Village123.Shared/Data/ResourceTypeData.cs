@@ -14,13 +14,7 @@ namespace Village123.Shared.Data
       public string Name { get; set; }
 
       [JsonProperty("actions")]
-      public List<string> Actions { get; set; }
-
-      [JsonProperty("size")]
-      public Point Size { get; set; }
-
-      [JsonProperty("pointOffset")]
-      public Point PointOffset { get; set; }
+      public Dictionary<string, object> Actions { get; set; }
     }
 
     public static ResourceTypeData Load()

@@ -68,7 +68,7 @@ namespace Village123.Shared.Managers
       var id = BaseGame.GWM.IdManager.ResourceId++;
       var resource = new Resource(id, data, BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{resourceName}"), point)
       {
-        Name = $"{resourceName} {id}",
+        Name = resourceName,
       };
 
       Resources.Add(resource);

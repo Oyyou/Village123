@@ -1,9 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
+using Village123.Shared.Managers;
+using Village123.Shared.Models;
 
 namespace Village123.Shared.Entities
 {
@@ -69,7 +73,29 @@ namespace Village123.Shared.Entities
 
       if (ClickableComponent.IsMouseClicked)
       {
-        BaseGame.GWM.GUIManager.OpenContextMenu();
+        if (BaseGame.GWM.ResourceTypeData.ResourceTypes.ContainsKey(Data.Type))
+        {
+          var resrouceType = BaseGame.GWM.ResourceTypeData.ResourceTypes[Data.Type];
+
+          var model = new ContextMenuModel()
+          {
+            Name = resrouceType.Name,
+            Position = Position,
+            Items = resrouceType.Actions.Select(a => new ContextMenuItemModel()
+            {
+              Label = a.Key,
+              OnClick = () =>
+              {
+                BaseGame.GWM.JobManager.AddJob(Point, new HarvestedResourceModel()
+                {
+                  ResourceName = Data.Drop,
+                });
+              },
+            }),
+          };
+
+          BaseGame.GWM.GUIManager.OpenContextMenu(model);
+        }
       }
     }
 

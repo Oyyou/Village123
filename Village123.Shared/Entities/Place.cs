@@ -22,6 +22,10 @@ namespace Village123.Shared.Entities
     public string Name { get; set; }
     public Point Point { get; set; }
     public bool BeingDestroyed { get; private set; }
+    /// <summary>
+    /// Jobs at this place
+    /// </summary>
+    public List<int> JobIds { get; set; } = new List<int>();
 
     [JsonIgnore]
     public Vector2 Position => Point.ToVector2() * BaseGame.TileSize;
@@ -31,11 +35,6 @@ namespace Village123.Shared.Entities
 
     [JsonIgnore]
     public Texture2D Texture { get; set; }
-
-    /// <summary>
-    /// Depending on the place type will depend on what content it can store (items/materials)
-    /// </summary>
-    public List<int> Inventory { get; set; }
 
     public Color Colour { get; set; } = Color.White;
     public float Opacity { get; set; } = 1f;
@@ -53,11 +52,6 @@ namespace Village123.Shared.Entities
 
       Name = Path.GetFileName(Texture.Name);
       Key = data.Key;
-    }
-
-    public void AddToInventory(int id)
-    {
-      Inventory.Add(id);
     }
 
     public void SetData(PlaceData.Place data)
