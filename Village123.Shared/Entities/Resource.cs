@@ -6,15 +6,16 @@ using System.IO;
 using System.Linq;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
-using Village123.Shared.Managers;
 using Village123.Shared.Models;
 
 namespace Village123.Shared.Entities
 {
   public class Resource : IEntity
   {
-    public int Id { get; set; }
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private List<string> _cancallableActions = new();
 
+    public int Id { get; set; }
     public string Name { get; set; }
     public Point Point { get; set; }
 
@@ -81,15 +82,27 @@ namespace Village123.Shared.Entities
           {
             Name = resrouceType.Name,
             Position = Position,
-            Items = resrouceType.Actions.Select(a => new ContextMenuItemModel()
+            Items = resrouceType.Actions.Select(action => new ContextMenuItemModel()
             {
-              Label = a.Key,
+              Label = $"{action.Key}{(_cancallableActions.Contains(action.Key) ? $" - cancel" : string.Empty)}",
               OnClick = () =>
               {
                 BaseGame.GWM.JobManager.AddJob(Point, new HarvestedResourceModel()
                 {
                   ResourceName = Data.Drop,
                 });
+
+                if (action.Value.CanCancel)
+                {
+                  if (!_cancallableActions.Contains(action.Key))
+                  {
+                    _cancallableActions.Add(action.Key);
+                  }
+                  else
+                  {
+                    _cancallableActions.Remove(action.Key);
+                  }
+                }
               },
             }),
           };

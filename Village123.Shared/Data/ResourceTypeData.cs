@@ -10,11 +10,16 @@ namespace Village123.Shared.Data
 
     public class ResourceType
     {
+      public class ResourceTypeAction
+      {
+        public bool CanCancel { get; set; } = false;
+      }
+
       [JsonProperty("name")]
       public string Name { get; set; }
 
       [JsonProperty("actions")]
-      public Dictionary<string, object> Actions { get; set; }
+      public Dictionary<string, ResourceTypeAction> Actions { get; set; }
     }
 
     public static ResourceTypeData Load()
