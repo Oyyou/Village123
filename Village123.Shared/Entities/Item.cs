@@ -20,10 +20,6 @@ namespace Village123.Shared.Entities
     /// </summary>
     public int? VillagerId { get; set; }
 
-    /// <summary>
-    /// The storage containing the item
-    /// </summary>
-    public int? StorageId { get; set; }
     public Point Point { get; set; }
 
     [JsonIgnore]
@@ -36,8 +32,8 @@ namespace Village123.Shared.Entities
     public ItemData.Item Data { get; private set; }
 
     #region Components
-    [JsonIgnore]
     public CarriableComponent Carriable { get; set; }
+    public StorableComponent Storable { get; set; }
     #endregion
 
     public Item() { }
@@ -50,6 +46,9 @@ namespace Village123.Shared.Entities
 
       Name = Path.GetFileName(Texture.Name);
 
+      Carriable = new CarriableComponent(this);
+      Storable = new StorableComponent();
+
       SetData(data);
     }
 
@@ -57,12 +56,9 @@ namespace Village123.Shared.Entities
     {
       Data = data;
 
-      Carriable = new CarriableComponent(this)
+      Carriable.OnPickup = () =>
       {
-        OnPickup = () =>
-        {
-          BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
-        }
+        BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
       };
     }
 
@@ -71,14 +67,9 @@ namespace Village123.Shared.Entities
       Carriable?.Update();
     }
 
-    public void DrawInInventory(SpriteBatch spriteBatch, Vector2 position)
-    {
-      spriteBatch.Draw(Texture, position, Color.White);
-    }
-
     public void Draw(SpriteBatch spriteBatch)
     {
-      if (VillagerId.HasValue || StorageId.HasValue)
+      if (VillagerId.HasValue || Storable.IsStored)
       {
         return;
       }

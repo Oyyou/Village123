@@ -55,6 +55,8 @@ namespace Village123.Shared.VillagerActions
     {
       BaseGame.GWM.JobManager.CompleteJob(_villager, _job);
 
+      BaseGame.GWM.ResourceManager.RemoveById(_job.HarvestedResource.ResourceId);
+
       // If the project was async this wouldn't work..
       var material = BaseGame.GWM.MaterialManager.Materials.Last();
 
@@ -67,7 +69,7 @@ namespace Village123.Shared.VillagerActions
         _villager.AddAction(new WalkAction(_villager, material.Point, true));
         _villager.AddAction(new CarryAction(_villager, material.Carriable));
         _villager.AddAction(new WalkAction(_villager, storage.Point, false));
-        //_villager.AddAction(new StoreAction(_villager, item, storage));
+        _villager.AddAction(new StoreAction(_villager, material, storage));
       }
     }
   }

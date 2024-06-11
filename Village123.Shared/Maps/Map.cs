@@ -88,6 +88,20 @@ namespace Village123.Shared.Maps
       }
     }
 
+    public void RemoveData(Point position, Point size)
+    {
+      var bottom = position.Y + size.Y;
+      var right = position.X + size.X;
+
+      for (int y = position.Y; y < bottom; y++)
+      {
+        for (int x = position.X; x < right; x++)
+        {
+          Data[y, x] = 0;
+        }
+      }
+    }
+
     public void RemoveEntity(Point position, Point size)
     {
       var bottom = position.Y + size.Y;

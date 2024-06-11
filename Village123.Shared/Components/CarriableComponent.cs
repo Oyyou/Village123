@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
-using System.Text.Json.Serialization;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.Components

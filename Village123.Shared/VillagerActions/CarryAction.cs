@@ -7,7 +7,6 @@ namespace Village123.Shared.VillagerActions
 {
   public class CarryAction : VillagerAction
   {
-
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     private int? _villagerId = null;
 

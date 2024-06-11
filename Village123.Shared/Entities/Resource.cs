@@ -93,6 +93,7 @@ namespace Village123.Shared.Entities
                   {
                     var job = BaseGame.GWM.JobManager.AddJob(Point, new HarvestedResourceModel()
                     {
+                      ResourceId = Id,
                       ResourceName = Data.Drop,
                     });
                     _cancallableActions.Add(action.Key, job.Id);

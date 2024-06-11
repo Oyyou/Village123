@@ -72,12 +72,13 @@ namespace Village123.Shared.Managers
       GUIManager = new GUIManager();
       BuildManager = new BuildManager();
 
+      MaterialManager = MaterialManager.Load();
+      ResourceManager = ResourceManager.Load();
+
       ItemManager = ItemManager.Load();
       PlaceManager = PlaceManager.Load();
       JobManager = JobManager.Load();
       VillagerManager = VillagerManager.Load();
-      MaterialManager = MaterialManager.Load();
-      ResourceManager = ResourceManager.Load();
 
       //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
 

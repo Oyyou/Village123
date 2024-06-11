@@ -146,7 +146,7 @@ namespace Village123.Shared.Managers
         {
           villager.AddAction(new HarvestAction(villager, job));
         }
-        else if (job.Type == "craft")
+        else if (job.Type == "crafting")
         {
           villager.AddAction(new CraftAction(villager, job));
         }

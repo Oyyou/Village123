@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using Village123.Shared.Data;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.Managers
@@ -88,6 +87,18 @@ namespace Village123.Shared.Managers
     {
       place.CancelDestruction();
       // TODO: Remove destruction job
+    }
+
+    public void RemoveById(int resourceId)
+    {
+      var resource = Resources.Find(r => r.Id == resourceId);
+      if (resource == null)
+      {
+        return;
+      }
+
+      Resources.Remove(resource);
+      BaseGame.GWM.Map.RemoveData(resource.Point, resource.Data.Size);
     }
   }
 }

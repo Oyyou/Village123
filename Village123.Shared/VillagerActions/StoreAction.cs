@@ -1,20 +1,28 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System.Linq;
+using Village123.Shared.Components;
 using Village123.Shared.Entities;
 
 namespace Village123.Shared.VillagerActions
 {
   public class StoreAction : VillagerAction
   {
-    private Item _item;
-    private Place _place;
+    private CarriableComponent _carriable;
+    private StorableComponent _storable;
+    private Place _storagePlace;
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    private int _itemId;
+    private string _texturePath;
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    private int _placeId;
+    private int? _itemId;
+
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private int? _materialId;
+
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private int _storagePlaceId;
 
     public override string Name => "Store";
 
@@ -23,21 +31,53 @@ namespace Village123.Shared.VillagerActions
 
     }
 
-    public StoreAction(Villager villager, Item item, Place place)
+    public StoreAction(
+      Villager villager,
+      Item item,
+      Place storagePlace)
       : base(villager)
     {
-      _item = item;
-      _place = place;
+      _carriable = item.Carriable;
+      _storable = item.Storable;
+      _texturePath = item.Texture.Name;
+      _storagePlace = storagePlace;
 
-      _itemId = _item.Id;
-      _placeId = _place.Id;
+      _itemId = item.Id;
+      _storagePlaceId = _storagePlace.Id;
+    }
+
+    public StoreAction(
+      Villager villager,
+      Material material,
+      Place storagePlace)
+      : base(villager)
+    {
+      _carriable = material.Carriable;
+      _storable = material.Storable;
+      _texturePath = material.Texture.Name;
+      _storagePlace = storagePlace;
+
+      _materialId = material.Id;
+      _storagePlaceId = _storagePlace.Id;
     }
 
     protected override void OnInitialize()
     {
-      _item = BaseGame.GWM.ItemManager.Items.FirstOrDefault(i => i.Id == _itemId);
-      _place = BaseGame.GWM.PlaceManager.Places.FirstOrDefault(p => p.Id == _placeId);
+      _storagePlace = BaseGame.GWM.PlaceManager.Places.FirstOrDefault(p => p.Id == _storagePlaceId);
 
+      if (_itemId.HasValue)
+      {
+        var item = BaseGame.GWM.ItemManager.Items.Find(i => i.Id == _itemId.Value);
+        _carriable = item.Carriable;
+        _storable = item.Storable;
+      }
+
+      if (_materialId.HasValue)
+      {
+        var material = BaseGame.GWM.MaterialManager.Materials.Find(m => m.Id == _materialId.Value);
+        _carriable = material.Carriable;
+        _storable = material.Storable;
+      }
     }
 
     public override bool IsComplete()
@@ -52,8 +92,8 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
-      _item.Carriable.BeingCarried = false;
-      _item.StorageId = _place.Id;
+      _carriable.BeingCarried = false;
+      _storable.Store(_storagePlace, _texturePath);
     }
 
     public override void Update(GameTime gameTime)

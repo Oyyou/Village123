@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using Village123.Shared.Components;
 using Village123.Shared.Entities;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.Sprites;
@@ -16,7 +17,7 @@ namespace Village123.Shared.GUI.Controls.Windows
     private string selectedTag = "all";
 
     private ItemList _inventoryList;
-    private List<Item> _items = new List<Item>();
+    private List<StorableComponent> _storables = new List<StorableComponent>();
 
     public ManageStorageWindow(Place place, Vector2 position, int width, int height)
       : base(position, width, height, "Manage storage")
@@ -108,17 +109,20 @@ namespace Village123.Shared.GUI.Controls.Windows
 
     private void UpdateInventoryItems()
     {
-      var previousItems = new List<Item>(_items);
-      _items = BaseGame.GWM.ItemManager.Items.Where(i => i.StorageId == _place.Id).ToList();
+      var previousStorables = new List<StorableComponent>(_storables);
+      _storables = BaseGame.GWM.ItemManager.Items.Select(i => i.Storable)
+        .Where(s => s.PlaceId == _place.Id)
+        .ToList();
+      _storables.AddRange(BaseGame.GWM.MaterialManager.Materials.Select(i => i.Storable).Where(s => s.PlaceId == _place.Id));
 
-      var isDifferent = !_items.SequenceEqual(previousItems);
+      var isDifferent = !_storables.SequenceEqual(previousStorables);
 
       if (isDifferent)
       {
         _inventoryList.RemoveChildrenByTag("inventoryItem");
-        foreach (var item in _items)
+        foreach (var item in _storables)
         {
-          _inventoryList.AddChild(new Button(new Sprite(BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Items/{item.Name}")) { Scale = 2f }), "inventoryItem");
+          _inventoryList.AddChild(new Button(new Sprite(BaseGame.GWM.GameModel.Content.Load<Texture2D>(item.TexturePath)) { Scale = 2f }), "inventoryItem");
         }
       }
     }
