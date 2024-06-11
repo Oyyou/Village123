@@ -60,14 +60,14 @@ namespace Village123.Shared.Maps
     //  }
     //}
 
-    public void AddObstacle(Point position, Point size)
+    public void AddObstacle(Point position, Point size, Point pointOffset)
     {
       var bottom = position.Y + size.Y;
       var right = position.X + size.X;
 
-      for (int y = position.Y; y < bottom; y++)
+      for (int y = position.Y + pointOffset.Y; y < bottom; y++)
       {
-        for (int x = position.X; x < right; x++)
+        for (int x = position.X + pointOffset.X; x < right; x++)
         {
           Data[y, x] = 1;
         }
