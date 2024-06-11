@@ -161,6 +161,7 @@ namespace Village123.Shared.Managers
       PlaceManager.Update(gameTime);
       VillagerManager.Update(gameTime);
       ItemManager.Update(gameTime);
+      MaterialManager.Update(gameTime);
       ResourceManager.Update(gameTime);
     }
 

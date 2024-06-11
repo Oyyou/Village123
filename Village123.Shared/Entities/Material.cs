@@ -31,6 +31,7 @@ namespace Village123.Shared.Entities
     public MaterialData.Material Data { get; private set; }
 
     #region Components
+    [JsonIgnore]
     public CarriableComponent Carriable { get; set; }
     #endregion
 
@@ -44,7 +45,13 @@ namespace Village123.Shared.Entities
 
       Name = Path.GetFileName(Texture.Name);
 
-      Carriable = new CarriableComponent(this);
+      Carriable = new CarriableComponent(this)
+      {
+        OnPickup = () =>
+        {
+          BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
+        }
+      };
 
       SetData(data);
     }

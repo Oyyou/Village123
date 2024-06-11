@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
+using static Village123.Shared.Data.ItemData;
 
 namespace Village123.Shared.Managers
 {
@@ -55,8 +56,16 @@ namespace Village123.Shared.Managers
       var texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Materials/{resourceName}");
 
       Materials.Add(new Material(
-        BaseGame.GWM.IdManager.ResourceId++, data, texture, emitterPoint
+        BaseGame.GWM.IdManager.MaterialId++, data, texture, emitterPoint
       ));
+    }
+
+    public void Update(GameTime gameTime)
+    {
+      foreach (var material in Materials)
+      {
+        material.Update(gameTime);
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)

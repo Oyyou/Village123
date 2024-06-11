@@ -141,7 +141,15 @@ namespace Village123.Shared.Managers
         var job = BaseGame.GWM.JobManager.Jobs.FirstOrDefault(a => a.Id == villager.JobIds[0]);
 
         villager.AddAction(new WalkAction(villager, job.Point, false));
-        villager.AddAction(new CraftAction(villager, job));
+
+        if (job.Type == "harvest")
+        {
+          villager.AddAction(new HarvestAction(villager, job));
+        }
+        else if (job.Type == "craft")
+        {
+          villager.AddAction(new CraftAction(villager, job));
+        }
         return;
       }
 

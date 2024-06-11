@@ -13,7 +13,7 @@ namespace Village123.Shared.Entities
   public class Resource : IEntity
   {
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
-    private List<string> _cancallableActions = new();
+    private Dictionary<string, int> _cancallableActions = new();
 
     public int Id { get; set; }
     public string Name { get; set; }
@@ -84,23 +84,24 @@ namespace Village123.Shared.Entities
             Position = Position,
             Items = resrouceType.Actions.Select(action => new ContextMenuItemModel()
             {
-              Label = $"{action.Key}{(_cancallableActions.Contains(action.Key) ? $" - cancel" : string.Empty)}",
+              Label = $"{action.Key}{(_cancallableActions.ContainsKey(action.Key) ? $" - cancel" : string.Empty)}",
               OnClick = () =>
               {
-                BaseGame.GWM.JobManager.AddJob(Point, new HarvestedResourceModel()
-                {
-                  ResourceName = Data.Drop,
-                });
-
                 if (action.Value.CanCancel)
                 {
-                  if (!_cancallableActions.Contains(action.Key))
+                  if (!_cancallableActions.ContainsKey(action.Key))
                   {
-                    _cancallableActions.Add(action.Key);
+                    var job = BaseGame.GWM.JobManager.AddJob(Point, new HarvestedResourceModel()
+                    {
+                      ResourceName = Data.Drop,
+                    });
+                    _cancallableActions.Add(action.Key, job.Id);
                   }
                   else
                   {
+                    var jobId = _cancallableActions[action.Key];
                     _cancallableActions.Remove(action.Key);
+                    BaseGame.GWM.JobManager.RemoveJobById(jobId);
                   }
                 }
               },

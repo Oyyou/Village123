@@ -51,13 +51,30 @@ namespace Village123.Shared.Managers
         HarvestedResource = heavestedResource,
         Point = point,
         MaxWorkers = 1,
-        // Type = place.Data.Category,
+        Type = "harvest",
         WorkerIds = new List<int>(),
       };
 
       Jobs.Add(job);
 
       return job;
+    }
+
+    public void RemoveJobById(int id)
+    {
+      var job = Jobs.Find(j => j.Id == id);
+
+      if (job == null)
+      {
+        return;
+      }
+
+      foreach(var workerId in job.WorkerIds)
+      {
+        var villager = BaseGame.GWM.VillagerManager.Villagers.FirstOrDefault(v => job.WorkerIds.Contains(v.Id));
+        villager.JobIds.Remove(job.Id);
+        villager.ActionQueue.Clear(); // FYI: Not safe
+      }
     }
 
     public Job Add(Place place, CraftItemModel craftItem = null)
@@ -91,7 +108,7 @@ namespace Village123.Shared.Managers
 
       if (job.HarvestedResource != null)
       {
-        //  BaseGame.GWM.ResourceManager.Add(job.HarvestedResource.ResourceName, job.Point);
+        BaseGame.GWM.MaterialManager.Add(job.HarvestedResource.ResourceName, job.Point);
       }
 
       foreach (var place in BaseGame.GWM.PlaceManager.Places)
