@@ -22,7 +22,7 @@
     },
     "blocksPath": false,
     "requiredMaterials": {
-      "ore": 10
+      "metal": 10
     },
     "producedItemTypes": [
       "tool"

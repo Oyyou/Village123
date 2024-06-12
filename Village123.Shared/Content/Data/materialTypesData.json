@@ -3,8 +3,8 @@
     "name": "Wood",
     "job": "woodcutting"
   },
-  "ore": {
-    "name": "Ore",
+  "metal": {
+    "name": "Metal",
     "job": "mining"
   },
   "stone": {

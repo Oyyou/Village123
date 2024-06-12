@@ -19,7 +19,7 @@
   },
   "iron": {
     "name": "Iron",
-    "type": "ore",
+    "type": "metal",
     "modifiers": {
       "durability": 100,
       "effectiveness": 20,
@@ -28,7 +28,7 @@
   },
   "gold": {
     "name": "Gold",
-    "type": "ore",
+    "type": "metal",
     "modifiers": {
       "durability": 70,
       "effectiveness": 25,

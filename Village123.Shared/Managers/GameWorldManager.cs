@@ -87,6 +87,7 @@ namespace Village123.Shared.Managers
 
       //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
       GenerateTrees(0.05f);
+      GenerateStones(0.025f);
       LoadGrassTiles();
     }
 
@@ -111,6 +112,30 @@ namespace Village123.Shared.Managers
 
         occupiedPoints.Add(point);
         ResourceManager.Add("pineTree", point);
+      }
+    }
+
+    public void GenerateStones(double density)
+    {
+      int mapWidth = Map.Width;
+      int mapHeight = Map.Height;
+      int totalCells = mapWidth * mapHeight;
+      int total = (int)(totalCells * density);
+
+      var occupiedPoints = new HashSet<Point>();
+
+      for (int i = 0; i < total; i++)
+      {
+        Point point;
+        do
+        {
+          var x = BaseGame.Random.Next(2, mapWidth - 2);
+          var y = BaseGame.Random.Next(2, mapHeight - 2);
+          point = new Point(x, y);
+        } while (occupiedPoints.Contains(point));
+
+        occupiedPoints.Add(point);
+        ResourceManager.Add("graniteDeposit", point);
       }
     }
 

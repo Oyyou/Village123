@@ -10,5 +10,29 @@
       "X": 0,
       "Y": 2
     }
+  },
+  "graniteDeposit": {
+    "type": "stone",
+    "drop": "granite",
+    "size": {
+      "X": 1,
+      "Y": 1
+    }
+  },
+  "ironDeposit": {
+    "type": "metal",
+    "drop": "iron",
+    "size": {
+      "X": 1,
+      "Y": 1
+    }
+  },
+  "goldDeposit": {
+    "type": "metal",
+    "drop": "gold",
+    "size": {
+      "X": 1,
+      "Y": 1
+    }
   }
 }

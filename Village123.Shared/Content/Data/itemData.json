@@ -8,7 +8,7 @@
       "level": 1
     },
     "requiredMaterials": {
-      "ore": 1,
+      "metal": 1,
       "wood": 1
     },
     "requiredEquipment": []
@@ -22,7 +22,7 @@
       "level": 1
     },
     "requiredMaterials": {
-      "ore": 2,
+      "metal": 2,
       "wood": 1
     },
     "requiredEquipment": []
@@ -35,7 +35,7 @@
       "level": 1
     },
     "requiredMaterials": {
-      "ore": 4,
+      "metal": 4,
       "wood": 1
     },
     "requiredEquipment": []
@@ -48,7 +48,7 @@
       "level": 2
     },
     "requiredMaterials": {
-      "ore": 6,
+      "metal": 6,
       "wood": 1
     },
     "requiredEquipment": []
@@ -61,7 +61,7 @@
       "level": 2
     },
     "requiredMaterials": {
-      "ore": 8,
+      "metal": 8,
       "wood": 2
     },
     "requiredEquipment": []
@@ -86,7 +86,7 @@
       "level": 2
     },
     "requiredMaterials": {
-      "ore": 6,
+      "metal": 6,
       "wood": 2
     },
     "requiredEquipment": []
@@ -111,7 +111,7 @@
       "level": 2
     },
     "requiredMaterials": {
-      "ore": 10,
+      "metal": 10,
       "leather": 2
     },
     "requiredEquipment": []
@@ -151,7 +151,7 @@
     },
     "requiredMaterials": {
       "wood": 6,
-      "ore": 4,
+      "metal": 4,
       "string": 3
     },
     "requiredEquipment": []
