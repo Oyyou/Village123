@@ -4,31 +4,26 @@ using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.VillagerActions.DetermineActions
 {
-  public class DetermineCraftAction : IDetermineAction
+  public class DetermineHarvestAction : IDetermineAction
   {
     private int _jobId;
 
-    public string Name => "Craft";
+    public string Name => "Harvest";
 
-    public float Priority => 2f;
+    public float Priority => 2.5f;
 
     public bool CanExecute(Villager villager)
     {
       if (villager.JobIds.Count > 0)
         return false;
 
-      var craftJobs = BaseGame.GWM.JobManager.Jobs.Where(c => c.Type == "crafting" && c.WorkerIds.Count < c.MaxWorkers);
+      var jobs = BaseGame.GWM.JobManager.Jobs.Where(c => c.Type == "harvest" && c.WorkerIds.Count < c.MaxWorkers);
 
-      if (!craftJobs.Any())
+      if (!jobs.Any())
         return false;
 
-      var job = craftJobs.First();
+      var job = jobs.First();
       _jobId = job.Id;
-
-      if (job.ProducedItem.Materials.Any(m => !BaseGame.GWM.MaterialManager.IsMaterialAvailable(m.Key, m.Value)))
-      {
-        return false;
-      }
 
       return true;
     }
@@ -41,7 +36,7 @@ namespace Village123.Shared.VillagerActions.DetermineActions
 
       // TODO: Add collect resources to the list
       villager.AddAction(new WalkAction(villager, job.Point, false));
-      villager.AddAction(new CraftAction(villager, job));
+      villager.AddAction(new HarvestAction(villager, job));
     }
   }
 }

@@ -56,6 +56,18 @@
 /processorParam:TextureFormat=Color
 /build:Materials/granite.png
 
+#begin Materials/iron.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Materials/iron.png
+
 #begin Materials/pine.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -127,6 +139,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Resources/graniteDeposit.png
+
+#begin Resources/ironDeposit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Resources/ironDeposit.png
 
 #begin Resources/pineTree.png
 /importer:TextureImporter

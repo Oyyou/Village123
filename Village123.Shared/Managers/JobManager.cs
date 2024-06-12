@@ -82,7 +82,7 @@ namespace Village123.Shared.Managers
       var job = new Job()
       {
         Id = BaseGame.GWM.IdManager.JobId++,
-        ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Materials = craftItem.Materials } : null,
+        ProducedItem = craftItem != null ? new ProducedItemModel() { ItemName = craftItem.Item.Key, Materials = craftItem.Materials.ToDictionary(k => k.Value, v => craftItem.Item.Value.RequiredMaterials[v.Key]) } : null,
         Point = place.Point,
         MaxWorkers = 1,
         // RequiredEquipment = item.RequiredEquipment,

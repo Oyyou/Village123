@@ -90,26 +90,6 @@ namespace Village123.Shared.Managers
 
         villager.Update(gameTime);
       }
-
-      foreach (var job in BaseGame.GWM.JobManager.Jobs)
-      {
-        if (job.WorkerIds.Count == job.MaxWorkers)
-        {
-          continue;
-        }
-
-        foreach (var villager in Villagers)
-        {
-          if (villager.JobIds.Count > 0)
-          {
-            continue;
-          }
-
-          villager.JobIds.Add(job.Id);
-          job.WorkerIds.Add(villager.Id);
-          break;
-        }
-      }
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -127,30 +107,13 @@ namespace Village123.Shared.Managers
         return;
       }
 
-      foreach (var action in _determineActions.OrderByDescending(a => a.Priority))
+      foreach (var action in _determineActions.OrderBy(a => a.Priority))
       {
         if (action.CanExecute(villager))
         {
           action.Execute(villager);
           return;
         }
-      }
-
-      if (villager.JobIds.Count > 0)
-      {
-        var job = BaseGame.GWM.JobManager.Jobs.FirstOrDefault(a => a.Id == villager.JobIds[0]);
-
-        villager.AddAction(new WalkAction(villager, job.Point, false));
-
-        if (job.Type == "harvest")
-        {
-          villager.AddAction(new HarvestAction(villager, job));
-        }
-        else if (job.Type == "crafting")
-        {
-          villager.AddAction(new CraftAction(villager, job));
-        }
-        return;
       }
 
       villager.AddAction(new IdleAction(villager));

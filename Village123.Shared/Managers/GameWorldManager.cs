@@ -134,8 +134,10 @@ namespace Village123.Shared.Managers
           point = new Point(x, y);
         } while (occupiedPoints.Contains(point));
 
+        var rock = BaseGame.Random.Next(2) == 1 ? "graniteDeposit" : "ironDeposit";
+
         occupiedPoints.Add(point);
-        ResourceManager.Add("graniteDeposit", point);
+        ResourceManager.Add(rock, point);
       }
     }
 

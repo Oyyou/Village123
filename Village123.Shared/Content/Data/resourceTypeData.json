@@ -14,5 +14,13 @@
         "canCancel": true
       }
     }
+  },
+  "metal": {
+    "name": "Metal",
+    "actions": {
+      "Mine": {
+        "canCancel": true
+      }
+    }
   }
 }

@@ -60,6 +60,20 @@ namespace Village123.Shared.Managers
       ));
     }
 
+    public bool IsMaterialAvailable(string materialName, int qty)
+    {
+      var total = 0;
+      foreach (var material in Materials)
+      {
+        if (material.Name == materialName)
+          total++;
+
+        if (total >= qty)
+          return true;
+      }
+      return false;
+    }
+
     public void Update(GameTime gameTime)
     {
       foreach (var material in Materials)
