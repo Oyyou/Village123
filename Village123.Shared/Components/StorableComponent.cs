@@ -4,7 +4,7 @@ namespace Village123.Shared.Components
 {
   public class StorableComponent
   {
-    public int PlaceId { get; set; }
+    public int? PlaceId { get; set; }
     public string TexturePath { get; set; }
 
     public int? ItemId { get; set; }

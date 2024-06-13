@@ -5,8 +5,11 @@ using Village123.Shared.Entities;
 
 namespace Village123.Shared.VillagerActions
 {
-  public class CarryAction : VillagerAction
+  public class DropAction : VillagerAction
   {
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    private Point _point;
+
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     private int? _itemId = null;
 
@@ -16,27 +19,26 @@ namespace Village123.Shared.VillagerActions
     [JsonIgnore]
     private CarriableComponent _carriable;
 
-    public override string Name => "Carry";
+    public override string Name => "Drop";
 
-    public CarryAction(Villager villager, Item item)
+    public DropAction(Villager villager, Point point, Item item)
       : base(villager)
     {
+      _point = point;
       _itemId = item.Id;
       _carriable = item.Carriable;
     }
 
-    public CarryAction(Villager villager, Material material)
+    public DropAction(Villager villager, Point point, Material material)
       : base(villager)
     {
+      _point = point;
       _materialId = material.Id;
       _carriable = material.Carriable;
     }
 
     protected override void OnInitialize()
     {
-      //if (_villagerId.HasValue)
-      //  _carriable = VillagerManager.GetInstance(BaseGame.GWM).Villagers.Find(v => v.Id == _villagerId.Value).Carriable;
-
       if (_itemId.HasValue)
       {
         _carriable = BaseGame.GWM.ItemManager.Items.Find(v => v.Id == _itemId.Value).Carriable;
@@ -50,12 +52,11 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
-      _carriable.GetCarried(_villager);
+      _carriable.Drop(_point);
     }
 
     public override void Update(GameTime gameTime)
     {
-
     }
 
     public override bool IsComplete()
