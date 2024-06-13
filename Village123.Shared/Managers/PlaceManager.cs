@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
+using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
 {
@@ -40,7 +41,7 @@ namespace Village123.Shared.Managers
       foreach (var place in manager.Places)
       {
         place.SetData(BaseGame.GWM.PlaceData.Places[place.Key]);
-        place.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Places/{place.Key}");
+        place.Texture = TextureHelpers.LoadTexture($"Places/{place.Key}");
       }
 
       return manager;
@@ -66,7 +67,7 @@ namespace Village123.Shared.Managers
     public Place Add(PlaceData.Place data, Point point)
     {
       var id = BaseGame.GWM.IdManager.PlaceId++;
-      var place = new Place(data, BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Places/{data.Key}"), point)
+      var place = new Place(data, TextureHelpers.LoadTexture($"Places/{data.Key}"), point)
       {
         Id = id,
         Name = $"{data.Name} {id}",

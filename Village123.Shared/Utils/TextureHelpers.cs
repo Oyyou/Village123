@@ -1,11 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 
 namespace Village123.Shared.Utils
 {
   public static class TextureHelpers
   {
+    public static Texture2D LoadTexture(string path)
+    {
+      var exists = File.Exists($@"Content\{path}.xnb");
+      var textue = BaseGame.GWM.GameModel.Content.Load<Texture2D>(
+        exists ? path : "Unknown"
+      );
+      return textue;
+    }
     public static Texture2D CreateBorderedTexture(GraphicsDevice graphicsDevice, int width, int height, Color fillColor, Color borderColor, int maxBorderWidth = 5)
     {
       int borderWidth = Math.Min(Math.Min(width, height) / 10, maxBorderWidth);

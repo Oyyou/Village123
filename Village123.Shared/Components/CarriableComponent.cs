@@ -16,7 +16,7 @@ namespace Village123.Shared.Components
     /// <summary>
     /// The villager carrying
     /// </summary>
-    public int CarrierId { get; set; }
+    public int? CarrierId { get; set; }
 
     public bool BeingCarried { get; set; } = false;
 
@@ -51,6 +51,12 @@ namespace Village123.Shared.Components
       BeingCarried = true;
 
       OnPickup?.Invoke();
+    }
+
+    public void Drop()
+    {
+      CarrierId = null;
+      BeingCarried = false;
     }
 
     public void Update()
