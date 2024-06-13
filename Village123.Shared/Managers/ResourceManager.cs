@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
+using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
 {
@@ -38,7 +39,7 @@ namespace Village123.Shared.Managers
       foreach (var value in manager.Resources)
       {
         value.SetData(BaseGame.GWM.ResourceData.Resources[value.Name]);
-        value.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{value.Name}");
+        value.Texture = TextureHelpers.LoadTexture($"Resources/{value.Name}");
       }
 
       return manager;
@@ -65,7 +66,7 @@ namespace Village123.Shared.Managers
     {
       var data = BaseGame.GWM.ResourceData.Resources[resourceName];
       var id = BaseGame.GWM.IdManager.ResourceId++;
-      var resource = new Resource(id, data, BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Resources/{resourceName}"), point)
+      var resource = new Resource(id, data, TextureHelpers.LoadTexture($"Resources/{resourceName}"), point)
       {
         Name = resourceName,
       };

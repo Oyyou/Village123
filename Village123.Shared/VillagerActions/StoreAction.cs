@@ -39,7 +39,7 @@ namespace Village123.Shared.VillagerActions
     {
       _carriable = item.Carriable;
       _storable = item.Storable;
-      _texturePath = item.Texture.Name;
+      _texturePath = $"Items/{item.Data.Key}";
       _storagePlace = storagePlace;
 
       _itemId = item.Id;
@@ -54,7 +54,7 @@ namespace Village123.Shared.VillagerActions
     {
       _carriable = material.Carriable;
       _storable = material.Storable;
-      _texturePath = material.Texture.Name;
+      _texturePath = $"Materials/{material.Data.Key}";
       _storagePlace = storagePlace;
 
       _materialId = material.Id;
@@ -92,7 +92,7 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
-      _carriable.BeingCarried = false;
+      _carriable.Drop();
       _storable.Store(_storagePlace, _texturePath);
     }
 

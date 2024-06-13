@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
 using Village123.Shared.Models;
+using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
 {
@@ -41,7 +42,7 @@ namespace Village123.Shared.Managers
       foreach (var item in manager.Items)
       {
         item.SetData(BaseGame.GWM.ItemData.Items[item.Name]);
-        item.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Items/{item.Name}");
+        item.Texture = TextureHelpers.LoadTexture($"Items/{item.Name}");
       }
 
       return manager;
@@ -53,7 +54,7 @@ namespace Village123.Shared.Managers
       var name = item.ItemName;
 
       var data = BaseGame.GWM.ItemData.Items[name];
-      var texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Items/{name}");
+      var texture = TextureHelpers.LoadTexture($"Items/{name}");
 
       var spawnPoint = FindNearestAvailableSpot(craftedPoint);
 

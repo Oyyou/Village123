@@ -122,7 +122,7 @@ namespace Village123.Shared.GUI.Controls.Windows
         _inventoryList.RemoveChildrenByTag("inventoryItem");
         foreach (var item in _storables)
         {
-          _inventoryList.AddChild(new Button(new Sprite(BaseGame.GWM.GameModel.Content.Load<Texture2D>(item.TexturePath)) { Scale = 2f }), "inventoryItem");
+          _inventoryList.AddChild(new Button(new Sprite(TextureHelpers.LoadTexture(item.TexturePath)) { Scale = 2f }), "inventoryItem");
         }
       }
     }

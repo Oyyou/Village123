@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
+using Village123.Shared.Utils;
 using static Village123.Shared.Data.ItemData;
 
 namespace Village123.Shared.Managers
@@ -43,7 +44,7 @@ namespace Village123.Shared.Managers
       foreach (var material in manager.Materials)
       {
         material.SetData(BaseGame.GWM.MaterialsData.Materials[material.Name]);
-        material.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Materials/{material.Name}");
+        material.Texture = TextureHelpers.LoadTexture($"Materials/{material.Name}");
       }
 
       return manager;
@@ -53,7 +54,7 @@ namespace Village123.Shared.Managers
     public void Add(string resourceName, Point emitterPoint)
     {
       var data = BaseGame.GWM.MaterialsData.Materials[resourceName];
-      var texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Materials/{resourceName}");
+      var texture = TextureHelpers.LoadTexture($"Materials/{resourceName}");
 
       Materials.Add(new Material(
         BaseGame.GWM.IdManager.MaterialId++, data, texture, emitterPoint
@@ -65,7 +66,7 @@ namespace Village123.Shared.Managers
       var total = 0;
       foreach (var material in Materials)
       {
-        if (material.Name == materialName)
+        if (material.Data.Key == materialName)
           total++;
 
         if (total >= qty)

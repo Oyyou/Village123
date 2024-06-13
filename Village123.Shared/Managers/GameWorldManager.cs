@@ -86,8 +86,8 @@ namespace Village123.Shared.Managers
       //bed.AddOwner(v1);
 
       //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
-      GenerateTrees(0.05f);
-      GenerateStones(0.025f);
+      //GenerateTrees(0.05f);
+      //GenerateStones(0.025f);
       LoadGrassTiles();
     }
 

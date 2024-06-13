@@ -39,7 +39,7 @@ namespace Village123.Shared.Entities
       Texture = texture;
       Point = point;
 
-      Name = Path.GetFileName(Texture.Name);
+      Name = data.Key;
 
       Carriable = new CarriableComponent(this);
       Storable = new StorableComponent();

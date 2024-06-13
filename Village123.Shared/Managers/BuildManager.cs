@@ -43,7 +43,7 @@ namespace Village123.Shared.Managers
 
       BaseGame.GWM.State = GameStates.Building;
 
-      var texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>($"Places/{place.Key}");
+      var texture = TextureHelpers.LoadTexture($"Places/{place.Key}");
 
       _place = new Place(place, texture, Point.Zero)
       {

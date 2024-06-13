@@ -11,6 +11,9 @@ namespace Village123.Shared.Data
 
     public class Item
     {
+      [JsonProperty("key")]
+      public string Key { get; set; }
+
       [JsonProperty("name")]
       public string Name { get; set; }
 
@@ -51,6 +54,7 @@ namespace Village123.Shared.Data
 
         foreach (var kvp in values)
         {
+          kvp.Value.Key = kvp.Key;
           if (!data.Items.ContainsKey(kvp.Key))
           {
             data.Items.Add(kvp.Key, kvp.Value);
