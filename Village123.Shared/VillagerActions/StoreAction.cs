@@ -92,7 +92,7 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
-      _carriable.Drop();
+      _carriable.Drop(_storagePlace.Point);
       _storable.Store(_storagePlace, _texturePath);
     }
 

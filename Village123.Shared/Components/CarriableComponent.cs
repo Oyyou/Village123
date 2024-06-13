@@ -7,10 +7,19 @@ namespace Village123.Shared.Components
 {
   public class CarriableComponent
   {
+    /// <summary>
+    /// The item being carried
+    /// </summary>
     public int? ItemId { get; set; }
 
+    /// <summary>
+    /// The villager being carried
+    /// </summary>
     public int? VillagerId { get; set; }
 
+    /// <summary>
+    /// The material being carried
+    /// </summary>
     public int? MaterialId { get; set; }
 
     /// <summary>
@@ -24,6 +33,9 @@ namespace Village123.Shared.Components
 
     [JsonIgnore]
     public Action OnPickup { get; set; } = null;
+
+    [JsonIgnore]
+    public Action<Point> OnDrop { get; set; } = null;
 
     public CarriableComponent()
     {
@@ -53,10 +65,12 @@ namespace Village123.Shared.Components
       OnPickup?.Invoke();
     }
 
-    public void Drop()
+    public void Drop(Point point)
     {
       CarrierId = null;
       BeingCarried = false;
+
+      OnDrop?.Invoke(point);
     }
 
     public void Update()

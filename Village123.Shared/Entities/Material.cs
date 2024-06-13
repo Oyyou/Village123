@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using System.IO;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
 
@@ -10,12 +9,10 @@ namespace Village123.Shared.Entities
   public class Material : IEntity
   {
     public int Id { get; set; }
-
     public string Name { get; set; }
-
     public int Quantity { get; set; }
-
     public Point Point { get; set; }
+    public bool IsInUse { get; set; } = false;
 
     [JsonIgnore]
     public Vector2 Position => Carriable.BeingCarried ? Carriable.Position : Point.ToVector2() * BaseGame.TileSize;
@@ -53,7 +50,17 @@ namespace Village123.Shared.Entities
 
       Carriable.OnPickup = () =>
       {
-        BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
+        if (!Storable.IsStored)
+        {
+          BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
+        }
+
+        Storable.IsStored = false;
+        Storable.PlaceId = null;
+      };
+      Carriable.OnDrop = (point) =>
+      {
+        this.Point = point;
       };
     }
 

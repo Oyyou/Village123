@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.Interfaces;
 
@@ -39,9 +40,31 @@ namespace Village123.Shared.VillagerActions.DetermineActions
       villager.JobIds.Add(job.Id);
       job.WorkerIds.Add(villager.Id);
 
-      // TODO: Add collect resources to the list
+      var materialIds = new List<int>();
+      foreach (var requiredMaterial in job.ProducedItem.Materials)
+      {
+        for (int i = 0; i < requiredMaterial.Value; i++)
+        {
+          foreach (var material in BaseGame.GWM.MaterialManager.Materials)
+          {
+            if (material.IsInUse)
+              continue;
+
+            if (requiredMaterial.Key != material.Name)
+              continue;
+
+            villager.AddAction(new WalkAction(villager, material.Point, false));
+            villager.AddAction(new CarryAction(villager, material));
+            villager.AddAction(new WalkAction(villager, job.Point, false));
+            villager.AddAction(new DropAction(villager, job.Point, material));
+
+            materialIds.Add(material.Id);
+            break;
+          }
+        }
+      }
       villager.AddAction(new WalkAction(villager, job.Point, false));
-      villager.AddAction(new CraftAction(villager, job));
+      villager.AddAction(new CraftAction(villager, job, materialIds));
     }
   }
 }

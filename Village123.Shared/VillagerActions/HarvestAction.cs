@@ -67,7 +67,7 @@ namespace Village123.Shared.VillagerActions
       if (storage != null)
       {
         _villager.AddAction(new WalkAction(_villager, material.Point, true));
-        _villager.AddAction(new CarryAction(_villager, material.Carriable));
+        _villager.AddAction(new CarryAction(_villager, material));
         _villager.AddAction(new WalkAction(_villager, storage.Point, false));
         _villager.AddAction(new StoreAction(_villager, material, storage));
       }

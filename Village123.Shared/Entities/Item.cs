@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
-using System.IO;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
 
@@ -58,7 +57,17 @@ namespace Village123.Shared.Entities
 
       Carriable.OnPickup = () =>
       {
-        BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
+        if (!Storable.IsStored)
+        {
+          BaseGame.GWM.Map.RemoveEntity(Point, new Point(1, 1));
+        }
+
+        Storable.IsStored = false;
+        Storable.PlaceId = null;
+      };
+      Carriable.OnDrop = (point) =>
+      {
+        this.Point = point;
       };
     }
 

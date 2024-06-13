@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System;
 using Village123.Shared.Data;
 using Village123.Shared.Input;
 using Village123.Shared.Maps;
