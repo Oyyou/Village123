@@ -113,6 +113,14 @@ namespace Village123.Shared.Managers
       return null; // No available spot found
     }
 
+    public void UpdateMouse()
+    {
+      foreach (var item in Items)
+      {
+        // item.ClickableComponent.Update();
+      }
+    }
+
     public void Update(GameTime gameTime)
     {
       foreach (var item in Items)

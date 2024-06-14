@@ -32,7 +32,7 @@ namespace Village123.Shared.Components
         );
     }
 
-    public virtual void Update(GameTime gameTime)
+    public void Update()
     {
       IsMouseOver = false;
       IsMouseDown = false;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Entities;
 using Village123.Shared.Utils;
+using static Village123.Shared.Data.ItemData;
 
 namespace Village123.Shared.Managers
 {
@@ -72,6 +73,14 @@ namespace Village123.Shared.Managers
           return true;
       }
       return false;
+    }
+
+    public void UpdateMouse()
+    {
+      foreach (var material in Materials)
+      {
+        // material.ClickableComponent.Update();
+      }
     }
 
     public void Update(GameTime gameTime)

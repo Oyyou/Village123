@@ -65,18 +65,14 @@ namespace Village123.Shared.Entities
           (int)Position.Y,
           Data.Size.X * BaseGame.TileSize,
           Data.Size.Y * BaseGame.TileSize
-        )
+        ),
+        OnClicked = () => BaseGame.GWM.GUIManager.HandlePlaceClicked(this)
       };
     }
 
     public void Update(GameTime gameTime)
     {
-      ClickableComponent.Update(gameTime);
 
-      if (ClickableComponent.IsMouseClicked)
-      {
-        BaseGame.GWM.GUIManager.HandlePlaceClicked(this);
-      }
     }
 
     public void Draw(SpriteBatch spriteBatch)

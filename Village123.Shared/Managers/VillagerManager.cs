@@ -82,6 +82,14 @@ namespace Village123.Shared.Managers
     }
     #endregion
 
+    public void UpdateMouse()
+    {
+      foreach (var villager in Villagers)
+      {
+        // villager.ClickableComponent.Update();
+      }
+    }
+
     public void Update(GameTime gameTime)
     {
       foreach (var villager in Villagers)

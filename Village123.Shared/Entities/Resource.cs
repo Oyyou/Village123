@@ -64,54 +64,52 @@ namespace Village123.Shared.Entities
           (int)y,
           width,
           height
-        )
+        ),
+        OnClicked = () =>
+        {
+          if (BaseGame.GWM.ResourceTypeData.ResourceTypes.ContainsKey(Data.Type))
+          {
+            var resrouceType = BaseGame.GWM.ResourceTypeData.ResourceTypes[Data.Type];
+
+            var model = new ContextMenuModel()
+            {
+              Name = resrouceType.Name,
+              Position = Position,
+              Items = resrouceType.Actions.Select(action => new ContextMenuItemModel()
+              {
+                Label = $"{action.Key}{(_cancallableActions.ContainsKey(action.Key) ? $" - cancel" : string.Empty)}",
+                OnClick = () =>
+                {
+                  if (action.Value.CanCancel)
+                  {
+                    if (!_cancallableActions.ContainsKey(action.Key))
+                    {
+                      var job = BaseGame.GWM.JobManager.AddJob(Point + Data.PointOffset, new HarvestedResourceModel()
+                      {
+                        ResourceId = Id,
+                        ResourceName = Data.Drop,
+                      });
+                      _cancallableActions.Add(action.Key, job.Id);
+                    }
+                    else
+                    {
+                      var jobId = _cancallableActions[action.Key];
+                      _cancallableActions.Remove(action.Key);
+                      BaseGame.GWM.JobManager.RemoveJobById(jobId);
+                    }
+                  }
+                },
+              }),
+            };
+
+            BaseGame.GWM.GUIManager.OpenContextMenu(model);
+          }
+        }
       };
     }
 
     public void Update(GameTime gameTime)
     {
-      ClickableComponent.Update(gameTime);
-
-      if (ClickableComponent.IsMouseClicked)
-      {
-        if (BaseGame.GWM.ResourceTypeData.ResourceTypes.ContainsKey(Data.Type))
-        {
-          var resrouceType = BaseGame.GWM.ResourceTypeData.ResourceTypes[Data.Type];
-
-          var model = new ContextMenuModel()
-          {
-            Name = resrouceType.Name,
-            Position = Position,
-            Items = resrouceType.Actions.Select(action => new ContextMenuItemModel()
-            {
-              Label = $"{action.Key}{(_cancallableActions.ContainsKey(action.Key) ? $" - cancel" : string.Empty)}",
-              OnClick = () =>
-              {
-                if (action.Value.CanCancel)
-                {
-                  if (!_cancallableActions.ContainsKey(action.Key))
-                  {
-                    var job = BaseGame.GWM.JobManager.AddJob(Point + Data.PointOffset, new HarvestedResourceModel()
-                    {
-                      ResourceId = Id,
-                      ResourceName = Data.Drop,
-                    });
-                    _cancallableActions.Add(action.Key, job.Id);
-                  }
-                  else
-                  {
-                    var jobId = _cancallableActions[action.Key];
-                    _cancallableActions.Remove(action.Key);
-                    BaseGame.GWM.JobManager.RemoveJobById(jobId);
-                  }
-                }
-              },
-            }),
-          };
-
-          BaseGame.GWM.GUIManager.OpenContextMenu(model);
-        }
-      }
     }
 
     public void Draw(SpriteBatch spriteBatch)

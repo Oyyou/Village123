@@ -116,7 +116,7 @@ namespace Village123.Shared.GUI.Controls.Bases
     {
       if (!IsVisible) return;
 
-      ClickableComponent?.Update(gameTime);
+      ClickableComponent?.Update();
 
       foreach (var child in Children)
       {

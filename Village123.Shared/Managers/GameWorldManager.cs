@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using Village123.Shared.Content;
 using Village123.Shared.Data;
 using Village123.Shared.Input;
 using Village123.Shared.Maps;
@@ -18,6 +19,13 @@ namespace Village123.Shared.Managers
 
   public class GameWorldManager
   {
+    private double _elapsedGameMinutes;
+    private double _gameSpeed = 1.0;
+    private const double RealMinutesPerGameDay = 24.0;
+    private const double GameMinutesPerRealSecond = (24 * 60) / (24 * 60); // 1 game minute per real second at 1x speed
+
+    private SpriteFont _font;
+
     public readonly GameModel GameModel;
 
     public ItemData ItemData { get; set; }
@@ -88,6 +96,8 @@ namespace Village123.Shared.Managers
       //GenerateTrees(0.05f);
       //GenerateStones(0.025f);
       LoadGrassTiles();
+
+      _font = BaseGame.GWM.GameModel.Content.Load<SpriteFont>("Font");
     }
 
     public void GenerateTrees(double density)
@@ -177,19 +187,61 @@ namespace Village123.Shared.Managers
     public void Update(GameTime gameTime)
     {
       GameMouse.ClickEnabled = State == GameStates.Playing;
-      if (Keyboard.GetState().IsKeyDown(Keys.Space))
-      {
-        this.Save();
-      }
+
+      HandleInput();
+
+      // Calculate the elapsed game time based on real-world time and game speed
+      var elapsedRealSeconds = gameTime.ElapsedGameTime.TotalSeconds;
+      var elapsedGameMinutes = elapsedRealSeconds * GameMinutesPerRealSecond * _gameSpeed;
+
+      // Update the game time
+      _elapsedGameMinutes += elapsedGameMinutes;
+
 
       BuildManager.Update(gameTime);
       GUIManager.Update(gameTime);
 
-      PlaceManager.Update(gameTime);
-      VillagerManager.Update(gameTime);
-      ItemManager.Update(gameTime);
-      MaterialManager.Update(gameTime);
-      ResourceManager.Update(gameTime);
+      PlaceManager.UpdateMouse();
+      VillagerManager.UpdateMouse();
+      ItemManager.UpdateMouse();
+      MaterialManager.UpdateMouse();
+      ResourceManager.UpdateMouse();
+
+      for (int i = 0; i < _gameSpeed; i++)
+      {
+        PlaceManager.Update(gameTime);
+        VillagerManager.Update(gameTime);
+        ItemManager.Update(gameTime);
+        MaterialManager.Update(gameTime);
+        ResourceManager.Update(gameTime);
+      }
+    }
+
+    public void HandleInput()
+    {
+      var keyboardState = Keyboard.GetState();
+
+      if (keyboardState.IsKeyDown(Keys.L))
+      {
+        this.Save();
+      }
+
+      if (keyboardState.IsKeyDown(Keys.D1))
+      {
+        _gameSpeed = 1;
+      }
+      else if (keyboardState.IsKeyDown(Keys.D2))
+      {
+        _gameSpeed = 2;
+      }
+      else if (keyboardState.IsKeyDown(Keys.D3))
+      {
+        _gameSpeed = 5;
+      }
+      else if (keyboardState.IsKeyDown(Keys.Space))
+      {
+        _gameSpeed = 0;
+      }
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -213,6 +265,18 @@ namespace Village123.Shared.Managers
       BuildManager.Draw(spriteBatch);
 
       GUIManager.Draw(spriteBatch);
+
+      spriteBatch.Begin();
+      spriteBatch.DrawString(_font, GetGameTimeString(), new Vector2(10, 10), Color.Black);
+      spriteBatch.End();
+    }
+
+    public string GetGameTimeString()
+    {
+      int totalMinutes = (int)_elapsedGameMinutes;
+      int hours = totalMinutes / 60;
+      int minutes = totalMinutes % 60;
+      return $"{hours:D2}:{minutes:D2}";
     }
   }
 }

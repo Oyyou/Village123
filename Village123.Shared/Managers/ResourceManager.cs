@@ -46,19 +46,27 @@ namespace Village123.Shared.Managers
     }
     #endregion
 
+    public void UpdateMouse()
+    {
+      foreach (var resource in Resources)
+      {
+        resource.ClickableComponent.Update();
+      }
+    }
+
     public void Update(GameTime gameTime)
     {
-      foreach (var place in Resources)
+      foreach (var resource in Resources)
       {
-        place.Update(gameTime);
+        resource.Update(gameTime);
       }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      foreach (var place in Resources)
+      foreach (var resource in Resources)
       {
-        place.Draw(spriteBatch);
+        resource.Draw(spriteBatch);
       }
     }
 

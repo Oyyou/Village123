@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,6 +48,14 @@ namespace Village123.Shared.Managers
       return manager;
     }
     #endregion
+
+    public void UpdateMouse()
+    {
+      foreach (var place in Places)
+      {
+        place.ClickableComponent.Update();
+      }
+    }
 
     public void Update(GameTime gameTime)
     {

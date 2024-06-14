@@ -145,7 +145,7 @@ namespace Village123.Shared.GUI.Controls.Windows
 
     public override void Update(GameTime gameTime)
     {
-      ClickableComponent.Update(gameTime);
+      ClickableComponent.Update();
 
       foreach (var child in Children)
       {

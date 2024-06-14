@@ -1,84 +1,112 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Village123.Shared.Components.CarriableComponent" Collapsed="true">
-    <Position X="34.25" Y="1" Width="1.5" />
+    <Position X="44.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAIAAAAggAQAgACAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAQEAAAAAAIQAAAggAQAgACAAAAAAAAAQAAQAAAAAAA=</HashCode>
       <FileName>Components\CarriableComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Components.ClickableComponent" Collapsed="true">
-    <Position X="36" Y="1" Width="1.5" />
+    <Position X="47.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAQCQIAAAIAMQAAAAAAAAAAAAQgASAABACAAAAAAAAA=</HashCode>
       <FileName>Components\ClickableComponent.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.Components.ContextMenuComponent" Collapsed="true">
+    <Position X="39" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\ContextMenuComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Village123.Shared.Components.StorableComponent" Collapsed="true">
+    <Position X="39" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAQAAAAAAAAAAAAAAEAAAQAAJAA=</HashCode>
+      <FileName>Components\StorableComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Village123.Shared.Content.Fonts" Collapsed="true">
-    <Position X="36" Y="2" Width="1.5" />
+    <Position X="39" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Content\Fonts.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Data.ItemData" Collapsed="true">
-    <Position X="37.75" Y="3" Width="1.5" />
+    <Position X="40.75" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAACAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
       <FileName>Data\ItemData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Data.ItemTypeData" Collapsed="true">
-    <Position X="29" Y="4" Width="1.5" />
+    <Position X="44.25" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Data\ItemTypeData.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.Data.MaterialData" Collapsed="true">
+    <Position X="40.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\MaterialData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Village123.Shared.Data.MaterialModifiersData" Collapsed="true">
+    <Position X="44.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\MaterialModifiersData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Village123.Shared.Data.PlaceCategoryData" Collapsed="true">
-    <Position X="36" Y="5" Width="1.5" />
+    <Position X="49.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\PlaceCategoryData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Data.PlaceData" Collapsed="true">
-    <Position X="37.75" Y="5" Width="1.5" />
+    <Position X="51.25" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
       <FileName>Data\PlaceData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Data.PlaceTypeData" Collapsed="true">
-    <Position X="29" Y="6" Width="1.5" />
+    <Position X="40.75" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\PlaceTypeData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Village123.Shared.Data.MaterialData" Collapsed="true">
-    <Position X="39.5" Y="4" Width="1.5" />
+  <Class Name="Village123.Shared.Data.ResourceData" Collapsed="true">
+    <Position X="46" Y="11.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\ResourceData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Village123.Shared.Data.MaterialModifiersData" Collapsed="true">
-    <Position X="30.75" Y="5" Width="1.5" />
+  <Class Name="Village123.Shared.Data.ResourceTypeData" Collapsed="true">
+    <Position X="49.5" Y="11.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\ResourceModifiersData.cs</FileName>
+      <HashCode>AAAAgAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\ResourceTypeData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Data.VillagerData" Collapsed="true">
-    <Position X="37.75" Y="6" Width="1.5" />
+    <Position X="44.25" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\VillagerData.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Entities.Item" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="36" Y="3" Width="1.5" />
+    <Position X="39" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQCAACBAAIEggAgAAAAAAQAAAAAABAIAAIAAAAAAAA=</HashCode>
       <FileName>Entities\Item.cs</FileName>
@@ -86,285 +114,351 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Village123.Shared.Entities.Job" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="30.75" Y="4" Width="1.5" />
+    <Position X="46" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAKAAAAAAAAgAAAAAAAAAQAAAAAAAAAAQAAAgCABAA=</HashCode>
+      <HashCode>AAAKAAAAAABAgAAAAAAAAAAAAAAAAAAAAQAAAgCAAAA=</HashCode>
       <FileName>Entities\Job.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Village123.Shared.Entities.Material" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="37.75" Y="4" Width="1.5" />
+    <Position X="39" Y="10.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQCAACBAAAEggAgAAAAAAQAAAAAABAIAAIAgAAAAAA=</HashCode>
+      <HashCode>AARCAACBAAAAgAAgAAAAAAQAAAAAABAIAAIAgAAAAAA=</HashCode>
       <FileName>Entities\Material.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Village123.Shared.Entities.Place" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="34.25" Y="5" Width="1.5" />
+    <Position X="47.75" Y="10.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEQiEAQBQAAAhgQgAAAAAAQAIgAAABAIAAIAAhAAAAA=</HashCode>
+      <HashCode>AEQyEAQBQAAAhgQgAAAAAAQAAgAAABAIAAIAABAAAAA=</HashCode>
       <FileName>Entities\Place.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Village123.Shared.Entities.Villager" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="36" Y="6" Width="1.5" />
+  <Class Name="Village123.Shared.Entities.Resource" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="44.25" Y="11.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EBQSAEAAAAABigCgABAAAAAAAAQgAAAAAAIBAEAgAAg=</HashCode>
+      <HashCode>AAQCAAABAAAAggAgAAAAAAQAAgAAABAAAAIEAAAAAAA=</HashCode>
+      <FileName>Entities\Resource.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Village123.Shared.Entities.Villager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="42.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EBQSAEAAAAABigCgABAAAAAAAAQgAAAAAAIBAFAgAAg=</HashCode>
       <FileName>Entities\Villager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.Bases.Control" Collapsed="true">
-    <Position X="17.5" Y="1" Width="1.5" />
+    <Position X="25.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIQAAAEABIAgEgQgAAk0QEAAAwgIAAAEAAAAAAEAAAA=</HashCode>
+      <HashCode>AIQAACEABIAgEgQgAAk0QEAAAwgIAAAEAAAAAAEAAAA=</HashCode>
       <FileName>GUI\Controls\Bases\Control.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.Bases.Window" Collapsed="true">
-    <Position X="12" Y="2.25" Width="1.5" />
+    <Position X="24.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAQAgAAABAAAAgAAAAAAAMABAACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAQAgAAABAAAAhAAAAAAAMABAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GUI\Controls\Bases\Window.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.Windows.CraftingWindow" Collapsed="true">
-    <Position X="10.75" Y="3.75" Width="1.5" />
+    <Position X="23" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>GUI\Controls\Windows\CraftingWindow.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.Windows.ManageStorageWindow" Collapsed="true">
-    <Position X="13" Y="3.75" Width="1.5" />
+    <Position X="25.25" Y="9.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAYAAAAAAABAAAAAAAAAAAAAABAAAAAAAAIAAAABAAA=</HashCode>
+      <HashCode>AAYAAAAQAABAAAAAAAAAAAAAAAAAAAAAAAIAAAABAAA=</HashCode>
       <FileName>GUI\Controls\Windows\ManageStorageWindow.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.BuildPanel" Collapsed="true">
-    <Position X="32.5" Y="1" Width="1.5" />
+    <Position X="42.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAgAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GUI\Controls\BuildPanel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.Button" Collapsed="true">
-    <Position X="19.75" Y="2.25" Width="1.5" />
+    <Position X="34.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAABAIAAgAKABAAAEAACAAAAIAQAAIACAAAAEA=</HashCode>
       <FileName>GUI\Controls\Button.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.GUI.Controls.ContextMenu" Collapsed="true">
+    <Position X="36.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAARAAgEgAAAAAAAEAAAAAAAAAAAAAAAACIAAA=</HashCode>
+      <FileName>GUI\Controls\ContextMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Village123.Shared.GUI.Controls.ContextMenuItem" Collapsed="true">
+    <Position X="14" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GUI\Controls\ContextMenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Village123.Shared.GUI.Controls.CraftQueue" Collapsed="true">
-    <Position X="22" Y="2.25" Width="1.5" />
+    <Position X="16.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYAAAEARAAAAgAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GUI\Controls\CraftQueue.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.ItemList" Collapsed="true">
-    <Position X="24.25" Y="2.25" Width="1.5" />
+    <Position X="18.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAEARAAEIgAAAAAAAEAAAAAAAAAgACAAAAAAAAA=</HashCode>
       <FileName>GUI\Controls\ItemList.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.Label" Collapsed="true">
-    <Position X="26.5" Y="2.25" Width="1.5" />
+    <Position X="20.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAgAIAAAAAEAAAACAAAAAAAAACAAAAAA=</HashCode>
       <FileName>GUI\Controls\Label.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.MaterialOptions" Collapsed="true">
-    <Position X="8.5" Y="2.25" Width="1.5" />
+    <Position X="27.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAREAAEgAAAAAAAEQAABCAAAAAAAAIAAAQAAA=</HashCode>
       <FileName>GUI\Controls\MaterialOptions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.PlaceOptionsPanel" Collapsed="true">
-    <Position X="15.25" Y="2.25" Width="1.5" />
+    <Position X="29.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAARAAgEgAAAAAAAEAAAAAAAAAAAAAAAACIAAA=</HashCode>
       <FileName>GUI\Controls\PlaceOptionsPanel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.Controls.ScrollBar" Collapsed="true">
-    <Position X="17.5" Y="2.25" Width="1.5" />
+    <Position X="32" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAgAAAAAIQEAAAAAAQAgABAIgAQEAgQA=</HashCode>
       <FileName>GUI\Controls\ScrollBar.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.GUI.ControlsFactory" Collapsed="true">
-    <Position X="29" Y="2" Width="1.5" />
+    <Position X="44.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GUI\ControlsFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Input.GameMouse" Collapsed="true">
-    <Position X="39.5" Y="2" Width="1.5" />
+    <Position X="42.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgwAAGAAAACAgQAgAIAAAAWIBAAgEACIAAQAIABAYIA=</HashCode>
       <FileName>Input\GameMouse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Logging.Logger" Collapsed="true">
-    <Position X="34.25" Y="4" Width="1.5" />
+    <Position X="49.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Logging\Logger.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.BuildManager" Collapsed="true">
-    <Position X="30.75" Y="1" Width="1.5" />
+    <Position X="40.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAYAAAgAAAAARgAAAgAAAAAAAAAAgAAABAAAAAAgAAA=</HashCode>
+      <HashCode>EAYAAAgAAAIARgAAAgAAAAAAAAAAgAAABAAAAAAgAAA=</HashCode>
       <FileName>Managers\BuildManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.ConditionManager" Collapsed="true">
-    <Position X="39.5" Y="1" Width="1.5" />
+    <Position X="51.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAIAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Managers\ConditionManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.GameWorldManager" Collapsed="true">
-    <Position X="30.75" Y="3" Width="1.5" />
+    <Position X="46" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAgIABADAAAgAAAAAAAAAAAAEAIKkQAhACBiMAQAA=</HashCode>
+      <HashCode>AAQBgIBBABAAAhAAAAAAEAAAAAEAoKkQAhACBiMQQAI=</HashCode>
       <FileName>Managers\GameWorldManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.GUIManager" Collapsed="true">
-    <Position X="32.5" Y="3" Width="1.5" />
+    <Position X="47.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAwAAQAAAgAAEgAAAAAAQAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <HashCode>AAwAAQCAAgAAEgIAAAAAQAAAAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Managers\GUIManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.IdManager" Collapsed="true">
-    <Position X="34.25" Y="3" Width="1.5" />
+    <Position X="51.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQgIAAAAIAgAAAgAQAAAAAAAAAAAAAAEAAAAAABAA=</HashCode>
       <FileName>Managers\IdManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.ItemManager" Collapsed="true">
-    <Position X="39.5" Y="3" Width="1.5" />
+    <Position X="42.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAgIAAAAAACgAAAAAAAACAAAAAAAAAAEAAAIAAAAA=</HashCode>
       <FileName>Managers\ItemManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.JobManager" Collapsed="true">
-    <Position X="32.5" Y="4" Width="1.5" />
+    <Position X="47.75" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAgIAAAAAAAAAAAEAAAABAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <HashCode>AAIAgIAAAAAAABAAAEAAAABAAAAAAAAAAFAAAAAAAAA=</HashCode>
       <FileName>Managers\JobManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.MaterialManager" Collapsed="true">
-    <Position X="29" Y="5" Width="1.5" />
+    <Position X="42.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEIAgIAAAAAAAgAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <HashCode>AEYAgIAAAAAAAgAIAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
       <FileName>Managers\MaterialManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Managers.PlaceManager" Collapsed="true">
-    <Position X="39.5" Y="5" Width="1.5" />
+    <Position X="39" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYggIAAAAAAAgAAAAAAAAAAAABAAEAAAEAAAAAAAAA=</HashCode>
       <FileName>Managers\PlaceManager.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.Managers.ResourceManager" Collapsed="true">
+    <Position X="47.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYggIAAIAAAAgAAAAAAAAAAAABAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Managers\ResourceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Village123.Shared.Managers.VillagerManager" Collapsed="true">
-    <Position X="39.5" Y="6" Width="1.5" />
+    <Position X="46" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAgIAIAAAAggAAAAAAAAAEACACEAAAAEAAAQACAAg=</HashCode>
       <FileName>Managers\VillagerManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Maps.Map" Collapsed="true">
-    <Position X="36" Y="4" Width="1.5" />
+    <Position X="51.25" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAYAAAIABIAAEAAAAAAEAEAAAAAAIBACAAAAAACAAAA=</HashCode>
+      <HashCode>BAQAAAIABYAAEAAAAAQFAEAAAAAAIBACAIAAAACAAAA=</HashCode>
       <FileName>Maps\Map.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Maps.Pathfinder" Collapsed="true">
-    <Position X="32.5" Y="5" Width="1.5" />
+    <Position X="46" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAQAAACAAAAAEAAAAAAAgA=</HashCode>
       <FileName>Maps\Pathfinder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Models.Condition" Collapsed="true">
-    <Position X="37.75" Y="1" Width="1.5" />
+    <Position X="49.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAiAAAAAAA=</HashCode>
       <FileName>Models\Condition.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.Models.ContextMenuItemModel" Collapsed="true">
+    <Position X="40.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ContextMenuModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Village123.Shared.Models.ContextMenuModel" Collapsed="true">
+    <Position X="42.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAgAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ContextMenuModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Village123.Shared.Models.CraftItemModel" Collapsed="true">
-    <Position X="30.75" Y="2" Width="1.5" />
+    <Position X="46" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\CraftItemModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Models.GameModel" Collapsed="true">
-    <Position X="37.75" Y="2" Width="1.5" />
+    <Position X="40.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAACAAAQAAEAAAAAAA=</HashCode>
       <FileName>Models\GameModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Models.GameWorld" Collapsed="true">
-    <Position X="29" Y="3" Width="1.5" />
+    <Position X="44.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\GameWorld.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.Models.HarvestedResourceModel" Collapsed="true">
+    <Position X="49.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\HarvestedResourceModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Village123.Shared.Models.ProducedItemModel" Collapsed="true">
-    <Position X="30.75" Y="6" Width="1.5" />
+    <Position X="42.5" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ProducedItemModel.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.Mods.ContextMenuActions.ChopAction" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="46" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAEAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mods\ContextMenuActions\ChopAction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
   <Class Name="Village123.Shared.Sprites.Sprite" Collapsed="true">
-    <Position X="32.5" Y="6" Width="1.5" />
+    <Position X="51.25" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAABAAAAgAgAAIAAEAAAAAAAAAEAAIAABAAAAA=</HashCode>
       <FileName>Sprites\Sprite.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.Utils.TextureHelpers" Collapsed="true">
-    <Position X="34.25" Y="6" Width="1.5" />
+    <Position X="40.75" Y="12.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\TextureHelpers.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.VillagerActions.DetermineActions.DetermineCraftAction" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="32.5" Y="2" Width="1.5" />
+    <Position X="47.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQEAEAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQEAEAAAAQAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>VillagerActions\DetermineActions\DetermineCraftAction.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
+  <Class Name="Village123.Shared.VillagerActions.DetermineActions.DetermineHarvestAction" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="49.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAEAAAAQAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>VillagerActions\DetermineActions\DetermineHarvestAction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
   <Class Name="Village123.Shared.VillagerActions.DetermineActions.DetermineSleepAction" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="34.25" Y="2" Width="1.5" />
+    <Position X="51.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQEAEAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>VillagerActions\DetermineActions\DetermineSleepAction.cs</FileName>
@@ -372,42 +466,56 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Village123.Shared.VillagerActions.CarryAction" Collapsed="true">
-    <Position X="10.5" Y="6.25" Width="1.5" />
+    <Position X="16" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AUQAAGAAACAAAAAAAAAAAAQAAAADAAAAAAAAAAAAAAA=</HashCode>
       <FileName>VillagerActions\CarryAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.VillagerActions.CraftAction" Collapsed="true">
-    <Position X="12.75" Y="6.25" Width="1.5" />
+    <Position X="18.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CQQAACAAACAgAAAAAAAAAAQAAAACAAAAAAAAAAAEAAA=</HashCode>
+      <HashCode>CQQAACAAACAgAAAAAAAAAAQAAAACAAAAAAAAAAAEQAA=</HashCode>
       <FileName>VillagerActions\CraftAction.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Village123.Shared.VillagerActions.DropAction" Collapsed="true">
+    <Position X="20.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAGAAACAAAAAAAAAAAAQAAAADAAAAAAAAAAAAQAQ=</HashCode>
+      <FileName>VillagerActions\DropAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Village123.Shared.VillagerActions.HarvestAction" Collapsed="true">
+    <Position X="22.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQQAACAAACAgAAAAAAAAAAQAAAACAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>VillagerActions\HarvestAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Village123.Shared.VillagerActions.IdleAction" Collapsed="true">
-    <Position X="15" Y="6.25" Width="1.5" />
+    <Position X="25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQQAACAAACAAAAAAAAAAAAQAAAACAAAAAAAAAAAAAAA=</HashCode>
       <FileName>VillagerActions\IdleAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.VillagerActions.SleepAction" Collapsed="true">
-    <Position X="17.25" Y="6.25" Width="1.5" />
+    <Position X="27.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQQAACAAACAAAAAAAAAAAAQAAAACAAAAAAAAAAAAAAA=</HashCode>
       <FileName>VillagerActions\SleepAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.VillagerActions.StoreAction" Collapsed="true">
-    <Position X="19.5" Y="6.25" Width="1.5" />
+    <Position X="29.5" Y="11.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQYAACAQACAAAAAAAAAAAAQAABADAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AQQAAGAAACACAAAAAAAAAAQAAAAjAQAAAAAAAAAIQAA=</HashCode>
       <FileName>VillagerActions\StoreAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.VillagerActions.VillagerAction" Collapsed="true">
-    <Position X="13.75" Y="5" Width="1.5" />
+    <Position X="21.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ASQAACAAACAAAQAAAAAEAAQAAAICAAAAAAAAAAAAAAA=</HashCode>
       <FileName>VillagerActions\VillagerAction.cs</FileName>
@@ -415,56 +523,63 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Village123.Shared.VillagerActions.WalkAction" Collapsed="true">
-    <Position X="8.25" Y="6.25" Width="1.5" />
+    <Position X="13.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQQAACAAACAiAAAAgAAAAAQAAAACAAAEAEAAAAAAAAA=</HashCode>
       <FileName>VillagerActions\WalkAction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Village123.Shared.BaseGame" Collapsed="true">
-    <Position X="29" Y="1" Width="1.5" />
+    <Position X="39" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAQEAAAAAAAAAAABQBAACAIAAAAAAACQ=</HashCode>
       <FileName>BaseGame.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="Village123.Shared.Entities.IEntity" Collapsed="true">
-    <Position X="30.75" Y="7.25" Width="1.5" />
+    <Position X="42.5" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\IEntity.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Village123.Shared.Interfaces.IDetermineAction" Collapsed="true">
-    <Position X="29" Y="7.25" Width="1.5" />
+    <Position X="40.75" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQEAEAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interfaces\IDetermineAction.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Village123.Shared.Maps.IMappableObject" Collapsed="true">
-    <Position X="32.5" Y="7.25" Width="1.5" />
+    <Position X="44.25" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAQAEAAAAAgAgAAAACAAAAAYAA=</HashCode>
       <FileName>Maps\IMappableObject.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Interface Name="Village123.Shared.Mods.ContextMenuActions.IContextMenuAction" Collapsed="true">
+    <Position X="39" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAEAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mods\ContextMenuActions\IContextMenuAction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Interface Name="Village123.Shared.VillagerActions.IVillagerAction" Collapsed="true">
-    <Position X="34.25" Y="7.25" Width="1.5" />
+    <Position X="46" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQQAACAAACAAAQAAAAAAAAQAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>VillagerActions\IVillagerAction.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="Village123.Shared.Entities.Genders" Collapsed="true">
-    <Position X="30.75" Y="8.25" Width="1.5" />
+    <Position X="40.75" Y="14.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>Entities\Villager.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Village123.Shared.Managers.GameStates" Collapsed="true">
-    <Position X="29" Y="8.25" Width="1.5" />
+    <Position X="39" Y="14.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Managers\GameWorldManager.cs</FileName>
