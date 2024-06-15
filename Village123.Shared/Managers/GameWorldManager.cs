@@ -20,6 +20,7 @@ namespace Village123.Shared.Managers
   public class GameWorldManager
   {
     private double _elapsedGameMinutes;
+    private int _elapsedGameDays;
     private double _gameSpeed = 1.0;
     private const double RealMinutesPerGameDay = 24.0;
     private const double GameMinutesPerRealSecond = (24 * 60) / (24 * 60); // 1 game minute per real second at 1x speed
@@ -197,6 +198,11 @@ namespace Village123.Shared.Managers
       // Update the game time
       _elapsedGameMinutes += elapsedGameMinutes;
 
+      while (_elapsedGameMinutes >= 1440) // 1440 minutes in a day
+      {
+        _elapsedGameMinutes -= 1440;
+        _elapsedGameDays++;
+      }
 
       BuildManager.Update(gameTime);
       GUIManager.Update(gameTime);
@@ -276,7 +282,7 @@ namespace Village123.Shared.Managers
       int totalMinutes = (int)_elapsedGameMinutes;
       int hours = totalMinutes / 60;
       int minutes = totalMinutes % 60;
-      return $"{hours:D2}:{minutes:D2}";
+      return $"Day {_elapsedGameDays + 1}, {hours:D2}:{minutes:D2}";
     }
   }
 }
