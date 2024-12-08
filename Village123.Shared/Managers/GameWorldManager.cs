@@ -9,6 +9,7 @@ using Village123.Shared.Maps;
 using Village123.Shared.Models;
 using Village123.Shared.Services;
 using Village123.Shared.Sprites;
+using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
 {
@@ -26,6 +27,7 @@ namespace Village123.Shared.Managers
     private const double GameMinutesPerRealSecond = (24 * 60) / (12 * 60); // 2 game minutes per real second at 1x speed
 
     private SpriteFont _font;
+    private Texture2D _gridTexture;
 
     public readonly GameModel GameModel;
 
@@ -262,7 +264,9 @@ namespace Village123.Shared.Managers
         sprite.Draw(spriteBatch);
       }
 
+      Map.Draw(spriteBatch);
       spriteBatch.End();
+
       spriteBatch.Begin();
       PlaceManager.Draw(spriteBatch);
       VillagerManager.Draw(spriteBatch);

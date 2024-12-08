@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Village123.Shared.Services;
+using Village123.Shared.Utils;
 
 namespace Village123.Shared.Maps
 {
@@ -14,17 +17,21 @@ namespace Village123.Shared.Maps
 
     public float[,] Data { get; set; }
     public int[,] EntityData { get; set; }
+    public bool ShowGrid { get; set; } = false;
 
     public int Width => Data.GetLength(1);
 
     public int Height => Data.GetLength(0);
 
+    private Texture2D _gridTexture;
+
     public Map()
     {
-
+      _gridTexture = TextureHelpers.CreateBorderedTexture(BaseGame.GWM.GameModel.GraphicsDevice, BaseGame.TileSize, BaseGame.TileSize, Color.White * 0, Color.Black, 1);
     }
 
     public Map(int width, int height, SaveFileService saveFileService)
+      : base()
     {
       _saveFileService = saveFileService;
 
@@ -151,6 +158,25 @@ namespace Village123.Shared.Maps
           Data[y, x] = c;
           _waitingPoints.Remove(current.Key);
           i--;
+        }
+      }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+      if (Keyboard.GetState().IsKeyDown(Keys.G))
+      {
+        ShowGrid = !ShowGrid;
+      }
+
+      if (!ShowGrid)
+        return;
+
+      for (int y = 0; y < Height; y++)
+      {
+        for (int x = 0; x < Width; x++)
+        {
+          spriteBatch.Draw(_gridTexture, new Vector2(x * _gridTexture.Width, y * _gridTexture.Height), Color.White);
         }
       }
     }
