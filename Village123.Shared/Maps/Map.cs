@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Village123.Shared.Maps
@@ -191,6 +192,9 @@ namespace Village123.Shared.Maps
       var bottom = position.Y + size.Y;
       var right = position.X + size.X;
 
+      //WriteMapToFile(this.Data, "Test1.txt");
+      //WriteMapToFile(this.EntityData, "Test2.txt");
+
       if (position.X < 0)
         return false;
 
@@ -217,6 +221,21 @@ namespace Village123.Shared.Maps
           Console.Write(map[y, x]);
         }
         Console.WriteLine();
+      }
+    }
+
+    private void WriteMapToFile<T>(T[,] map, string filename)
+    {
+      using (var writer = new StreamWriter(filename))
+      {
+        for (int y = 0; y < map.GetLength(1); y++)
+        {
+          for (int x = 0; x < map.GetLength(0); x++)
+          {
+            writer.Write(map[y, x]);
+          }
+          writer.WriteLine();
+        }
       }
     }
 

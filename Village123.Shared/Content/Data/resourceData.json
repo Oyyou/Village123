@@ -6,6 +6,7 @@
       "X": 2,
       "Y": 3
     },
+    "harvestTime": 60,
     "pointOffset": {
       "X": 0,
       "Y": 2

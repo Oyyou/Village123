@@ -39,11 +39,23 @@ namespace Village123.Shared.VillagerActions
     {
       _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-      if (_timer >= 0.01f)
-      {
-        _timer = 0;
-        _job.Progress += 1;
-      }
+      // Calculate elapsed game time based on the game's time scale
+      var elapsedRealSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+      var elapsedGameSeconds = elapsedRealSeconds * 2; // 2 game minutes per real second
+
+      // Increment the timer by the elapsed game time in seconds
+      _timer += elapsedGameSeconds;
+
+      var harvestTime = _job.HarvestedResource.HarvestTime;
+
+      // Calculate progress based on the percentage of harvest time completed
+      _job.Progress = MathHelper.Clamp((_timer / harvestTime) * 100, 0, 100);
+
+      //if (_timer >= 0.01f)
+      //{
+      //  _timer = 0;
+      //  _job.Progress += 1;
+      //}
     }
 
     public override bool IsComplete()

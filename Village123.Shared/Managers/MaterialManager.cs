@@ -1,17 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using Village123.Shared.Entities;
+using Village123.Shared.Services;
 using Village123.Shared.Utils;
-using static Village123.Shared.Data.ItemData;
 
 namespace Village123.Shared.Managers
 {
   public class MaterialManager
   {
     private const string fileName = "materials.json";
+    private SaveFileService _saveFileService;
 
     public List<Material> Materials { get; private set; } = new();
 
@@ -20,25 +19,28 @@ namespace Village123.Shared.Managers
 
     }
 
+    public MaterialManager(SaveFileService saveFileService)
+    {
+      _saveFileService = saveFileService;
+    }
+
     #region Serialization
     public void Save()
     {
-      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-      {
-        NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,
-      });
-      File.WriteAllText(fileName, jsonString);
+      _saveFileService.Save(this, fileName);
     }
 
-    public static MaterialManager Load()
+    public static MaterialManager Load(SaveFileService saveFileService)
     {
-      var manager = new MaterialManager();
+      var manager = saveFileService.Load<MaterialManager>(fileName);
 
-      if (File.Exists(fileName))
+      if (manager == null)
       {
-        var jsonString = File.ReadAllText(fileName);
-        manager = JsonConvert.DeserializeObject<MaterialManager>(jsonString)!;
+        manager = new MaterialManager(saveFileService);
+      }
+      else
+      {
+        manager._saveFileService = saveFileService;
       }
 
       foreach (var material in manager.Materials)

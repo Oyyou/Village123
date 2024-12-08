@@ -4,5 +4,6 @@
   {
     public int ResourceId { get; init; }
     public string ResourceName { get; init; }
+    public int HarvestTime { get; init; }
   }
 }

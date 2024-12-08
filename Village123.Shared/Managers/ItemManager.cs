@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Village123.Shared.Entities;
 using Village123.Shared.Models;
+using Village123.Shared.Services;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
@@ -13,30 +12,34 @@ namespace Village123.Shared.Managers
   public class ItemManager
   {
     private const string fileName = "items.json";
+    private SaveFileService _saveFileService;
 
     public List<Item> Items { get; private set; } = new();
 
     private ItemManager() { }
 
+    public ItemManager(SaveFileService saveFileService)
+    {
+      _saveFileService = saveFileService;
+    }
+
     #region Serialization
     public void Save()
     {
-      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-      {
-        NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,
-      });
-      File.WriteAllText(fileName, jsonString);
+      _saveFileService.Save(this, fileName);
     }
 
-    public static ItemManager Load()
+    public static ItemManager Load(SaveFileService saveFileService)
     {
       var manager = new ItemManager();
 
-      if (File.Exists(fileName))
+      if (manager == null)
       {
-        var jsonString = File.ReadAllText(fileName);
-        manager = JsonConvert.DeserializeObject<ItemManager>(jsonString)!;
+        manager = new ItemManager(saveFileService);
+      }
+      else
+      {
+        manager._saveFileService = saveFileService;
       }
 
       foreach (var item in manager.Items)

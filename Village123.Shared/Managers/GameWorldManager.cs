@@ -7,6 +7,7 @@ using Village123.Shared.Data;
 using Village123.Shared.Input;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
+using Village123.Shared.Services;
 using Village123.Shared.Sprites;
 
 namespace Village123.Shared.Managers
@@ -22,8 +23,7 @@ namespace Village123.Shared.Managers
     private double _elapsedGameMinutes;
     private int _elapsedGameDays;
     private double _gameSpeed = 1.0;
-    private const double RealMinutesPerGameDay = 24.0;
-    private const double GameMinutesPerRealSecond = (24 * 60) / (24 * 60); // 1 game minute per real second at 1x speed
+    private const double GameMinutesPerRealSecond = (24 * 60) / (12 * 60); // 2 game minutes per real second at 1x speed
 
     private SpriteFont _font;
 
@@ -76,17 +76,19 @@ namespace Village123.Shared.Managers
       // TODO: Load map
       Map = new Map(100, 100);
 
-      IdManager = IdManager.Load();
+      var saveFileService = new SaveFileService();
+
+      IdManager = IdManager.Load(saveFileService);
       GUIManager = new GUIManager();
       BuildManager = new BuildManager();
 
-      MaterialManager = MaterialManager.Load();
-      ResourceManager = ResourceManager.Load();
+      MaterialManager = MaterialManager.Load(saveFileService);
+      ResourceManager = ResourceManager.Load(saveFileService);
 
-      ItemManager = ItemManager.Load();
-      PlaceManager = PlaceManager.Load();
-      JobManager = JobManager.Load();
-      VillagerManager = VillagerManager.Load();
+      ItemManager = ItemManager.Load(saveFileService);
+      PlaceManager = PlaceManager.Load(saveFileService);
+      JobManager = JobManager.Load(saveFileService);
+      VillagerManager = VillagerManager.Load(saveFileService);
 
       //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
 

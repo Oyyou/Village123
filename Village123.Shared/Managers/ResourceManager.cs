@@ -1,39 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using Village123.Shared.Entities;
+using Village123.Shared.Services;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
 {
   public class ResourceManager
   {
-    private const string fileName = "resoruces.json";
+    private const string fileName = "resources.json";
+    private SaveFileService _saveFileService;
+
     public List<Resource> Resources { get; private set; } = new();
 
     private ResourceManager() { }
 
+    public ResourceManager(SaveFileService saveFileService)
+    {
+      _saveFileService = saveFileService;
+    }
+
     #region Serialization
     public void Save()
     {
-      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-      {
-        NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,
-      });
-      File.WriteAllText(fileName, jsonString);
+      _saveFileService.Save(this, fileName);
     }
 
-    public static ResourceManager Load()
+    public static ResourceManager Load(SaveFileService saveFileService)
     {
       var manager = new ResourceManager();
 
-      if (File.Exists(fileName))
+      if (manager == null)
       {
-        var jsonString = File.ReadAllText(fileName);
-        manager = JsonConvert.DeserializeObject<ResourceManager>(jsonString)!;
+        manager = new ResourceManager(saveFileService);
+      }
+      else
+      {
+        manager._saveFileService = saveFileService;
       }
 
       foreach (var value in manager.Resources)

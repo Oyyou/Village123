@@ -9,6 +9,7 @@ using System.Reflection;
 using Village123.Shared.Entities;
 using Village123.Shared.Interfaces;
 using Village123.Shared.Models;
+using Village123.Shared.Services;
 using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Managers
@@ -16,6 +17,7 @@ namespace Village123.Shared.Managers
   public class VillagerManager
   {
     private const string fileName = "villagers.json";
+    private SaveFileService _saveFileService;
 
     private static List<string> MaleFirstNames = new();
     private static List<string> FemaleFirstNames = new();
@@ -32,6 +34,12 @@ namespace Village123.Shared.Managers
       LastNames = File.ReadAllLines("Content/lastNames.txt").ToList();
 
       LoadDetermineActions();
+    }
+
+    public VillagerManager(SaveFileService saveFileService)
+      : this()
+    {
+      _saveFileService = saveFileService;
     }
 
     private void LoadDetermineActions()
@@ -51,25 +59,23 @@ namespace Village123.Shared.Managers
     #region Serialization
     public void Save()
     {
-      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-      {
-        NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,
-      });
-      File.WriteAllText(fileName, jsonString);
+      _saveFileService.Save(this, fileName);
     }
 
-    public static VillagerManager Load()
+    public static VillagerManager Load(SaveFileService saveFileService)
     {
-      var villagerManager = new VillagerManager();
+      var manager = saveFileService.Load<VillagerManager>(fileName);
 
-      if (File.Exists(fileName))
+      if (manager == null)
       {
-        var jsonString = File.ReadAllText(fileName);
-        villagerManager = JsonConvert.DeserializeObject<VillagerManager>(jsonString)!;
+        manager = new VillagerManager(saveFileService);
+      }
+      else
+      {
+        manager._saveFileService = saveFileService;
       }
 
-      foreach (var villager in villagerManager.Villagers)
+      foreach (var villager in manager.Villagers)
       {
         villager.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>("Circle");
         foreach (var action in villager.ActionQueue)
@@ -78,7 +84,7 @@ namespace Village123.Shared.Managers
         }
       }
 
-      return villagerManager;
+      return manager;
     }
     #endregion
 
@@ -139,7 +145,7 @@ namespace Village123.Shared.Managers
         Gender = gender,
         Conditions = new Dictionary<string, Condition>()
         {
-          { "Energy", new(100f, -0.10f) }
+          { "Energy", new(100f, -100f / (16 * (60 * 60))) }
         },
         Colour = new Color(BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255)),
       };

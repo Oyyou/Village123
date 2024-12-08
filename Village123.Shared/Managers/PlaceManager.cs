@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
+using Village123.Shared.Services;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
@@ -14,29 +15,34 @@ namespace Village123.Shared.Managers
   public class PlaceManager
   {
     private const string fileName = "places.json";
+    private SaveFileService _saveFileService;
+
     public List<Place> Places { get; private set; } = new();
 
     private PlaceManager() { }
 
+    public PlaceManager(SaveFileService saveFileService)
+    {
+      _saveFileService = saveFileService;
+    }
+
     #region Serialization
     public void Save()
     {
-      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-      {
-        NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,
-      });
-      File.WriteAllText(fileName, jsonString);
+      _saveFileService.Save(this, fileName);
     }
 
-    public static PlaceManager Load()
+    public static PlaceManager Load(SaveFileService saveFileService)
     {
       var manager = new PlaceManager();
 
-      if (File.Exists(fileName))
+      if (manager == null)
       {
-        var jsonString = File.ReadAllText(fileName);
-        manager = JsonConvert.DeserializeObject<PlaceManager>(jsonString)!;
+        manager = new PlaceManager(saveFileService);
+      }
+      else
+      {
+        manager._saveFileService = saveFileService;
       }
 
       foreach (var place in manager.Places)

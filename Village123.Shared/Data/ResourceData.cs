@@ -14,8 +14,12 @@ namespace Village123.Shared.Data
     {
       [JsonProperty("type")]
       public string Type { get; set; }
+
       [JsonProperty("drop")]
       public string Drop { get; set; }
+
+      [JsonProperty("harvestTime")]
+      public int HarvestTime { get; set; }
 
       [JsonProperty("size")]
       public Point Size { get; set; }

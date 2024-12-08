@@ -39,8 +39,6 @@ namespace Village123.Shared.VillagerActions
       _path = StandOnDestination ?
         pf.GetPath(_villager.Point, Destination) :
         pf.GetPathNextTo(_villager.Point, Destination, false, true);
-
-      _conditionManager.SetRate("Energy", -0.15f);
     }
 
     protected override void OnInitialize()

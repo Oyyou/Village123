@@ -5,12 +5,14 @@ using System.IO;
 using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.Models;
+using Village123.Shared.Services;
 
 namespace Village123.Shared.Managers
 {
   public class JobManager
   {
     private const string fileName = "jobs.json";
+    private SaveFileService _saveFileService;
 
     public List<Job> Jobs { get; private set; } = new();
 
@@ -18,28 +20,26 @@ namespace Village123.Shared.Managers
     {
     }
 
+    public JobManager(SaveFileService saveFileService)
+    {
+      _saveFileService = saveFileService;
+    }
+
     #region Serialization
     public void Save()
     {
-      var jsonString = JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
-      {
-        NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,
-      });
-      File.WriteAllText(fileName, jsonString);
+      _saveFileService.Save(this, fileName);
     }
 
-    public static JobManager Load()
+    public static JobManager Load(SaveFileService saveFileService)
     {
-      var mamager = new JobManager();
+      var manager = saveFileService.Load<JobManager>(fileName);
 
-      if (File.Exists(fileName))
-      {
-        var jsonString = File.ReadAllText(fileName);
-        mamager = JsonConvert.DeserializeObject<JobManager>(jsonString)!;
-      }
+      if (manager == null)
+        return new JobManager(saveFileService);
 
-      return mamager;
+      manager._saveFileService = saveFileService;
+      return manager;
     }
     #endregion
 

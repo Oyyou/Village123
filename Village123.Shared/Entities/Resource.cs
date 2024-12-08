@@ -88,6 +88,7 @@ namespace Village123.Shared.Entities
                       {
                         ResourceId = Id,
                         ResourceName = Data.Drop,
+                        HarvestTime = data.HarvestTime,
                       });
                       _cancallableActions.Add(action.Key, job.Id);
                     }
