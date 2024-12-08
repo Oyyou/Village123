@@ -73,14 +73,14 @@ namespace Village123.Shared.Managers
       ResourceData = ResourceData.Load();
       ResourceTypeData = ResourceTypeData.Load();
 
-      // TODO: Load map
-      Map = new Map(100, 100);
-
       var saveFileService = new SaveFileService();
 
       IdManager = IdManager.Load(saveFileService);
+
       GUIManager = new GUIManager();
       BuildManager = new BuildManager();
+
+      Map = Map.Load(saveFileService);
 
       MaterialManager = MaterialManager.Load(saveFileService);
       ResourceManager = ResourceManager.Load(saveFileService);
@@ -178,6 +178,7 @@ namespace Village123.Shared.Managers
 
     public void Save()
     {
+      Map.Save();
       IdManager.Save();
       VillagerManager.Save();
       PlaceManager.Save();

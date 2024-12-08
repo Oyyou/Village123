@@ -29,7 +29,7 @@ namespace Village123.Shared.Managers
 
     public static ResourceManager Load(SaveFileService saveFileService)
     {
-      var manager = new ResourceManager();
+      var manager = saveFileService.Load<ResourceManager>(fileName);
 
       if (manager == null)
       {
@@ -40,10 +40,12 @@ namespace Village123.Shared.Managers
         manager._saveFileService = saveFileService;
       }
 
-      foreach (var value in manager.Resources)
+      foreach (var resource in manager.Resources)
       {
-        value.SetData(BaseGame.GWM.ResourceData.Resources[value.Name]);
-        value.Texture = TextureHelpers.LoadTexture($"Resources/{value.Name}");
+        resource.SetData(BaseGame.GWM.ResourceData.Resources[resource.Name]);
+        resource.Texture = TextureHelpers.LoadTexture($"Resources/{resource.Name}");
+
+        // BaseGame.GWM.Map.AddObstacle(resource.Point, resource.Data.Size, resource.Data.PointOffset);
       }
 
       return manager;

@@ -3,27 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Village123.Shared.Services;
 
 namespace Village123.Shared.Maps
 {
   public class Map
   {
+    private SaveFileService _saveFileService;
     private Dictionary<Point, KeyValuePair<float, Func<bool>>> _waitingPoints = new Dictionary<Point, KeyValuePair<float, Func<bool>>>();
 
-    public float[,] Data { get; private set; }
-    public int[,] EntityData { get; private set; }
+    public float[,] Data { get; set; }
+    public int[,] EntityData { get; set; }
 
     public int Width => Data.GetLength(1);
 
     public int Height => Data.GetLength(0);
 
-    public Map(float[,] data)
+    public Map()
     {
-      Data = data;
+
     }
 
-    public Map(int width, int height)
+    public Map(int width, int height, SaveFileService saveFileService)
     {
+      _saveFileService = saveFileService;
+
       Data = new float[height, width];
       EntityData = new int[height, width];
 
@@ -35,6 +39,22 @@ namespace Village123.Shared.Maps
           EntityData[y, x] = 0;
         }
       }
+    }
+
+    public void Save()
+    {
+      _saveFileService.Save(this, "map.json");
+    }
+
+    public static Map Load(SaveFileService saveFileService)
+    {
+      var map = saveFileService.Load<Map>("map.json");
+
+      if (map == null)
+        return new Map(100, 100, saveFileService);
+
+      map._saveFileService = saveFileService;
+      return map;
     }
 
     //public void Add(MappedComponent obj, Func<bool> triggerActive = null)
