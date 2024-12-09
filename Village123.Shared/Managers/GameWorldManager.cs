@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using Village123.Shared.Content;
 using Village123.Shared.Data;
 using Village123.Shared.Input;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
 using Village123.Shared.Services;
 using Village123.Shared.Sprites;
-using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
 {
@@ -57,6 +55,7 @@ namespace Village123.Shared.Managers
     public GameStates State = GameStates.Playing;
 
     private List<Sprite> _grass = new();
+    private Texture2D _grassTexture;
 
     public GameWorldManager(GameModel gameModel)
     {
@@ -100,7 +99,7 @@ namespace Village123.Shared.Managers
       //var anvil = PlaceManager.GetInstance(this).Add(PlaceData.Places["anvil"], new Point(5, 3));
       //GenerateTrees(0.05f);
       //GenerateStones(0.025f);
-      LoadGrassTiles();
+      _grassTexture = GenerateGrassTexture();
 
       _font = BaseGame.GWM.GameModel.Content.Load<SpriteFont>("Font");
     }
@@ -155,27 +154,39 @@ namespace Village123.Shared.Managers
       }
     }
 
-    public void LoadGrassTiles()
+    public Texture2D GenerateGrassTexture()
     {
       var textures = new List<Texture2D>();
-      // Load grass textures
       for (int i = 0; i < 4; i++)
       {
         textures.Add(GameModel.Content.Load<Texture2D>($"Tiles/Grass/Grass_{(i + 1):00}"));
       }
 
+      var graphicsDevice = GameModel.GraphicsDevice;
+
+      var renderTarget = new RenderTarget2D(graphicsDevice, Map.Width * BaseGame.TileSize, Map.Height * BaseGame.TileSize);
+
+      graphicsDevice.SetRenderTarget(renderTarget);
+      graphicsDevice.Clear(Color.Transparent);
+
+      var spriteBatch = new SpriteBatch(graphicsDevice);
+      spriteBatch.Begin();
+
       for (int y = 0; y < Map.Height; y++)
       {
         for (int x = 0; x < Map.Width; x++)
         {
-          var grassTexture = textures[BaseGame.Random.Next(4)];
-          var grassTile = new Sprite(grassTexture)
-          {
-            Position = new Vector2(x, y) * BaseGame.TileSize
-          };
-          _grass.Add(grassTile);
+          var grassTexture = textures[BaseGame.Random.Next(textures.Count)];
+          var position = new Vector2(x, y) * BaseGame.TileSize;
+          spriteBatch.Draw(grassTexture, position, Color.White);
         }
       }
+
+      spriteBatch.End();
+
+      graphicsDevice.SetRenderTarget(null);
+
+      return renderTarget;
     }
 
     public void Save()
@@ -253,21 +264,31 @@ namespace Village123.Shared.Managers
       {
         _gameSpeed = 0;
       }
+
+      HandleCameraMovement();
     }
+
+    private Vector2 _cameraPosition = Vector2.Zero;
+    private Vector2 _lastMousePosition;
+    private bool _isDragging;
+    private float _zoom = 1f;
+    private int _previousScrollWheelValue = 0;
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Begin();
+      var camera = Matrix.CreateTranslation(-_cameraPosition.X, -_cameraPosition.Y, 0) *
+             Matrix.CreateScale(_zoom, _zoom, 1f);
 
-      foreach (var sprite in _grass)
-      {
-        sprite.Draw(spriteBatch);
-      }
+      var transformMatrix = camera * BaseGame.ScaleMatrix;
+
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
+
+      spriteBatch.Draw(_grassTexture, Vector2.Zero, Color.White);
 
       Map.Draw(spriteBatch);
       spriteBatch.End();
 
-      spriteBatch.Begin();
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
       PlaceManager.Draw(spriteBatch);
       VillagerManager.Draw(spriteBatch);
       ItemManager.Draw(spriteBatch);
@@ -279,10 +300,51 @@ namespace Village123.Shared.Managers
 
       GUIManager.Draw(spriteBatch);
 
-      spriteBatch.Begin();
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp);
       spriteBatch.DrawString(_font, GetGameTimeString(), new Vector2(10, 10), Color.Black);
       spriteBatch.End();
     }
+    private void HandleCameraMovement()
+    {
+      var mouseState = Mouse.GetState();
+
+      // Handle middle mouse dragging
+      if (mouseState.MiddleButton == ButtonState.Pressed)
+      {
+        if (!_isDragging)
+        {
+          _isDragging = true;
+          _lastMousePosition = mouseState.Position.ToVector2();
+        }
+
+        var currentMousePosition = mouseState.Position.ToVector2();
+        var delta = currentMousePosition - _lastMousePosition;
+
+        _cameraPosition -= delta;
+        _lastMousePosition = currentMousePosition;
+
+        // Clamp camera position
+        var screenWidth = BaseGame.ScreenWidth / _zoom;
+        var screenHeight = BaseGame.ScreenHeight / _zoom;
+        _cameraPosition.X = MathHelper.Clamp(_cameraPosition.X, 0, Map.Width * BaseGame.TileSize - screenWidth);
+        _cameraPosition.Y = MathHelper.Clamp(_cameraPosition.Y, 0, Map.Height * BaseGame.TileSize - screenHeight);
+      }
+      else
+      {
+        _isDragging = false;
+      }
+
+      // Handle zoom
+      int scrollDelta = mouseState.ScrollWheelValue - _previousScrollWheelValue;
+      if (scrollDelta != 0)
+      {
+        float zoomChange = scrollDelta > 0 ? 0.1f : -0.1f;
+        _zoom = MathHelper.Clamp(_zoom + zoomChange, 0.5f, 2f); // Limits zoom between 0.5x and 2x
+      }
+
+      _previousScrollWheelValue = mouseState.ScrollWheelValue;
+    }
+
 
     public string GetGameTimeString()
     {

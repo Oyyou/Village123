@@ -14,6 +14,8 @@ namespace Village123
 
     protected override void Update(GameTime gameTime)
     {
+      XScale = (float)GraphicsDevice.PresentationParameters.BackBufferWidth / 480;
+      YScale = (float)GraphicsDevice.PresentationParameters.BackBufferHeight / 270;
       base.Update(gameTime);
 
       GameMouse.Update(gameTime);
@@ -24,6 +26,7 @@ namespace Village123
     protected override void Draw(GameTime gameTime)
     {
       GraphicsDevice.Clear(Color.CornflowerBlue);
+      ScaleMatrix = Matrix.CreateScale(XScale, YScale, 1);
 
       GWM.Draw(_spriteBatch);
 

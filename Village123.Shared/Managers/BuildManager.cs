@@ -174,7 +174,7 @@ namespace Village123.Shared.Managers
 
       if (!_hasUpdated) return;
 
-      spriteBatch.Begin();
+      spriteBatch.Begin(transformMatrix: BaseGame.ScaleMatrix);
       _place.Draw(spriteBatch);
       foreach (var point in _radiusPoints)
       {
