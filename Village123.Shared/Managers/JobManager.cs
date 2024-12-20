@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Village123.Shared.Entities;
 using Village123.Shared.Models;
@@ -69,7 +67,7 @@ namespace Village123.Shared.Managers
         return;
       }
 
-      foreach(var workerId in job.WorkerIds)
+      foreach (var workerId in job.WorkerIds)
       {
         var villager = BaseGame.GWM.VillagerManager.Villagers.FirstOrDefault(v => job.WorkerIds.Contains(v.Id));
         villager.JobIds.Remove(job.Id);

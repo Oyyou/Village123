@@ -10,7 +10,10 @@ namespace Village123.Shared.VillagerActions.DetermineActions
 
     public string Name => "Harvest";
 
-    public float Priority => 2.5f;
+    public float Priority(Villager villager)
+    {
+      return 2.5f;
+    }
 
     public bool CanExecute(Villager villager)
     {

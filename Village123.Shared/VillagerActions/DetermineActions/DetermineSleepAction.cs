@@ -8,11 +8,14 @@ namespace Village123.Shared.VillagerActions.DetermineActions
   {
     public string Name => "Sleep";
 
-    public float Priority => 1f;
+    public float Priority(Villager villager)
+    {
+      return 1f;
+    }
 
     public bool CanExecute(Villager villager)
     {
-      return villager.Conditions["Energy"].Value <= 0;
+      return villager.Conditions["Energy"].Value <= 10;
     }
 
     public void Execute(Villager villager)

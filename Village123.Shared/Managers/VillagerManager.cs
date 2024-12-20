@@ -75,7 +75,13 @@ namespace Village123.Shared.Managers
         manager._saveFileService = saveFileService;
       }
 
-      foreach (var villager in manager.Villagers)
+      return manager;
+    }
+    #endregion
+
+    public void Initialize()
+    {
+      foreach (var villager in this.Villagers)
       {
         villager.Texture = BaseGame.GWM.GameModel.Content.Load<Texture2D>("Circle");
         foreach (var action in villager.ActionQueue)
@@ -83,10 +89,7 @@ namespace Village123.Shared.Managers
           action.Initialize(villager);
         }
       }
-
-      return manager;
     }
-    #endregion
 
     public void UpdateMouse()
     {
@@ -121,7 +124,7 @@ namespace Village123.Shared.Managers
         return;
       }
 
-      foreach (var action in _determineActions.OrderBy(a => a.Priority))
+      foreach (var action in _determineActions.OrderBy(a => a.Priority(villager)))
       {
         if (action.CanExecute(villager))
         {
@@ -145,7 +148,8 @@ namespace Village123.Shared.Managers
         Gender = gender,
         Conditions = new Dictionary<string, Condition>()
         {
-          { "Energy", new(100f, -100f / (16 * (60 * 60))) }
+          { "Energy", new(100f, -100f / (16 * (60 * 60))) },
+          { "Social", new(100f, -100f / (16 * (60 * 60))) },
         },
         Colour = new Color(BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255)),
       };

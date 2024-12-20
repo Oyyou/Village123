@@ -51,6 +51,7 @@ namespace Village123.Shared.Managers
     public ItemManager ItemManager { get; set; }
     public MaterialManager MaterialManager { get; set; }
     public ResourceManager ResourceManager { get; set; }
+    public EventManager EventManager { get; set; }
 
     public GameStates State = GameStates.Playing;
 
@@ -89,7 +90,11 @@ namespace Village123.Shared.Managers
       ItemManager = ItemManager.Load(saveFileService);
       PlaceManager = PlaceManager.Load(saveFileService);
       JobManager = JobManager.Load(saveFileService);
+      
       VillagerManager = VillagerManager.Load(saveFileService);
+      VillagerManager.Initialize();
+
+      EventManager = EventManager.Load(saveFileService);
 
       //var v1 = VillagerManager.GetInstance(this).CreateRandomVillager();
 
@@ -199,6 +204,7 @@ namespace Village123.Shared.Managers
       ItemManager.Save();
       MaterialManager.Save();
       ResourceManager.Save();
+      EventManager.Save();
     }
 
     public void Update(GameTime gameTime)
@@ -236,6 +242,7 @@ namespace Village123.Shared.Managers
         ItemManager.Update(gameTime);
         MaterialManager.Update(gameTime);
         ResourceManager.Update(gameTime);
+        EventManager.Update(gameTime);
       }
     }
 
@@ -276,8 +283,13 @@ namespace Village123.Shared.Managers
 
     public void Draw(SpriteBatch spriteBatch)
     {
+      var screenWidth = BaseGame.ScreenWidth;
+      var screenHeight = BaseGame.ScreenHeight;
+
       var camera = Matrix.CreateTranslation(-_cameraPosition.X, -_cameraPosition.Y, 0) *
-             Matrix.CreateScale(_zoom, _zoom, 1f);
+                   Matrix.CreateTranslation(-screenWidth / 2f, -screenHeight / 2f, 0) *
+                   Matrix.CreateScale(_zoom, _zoom, 1f) *
+                   Matrix.CreateTranslation(screenWidth / 2, screenHeight / 2, 0);
 
       var transformMatrix = camera * BaseGame.ScaleMatrix;
 
@@ -326,8 +338,8 @@ namespace Village123.Shared.Managers
         // Clamp camera position
         var screenWidth = BaseGame.ScreenWidth / _zoom;
         var screenHeight = BaseGame.ScreenHeight / _zoom;
-        _cameraPosition.X = MathHelper.Clamp(_cameraPosition.X, 0, Map.Width * BaseGame.TileSize - screenWidth);
-        _cameraPosition.Y = MathHelper.Clamp(_cameraPosition.Y, 0, Map.Height * BaseGame.TileSize - screenHeight);
+        //_cameraPosition.X = MathHelper.Clamp(_cameraPosition.X, 0 - screenWidth, Map.Width * BaseGame.TileSize - screenWidth);
+        //_cameraPosition.Y = MathHelper.Clamp(_cameraPosition.Y, 0 - screenHeight, Map.Height * BaseGame.TileSize - screenHeight);
       }
       else
       {

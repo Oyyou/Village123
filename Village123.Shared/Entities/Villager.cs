@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using Village123.Shared.Logging;
 using Village123.Shared.Models;
+using Village123.Shared.Models.AdditionalInfo;
 using Village123.Shared.VillagerActions;
 
 namespace Village123.Shared.Entities
@@ -63,6 +65,9 @@ namespace Village123.Shared.Entities
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     public Queue<IVillagerAction> ActionQueue { get; set; } = new();
 
+    [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
+    public Dictionary<string, BaseAdditionalInfo> AdditionalInfo { get; set; } = new();
+
     public Villager(Texture2D texture)
     {
       Texture = texture;
@@ -72,6 +77,33 @@ namespace Village123.Shared.Entities
     {
       ActionQueue.Enqueue(action);
     }
+
+    #region AdditionalData
+    /// <summary>
+    /// Retrieves the additional info of the specified type, or creates and adds it if not found.
+    /// </summary>
+    public T GetAdditionalInfo<T>(string key, Func<T> createFunc) where T : BaseAdditionalInfo
+    {
+      if (AdditionalInfo.TryGetValue(key, out var info) && info is T typedInfo)
+      {
+        return typedInfo;
+      }
+
+      var newInfo = createFunc();
+      AdditionalInfo[key] = newInfo;
+      return newInfo;
+    }
+
+    public CooldownAdditionalInfo GetCooldown(string key)
+    {
+      return GetAdditionalInfo(key, () => new CooldownAdditionalInfo());
+    }
+    public void SetCooldown(string key, float duration)
+    {
+      var cooldownInfo = GetAdditionalInfo(key, () => new CooldownAdditionalInfo());
+      cooldownInfo.Duration = duration;
+    }
+    #endregion
 
     public void Update(GameTime gameTime)
     {
@@ -98,6 +130,24 @@ namespace Village123.Shared.Entities
       {
         condition.Value.Value += condition.Value.Rate;
         condition.Value.Value = MathHelper.Clamp(condition.Value.Value, 0, 100);
+      }
+
+      var keysToRemove = new List<string>();
+      foreach (var kvp in AdditionalInfo)
+      {
+        if (kvp.Value is CooldownAdditionalInfo cooldown)
+        {
+          cooldown.Duration -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+          if (cooldown.Duration <= 0)
+          {
+            keysToRemove.Add(kvp.Key);
+          }
+        }
+      }
+
+      foreach (var key in keysToRemove)
+      {
+        AdditionalInfo.Remove(key);
       }
     }
 

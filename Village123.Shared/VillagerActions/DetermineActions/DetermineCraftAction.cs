@@ -11,7 +11,10 @@ namespace Village123.Shared.VillagerActions.DetermineActions
 
     public string Name => "Craft";
 
-    public float Priority => 2f;
+    public float Priority(Villager villager)
+    {
+      return 2f;
+    }
 
     public bool CanExecute(Villager villager)
     {

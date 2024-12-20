@@ -31,7 +31,7 @@ namespace Village123.Shared.Maps
     }
 
     public Map(int width, int height, SaveFileService saveFileService)
-      : base()
+      : this()
     {
       _saveFileService = saveFileService;
 
