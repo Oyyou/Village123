@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -150,6 +149,7 @@ namespace Village123.Shared.Managers
         {
           { "Energy", new(100f, -100f / (16 * (60 * 60))) },
           { "Social", new(100f, -100f / (16 * (60 * 60))) },
+          { "Happiness", new(100f, -100f / (16 * (60 * 60))) },
         },
         Colour = new Color(BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255), BaseGame.Random.Next(0, 255)),
       };
@@ -179,7 +179,9 @@ namespace Village123.Shared.Managers
         Mother = mother,
         Conditions = new Dictionary<string, Condition>()
         {
-          { "Energy", new(100f, -0.10f) }
+          { "Energy", new(100f, -100f / (16 * (60 * 60))) },
+          { "Social", new(100f, -100f / (16 * (60 * 60))) },
+          { "Happiness", new(100f, -100f / (16 * (60 * 60))) },
         }
       };
 

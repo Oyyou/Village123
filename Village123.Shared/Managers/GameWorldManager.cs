@@ -90,7 +90,7 @@ namespace Village123.Shared.Managers
       ItemManager = ItemManager.Load(saveFileService);
       PlaceManager = PlaceManager.Load(saveFileService);
       JobManager = JobManager.Load(saveFileService);
-      
+
       VillagerManager = VillagerManager.Load(saveFileService);
       VillagerManager.Initialize();
 
@@ -316,6 +316,7 @@ namespace Village123.Shared.Managers
       spriteBatch.DrawString(_font, GetGameTimeString(), new Vector2(10, 10), Color.Black);
       spriteBatch.End();
     }
+
     private void HandleCameraMovement()
     {
       var mouseState = Mouse.GetState();
@@ -350,8 +351,12 @@ namespace Village123.Shared.Managers
       int scrollDelta = mouseState.ScrollWheelValue - _previousScrollWheelValue;
       if (scrollDelta != 0)
       {
-        float zoomChange = scrollDelta > 0 ? 0.1f : -0.1f;
-        _zoom = MathHelper.Clamp(_zoom + zoomChange, 0.5f, 2f); // Limits zoom between 0.5x and 2x
+        // Calculate zoom change based on current zoom level
+        float zoomFactor = 0.1f * _zoom; // Scale zoom change proportionally
+        float zoomChange = scrollDelta > 0 ? zoomFactor : -zoomFactor;
+
+        // Apply zoom change
+        _zoom = MathHelper.Clamp(_zoom + zoomChange, 0.25f, 2f);
       }
 
       _previousScrollWheelValue = mouseState.ScrollWheelValue;

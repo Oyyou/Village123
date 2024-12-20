@@ -21,6 +21,7 @@ namespace Village123.Shared.VillagerActions
     public Point Destination { get; init; }
 
     public bool StandOnDestination { get; init; }
+    public bool IsRecreational { get; init; } = false;
 
     public override string Name => "Walk";
 
@@ -35,6 +36,11 @@ namespace Village123.Shared.VillagerActions
 
     public override void Start()
     {
+      if (IsRecreational)
+      {
+        _conditionManager.SetRate("Happiness", 0.25f);
+      }
+
       var pf = new Pathfinder(_map);
       _path = StandOnDestination ?
         pf.GetPath(_villager.Point, Destination) :
@@ -80,6 +86,12 @@ namespace Village123.Shared.VillagerActions
     {
       _villager.PositionOffset = Vector2.Zero;
       _conditionManager.ResetCondition("Energy");
+
+      if (this.IsRecreational)
+      {
+        _conditionManager.ResetCondition("Happiness");
+        _villager.SetCooldown("RecreationalWalk", 30);
+      }
     }
   }
 }

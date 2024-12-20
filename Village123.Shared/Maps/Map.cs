@@ -64,6 +64,42 @@ namespace Village123.Shared.Maps
       return map;
     }
 
+    public Point? FindNearestValidPoint(Point position, int maxDistance)
+    {
+      for (int distance = maxDistance; distance >= 0; distance--)
+      {
+        var validPoints = new List<Point>();
+
+        // Loop through points in a square around the position with the given distance
+        for (int dy = -distance; dy <= distance; dy++)
+        {
+          for (int dx = -distance; dx <= distance; dx++)
+          {
+            // Skip points that are not exactly `distance` away
+            if (Math.Abs(dx) + Math.Abs(dy) != distance)
+              continue;
+
+            var candidate = new Point(position.X + dx, position.Y + dy);
+
+            // Check if the point is valid
+            if (FitsOnMap(candidate, new Point(1, 1)) && IsPassable(candidate))
+            {
+              validPoints.Add(candidate);
+            }
+          }
+        }
+
+        // If we have valid points at this distance, choose a random one
+        if (validPoints.Count > 0)
+        {
+          return validPoints[BaseGame.Random.Next(validPoints.Count)];
+        }
+      }
+
+      // Return null if no valid point is found
+      return null;
+    }
+
     //public void Add(MappedComponent obj, Func<bool> triggerActive = null)
     //{
     //  if (Collides(obj))
