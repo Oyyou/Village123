@@ -40,7 +40,8 @@ namespace Village123.Shared.GUI.Controls
         OnClicked = () =>
         {
           BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["woodenChest"]);
-        }
+        },
+        UseCamera = false,
       });
 
       _buttons.Add(new Button(
@@ -53,7 +54,8 @@ namespace Village123.Shared.GUI.Controls
         OnClicked = () =>
         {
           BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["anvil"]);
-        }
+        },
+        UseCamera = false,
       });
 
       _buttons.Add(new Button(
@@ -66,7 +68,8 @@ namespace Village123.Shared.GUI.Controls
         OnClicked = () =>
         {
           BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["farmPlot"]);
-        }
+        },
+        UseCamera = false,
       });
 
       _buttons.Add(new Button(
@@ -79,7 +82,8 @@ namespace Village123.Shared.GUI.Controls
         OnClicked = () =>
         {
           BaseGame.GWM.VillagerManager.CreateRandomVillager();
-        }
+        },
+        UseCamera = false,
       });
     }
 

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Village123.Shared.Components;
-using Village123.Shared.Interfaces;
 
 namespace Village123.Shared.GUI.Controls.Bases
 {
@@ -13,7 +12,7 @@ namespace Village123.Shared.GUI.Controls.Bases
     protected bool _isEnabled = true;
     protected bool _isClickable = true;
 
-    public ClickableComponent ClickableComponent { get; protected set; }
+    public ClickableComponent ClickableComponent { get; set; }
 
     public bool IsEnabled => Parent != null ? (Parent.IsEnabled && _isEnabled) : _isEnabled;
     public float Layer { get; set; } = 0.9f;
@@ -56,7 +55,7 @@ namespace Village123.Shared.GUI.Controls.Bases
     public Vector2? ViewportPosition => Parent != null ? Parent.ViewportPosition : _viewportPosition;
 
     public Control Parent { get; set; }
-    public Vector2? ChildrenOffset {  get; set; }
+    public Vector2? ChildrenOffset { get; set; }
     public List<Control> Children { get; set; } = new List<Control>();
     public string Tag { get; set; }
 
@@ -74,6 +73,8 @@ namespace Village123.Shared.GUI.Controls.Bases
         return Position;
       }
     }
+
+    public bool UseCamera { get; set; } = true;
 
     protected Control()
     {
@@ -115,6 +116,11 @@ namespace Village123.Shared.GUI.Controls.Bases
     public virtual void Update(GameTime gameTime)
     {
       if (!IsVisible) return;
+
+      if (!UseCamera)
+      {
+        ClickableComponent.Camera = Matrix.Identity;
+      }
 
       ClickableComponent?.Update();
 

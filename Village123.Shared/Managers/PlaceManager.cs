@@ -34,7 +34,7 @@ namespace Village123.Shared.Managers
 
     public static PlaceManager Load(SaveFileService saveFileService)
     {
-      var manager = new PlaceManager();
+      var manager = saveFileService.Load<PlaceManager>(fileName);
 
       if (manager == null)
       {
@@ -59,6 +59,7 @@ namespace Village123.Shared.Managers
     {
       foreach (var place in Places)
       {
+        // place.ClickableComponent.Camera = matrix;
         place.ClickableComponent.Update();
       }
     }

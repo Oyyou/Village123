@@ -167,14 +167,14 @@ namespace Village123.Shared.Managers
       }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch, Matrix transformMatrix)
     {
       if (BaseGame.GWM.State != GameStates.Building)
         return;
 
       if (!_hasUpdated) return;
 
-      spriteBatch.Begin(transformMatrix: BaseGame.ScaleMatrix);
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
       _place.Draw(spriteBatch);
       foreach (var point in _radiusPoints)
       {

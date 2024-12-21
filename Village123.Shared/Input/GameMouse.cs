@@ -12,6 +12,7 @@ namespace Village123.Shared.Input
   {
     private static MouseState _currentMouse;
     private static MouseState _previouseMouse;
+    private static Matrix _cameraMatrix = Matrix.Identity;
 
     public static bool ClickEnabled { get; set; } = true;
 
@@ -111,9 +112,10 @@ namespace Village123.Shared.Input
     {
       get
       {
+        var transformedPosition = Vector2.Transform(Position.ToVector2(), Matrix.Invert(_cameraMatrix));
         return new Point(
-          (int)Math.Floor((double)Position.X / BaseGame.TileSize),
-          (int)Math.Floor((double)Position.Y / BaseGame.TileSize)
+            (int)Math.Floor(transformedPosition.X / BaseGame.TileSize),
+            (int)Math.Floor(transformedPosition.Y / BaseGame.TileSize)
         );
       }
     }
@@ -150,7 +152,6 @@ namespace Village123.Shared.Input
       var y = (int)PositionWithCamera(camera).Y;
       return new Rectangle(x, y, 1, 1);
     }
-
     public static Rectangle Rectangle
     {
       get
@@ -195,7 +196,13 @@ namespace Village123.Shared.Input
       if (matrix != null)
         return RectangleWithCamera(matrix.Value).Intersects(rectangle);
 
-      return Rectangle.Intersects(rectangle);
+      var transformedPosition = Vector2.Transform(Position.ToVector2(), Matrix.Invert(_cameraMatrix));
+      return new Rectangle((int)transformedPosition.X, (int)transformedPosition.Y, 1, 1).Intersects(rectangle);
+    }
+
+    public static void SetCameraMatrix(Matrix cameraMatrix)
+    {
+      _cameraMatrix = cameraMatrix;
     }
 
     public static void Clear()

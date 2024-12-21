@@ -19,10 +19,18 @@ namespace Village123.Shared.Managers
 
   public class GameWorldManager
   {
+    private Matrix _transformMatrix;
+
     private double _elapsedGameMinutes;
     private int _elapsedGameDays;
     private double _gameSpeed = 1.0;
     private const double GameMinutesPerRealSecond = (24 * 60) / (12 * 60); // 2 game minutes per real second at 1x speed
+
+    private Vector2 _cameraPosition = Vector2.Zero;
+    private Vector2 _lastMousePosition;
+    private bool _isDragging;
+    private float _zoom = 1f;
+    private int _previousScrollWheelValue = 0;
 
     private SpriteFont _font;
     private Texture2D _gridTexture;
@@ -209,7 +217,18 @@ namespace Village123.Shared.Managers
 
     public void Update(GameTime gameTime)
     {
+      var screenWidth = BaseGame.ScreenWidth;
+      var screenHeight = BaseGame.ScreenHeight;
+
+      var camera = Matrix.CreateTranslation(-_cameraPosition.X, -_cameraPosition.Y, 0) *
+                   Matrix.CreateTranslation(-screenWidth / 2f, -screenHeight / 2f, 0) *
+                   Matrix.CreateScale(_zoom, _zoom, 1f) *
+                   Matrix.CreateTranslation(screenWidth / 2, screenHeight / 2, 0);
+
+      _transformMatrix = camera * BaseGame.ScaleMatrix;
+
       GameMouse.ClickEnabled = State == GameStates.Playing;
+      GameMouse.SetCameraMatrix(_transformMatrix);
 
       HandleInput();
 
@@ -275,32 +294,16 @@ namespace Village123.Shared.Managers
       HandleCameraMovement();
     }
 
-    private Vector2 _cameraPosition = Vector2.Zero;
-    private Vector2 _lastMousePosition;
-    private bool _isDragging;
-    private float _zoom = 1f;
-    private int _previousScrollWheelValue = 0;
-
     public void Draw(SpriteBatch spriteBatch)
     {
-      var screenWidth = BaseGame.ScreenWidth;
-      var screenHeight = BaseGame.ScreenHeight;
-
-      var camera = Matrix.CreateTranslation(-_cameraPosition.X, -_cameraPosition.Y, 0) *
-                   Matrix.CreateTranslation(-screenWidth / 2f, -screenHeight / 2f, 0) *
-                   Matrix.CreateScale(_zoom, _zoom, 1f) *
-                   Matrix.CreateTranslation(screenWidth / 2, screenHeight / 2, 0);
-
-      var transformMatrix = camera * BaseGame.ScaleMatrix;
-
-      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _transformMatrix);
 
       spriteBatch.Draw(_grassTexture, Vector2.Zero, Color.White);
 
       Map.Draw(spriteBatch);
       spriteBatch.End();
 
-      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix);
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _transformMatrix);
       PlaceManager.Draw(spriteBatch);
       VillagerManager.Draw(spriteBatch);
       ItemManager.Draw(spriteBatch);
@@ -308,7 +311,7 @@ namespace Village123.Shared.Managers
       ResourceManager.Draw(spriteBatch);
       spriteBatch.End();
 
-      BuildManager.Draw(spriteBatch);
+      BuildManager.Draw(spriteBatch, _transformMatrix);
 
       GUIManager.Draw(spriteBatch);
 

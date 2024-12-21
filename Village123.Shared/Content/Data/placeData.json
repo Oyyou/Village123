@@ -1,4 +1,17 @@
 {
+  "tavern": {
+    "name": "Tavern",
+    "type": "building",
+    "size": {
+      "x": 8,
+      "y": 2
+    },
+    "blocksPath": true,
+    "requiredMaterials": {
+      "wood": 10,
+      "stone": 10
+    }
+  },
   "singleBed": {
     "name": "Single bed",
     "type": "bed",
