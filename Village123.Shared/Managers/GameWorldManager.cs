@@ -19,14 +19,14 @@ namespace Village123.Shared.Managers
 
   public class GameWorldManager
   {
-    private Matrix _transformMatrix;
+    public Matrix TransformMatrix;
 
     private double _elapsedGameMinutes;
     private int _elapsedGameDays;
     private double _gameSpeed = 1.0;
     private const double GameMinutesPerRealSecond = (24 * 60) / (12 * 60); // 2 game minutes per real second at 1x speed
 
-    private Vector2 _cameraPosition = Vector2.Zero;
+    public Vector2 CameraPosition = Vector2.Zero;
     private Vector2 _lastMousePosition;
     private bool _isDragging;
     private float _zoom = 1f;
@@ -220,15 +220,15 @@ namespace Village123.Shared.Managers
       var screenWidth = BaseGame.ScreenWidth;
       var screenHeight = BaseGame.ScreenHeight;
 
-      var camera = Matrix.CreateTranslation(-_cameraPosition.X, -_cameraPosition.Y, 0) *
+      var camera = Matrix.CreateTranslation(-CameraPosition.X, -CameraPosition.Y, 0) *
                    Matrix.CreateTranslation(-screenWidth / 2f, -screenHeight / 2f, 0) *
                    Matrix.CreateScale(_zoom, _zoom, 1f) *
                    Matrix.CreateTranslation(screenWidth / 2, screenHeight / 2, 0);
 
-      _transformMatrix = camera * BaseGame.ScaleMatrix;
+      TransformMatrix = camera * BaseGame.ScaleMatrix;
 
       GameMouse.ClickEnabled = State == GameStates.Playing;
-      GameMouse.SetCameraMatrix(_transformMatrix);
+      GameMouse.SetCameraMatrix(TransformMatrix);
 
       HandleInput();
 
@@ -296,14 +296,14 @@ namespace Village123.Shared.Managers
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _transformMatrix);
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: TransformMatrix);
 
       spriteBatch.Draw(_grassTexture, Vector2.Zero, Color.White);
 
       Map.Draw(spriteBatch);
       spriteBatch.End();
 
-      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _transformMatrix);
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: TransformMatrix);
       PlaceManager.Draw(spriteBatch);
       VillagerManager.Draw(spriteBatch);
       ItemManager.Draw(spriteBatch);
@@ -311,7 +311,7 @@ namespace Village123.Shared.Managers
       ResourceManager.Draw(spriteBatch);
       spriteBatch.End();
 
-      BuildManager.Draw(spriteBatch, _transformMatrix);
+      BuildManager.Draw(spriteBatch, TransformMatrix);
 
       GUIManager.Draw(spriteBatch);
 
@@ -336,7 +336,7 @@ namespace Village123.Shared.Managers
         var currentMousePosition = mouseState.Position.ToVector2();
         var delta = currentMousePosition - _lastMousePosition;
 
-        _cameraPosition -= delta;
+        CameraPosition -= delta;
         _lastMousePosition = currentMousePosition;
 
         // Clamp camera position

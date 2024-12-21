@@ -5,7 +5,6 @@ using Village123.Shared.GUI.Controls;
 using Village123.Shared.GUI.Controls.Bases;
 using Village123.Shared.GUI.Controls.Windows;
 using Village123.Shared.Models;
-using Village123.Shared.Utils;
 
 namespace Village123.Shared.Managers
 {

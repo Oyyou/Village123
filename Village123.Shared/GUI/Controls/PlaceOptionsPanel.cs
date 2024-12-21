@@ -10,6 +10,7 @@ namespace Village123.Shared.GUI.Controls
 {
   public class PlaceOptionsPanel : Control
   {
+    private Vector2 _worldPosition;
     private float _timer = 0f;
     private bool _closing = false;
     private Texture2D _backgroundTexture;
@@ -20,10 +21,11 @@ namespace Village123.Shared.GUI.Controls
 
     public override int Height => _backgroundTexture != null ? _backgroundTexture.Height : 0;
 
-    public PlaceOptionsPanel(Place place, Vector2 position)
+    public PlaceOptionsPanel(Place place, Vector2 worldPosition)
       : base()
     {
-      Position = position;
+      _worldPosition = worldPosition;
+      Position = Vector2.Transform(_worldPosition, BaseGame.GWM.TransformMatrix);
 
       ClickableComponent.IsClickable = () => !Closed;
       ClickableComponent.OnClickedOutside = () =>
@@ -103,6 +105,7 @@ namespace Village123.Shared.GUI.Controls
 
     public override void Update(GameTime gameTime)
     {
+      Position = Vector2.Transform(_worldPosition, BaseGame.GWM.TransformMatrix);
       _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
       if (_timer > (_closing ? 0.03f : 0.05f))
