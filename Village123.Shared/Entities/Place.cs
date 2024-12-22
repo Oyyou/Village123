@@ -77,7 +77,17 @@ namespace Village123.Shared.Entities
 
     public void Draw(SpriteBatch spriteBatch)
     {
-      spriteBatch.Draw(Texture, Position, Colour * Opacity);
+      var point = this.Point; // Map position (top-left corner of the object)
+      var size = this.Data.Size; // Size of the collisionable area (width & height in tiles)
+      var offset = this.Data.Offset; // Offset for visual adjustment
+
+      // Calculate the "base" Y-position for layering
+      int baseY = point.Y + size.Y + offset.Y;
+
+      // Normalize to a layer value in [0.0, 1.0]
+      var layer = MathHelper.Clamp((float)baseY / BaseGame.GWM.Map.Height, 0.0f, 1.0f);
+
+      spriteBatch.Draw(Texture, Position, null, Colour * Opacity, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, layer);
     }
 
     public void AddOwner(Villager villager)

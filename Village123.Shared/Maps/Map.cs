@@ -58,7 +58,7 @@ namespace Village123.Shared.Maps
       var map = saveFileService.Load<Map>("map.json");
 
       if (map == null)
-        return new Map(100, 100, saveFileService);
+        return new Map(15, 15, saveFileService);
 
       map._saveFileService = saveFileService;
       return map;
@@ -333,7 +333,30 @@ namespace Village123.Shared.Maps
         return false;
       }
       return EntityData[point.Y, point.X] < 1 && Data[point.Y, point.X] < 1;
+    }
 
+    public bool CanAddPlace(Point point, Point size)
+    {
+      if (!FitsOnMap(point, size))
+      {
+        return false;
+      }
+
+      for (int y = 0; y < size.Y; y++)
+      {
+        for (int x = 0; x < size.X; x++)
+        {
+          int mapX = point.X + x;
+          int mapY = point.Y + y;
+
+          if (EntityData[mapY, mapX] >= 1 || Data[mapY, mapX] >= 1)
+          {
+            return false;
+          }
+        }
+      }
+
+      return true;
     }
 
     public bool IsPassable(Point point)

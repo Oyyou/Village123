@@ -43,7 +43,14 @@ namespace Village123.Shared.Managers
 
       BaseGame.GWM.State = GameStates.Building;
 
-      var texture = TextureHelpers.LoadTexture($"Places/{place.Key}");
+      var texturePath = $"Places/{place.Key}";
+
+      if (place.Type == "building")
+      {
+        texturePath = $"Places/{place.Key}/{place.Key}_front";
+      }
+
+      var texture = TextureHelpers.LoadTexture(texturePath);
 
       _place = new Place(place, texture, Point.Zero)
       {
@@ -72,7 +79,7 @@ namespace Village123.Shared.Managers
 
       CalculateRadiusPoints(_place.Point, _place.Data.Radius);
 
-      if (!BaseGame.GWM.Map.CanAddPlace(_place.Point))
+      if (!BaseGame.GWM.Map.CanAddPlace(_place.Point + _place.Data.Offset, _place.Data.Size))
       {
         _place.Colour = Color.Red;
         return;

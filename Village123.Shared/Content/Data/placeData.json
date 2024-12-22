@@ -2,9 +2,14 @@
   "tavern": {
     "name": "Tavern",
     "type": "building",
+    "category": "building",
     "size": {
       "x": 8,
       "y": 2
+    },
+    "offset": {
+      "x": 0,
+      "y": 5
     },
     "blocksPath": true,
     "requiredMaterials": {

@@ -33,8 +33,22 @@ namespace Village123.Shared.GUI.Controls
       _buttons.Add(new Button(
         font,
         texture,
-        "Build Wooden Chest",
+        "Build Tavern",
         new Vector2(0, BaseGame.ScreenHeight - buttonHeight)
+      )
+      {
+        OnClicked = () =>
+        {
+          BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["tavern"]);
+        },
+        UseCamera = false,
+      });
+
+      _buttons.Add(new Button(
+        font,
+        texture,
+        "Build Wooden Chest",
+        _buttons.Last().Position + new Vector2(buttonWidth, 0)
       )
       {
         OnClicked = () =>

@@ -9,6 +9,7 @@ using Village123.Shared.Data;
 using Village123.Shared.Entities;
 using Village123.Shared.Services;
 using Village123.Shared.Utils;
+using static Village123.Shared.Data.ResourceData;
 
 namespace Village123.Shared.Managers
 {
@@ -82,16 +83,29 @@ namespace Village123.Shared.Managers
 
     public Place Add(PlaceData.Place data, Point point)
     {
+      var texturePath = $"Places/{data.Key}";
+
+      if (data.Type == "building")
+      {
+        texturePath = $"Places/{data.Key}/{data.Key}_front";
+      }
+
       var id = BaseGame.GWM.IdManager.PlaceId++;
-      var place = new Place(data, TextureHelpers.LoadTexture($"Places/{data.Key}"), point)
+      var place = new Place(data, TextureHelpers.LoadTexture(texturePath), point)
       {
         Id = id,
         Name = $"{data.Name} {id}",
       };
 
       Places.Add(place);
-
-      BaseGame.GWM.Map.AddEntity(point, place.Data.Size);
+      if (data.Type == "building")
+      {
+        BaseGame.GWM.Map.AddObstacle(point + data.Offset, data.Size, Point.Zero);
+      }
+      else
+      {
+        BaseGame.GWM.Map.AddEntity(point + data.Offset, place.Data.Size);
+      }
 
       return place;
     }

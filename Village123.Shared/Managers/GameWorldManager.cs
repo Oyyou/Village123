@@ -303,7 +303,7 @@ namespace Village123.Shared.Managers
       Map.Draw(spriteBatch);
       spriteBatch.End();
 
-      spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: TransformMatrix);
+      spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp, transformMatrix: TransformMatrix);
       PlaceManager.Draw(spriteBatch);
       VillagerManager.Draw(spriteBatch);
       ItemManager.Draw(spriteBatch);

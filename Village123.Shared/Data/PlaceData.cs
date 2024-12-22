@@ -44,6 +44,12 @@ namespace Village123.Shared.Data
       public Point Size { get; set; }
 
       /// <summary>
+      /// How we offset the collisionable rectangle
+      /// </summary>
+      [JsonProperty("offset")]
+      public Point Offset { get; set; }
+
+      /// <summary>
       /// Once built, does it block the path
       /// </summary>
       [JsonProperty("blocksPath")]
