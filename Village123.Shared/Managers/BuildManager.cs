@@ -75,7 +75,7 @@ namespace Village123.Shared.Managers
       _hasUpdated = true;
 
       _place.Colour = Color.Green;
-      _place.Point = GameMouse.MapPoint;
+      _place.Point = (GameMouse.MapPoint - (_place.Data.Size.ToVector2() / 2).ToPoint()) - _place.Data.Offset;
 
       CalculateRadiusPoints(_place.Point, _place.Data.Radius);
 
