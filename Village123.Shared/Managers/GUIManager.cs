@@ -22,6 +22,11 @@ namespace Village123.Shared.Managers
 
     public void Update(GameTime gameTime)
     {
+      if (BaseGame.GWM.State != GameStates.Playing)
+      {
+        return;
+      }
+
       if (_placeOptionsPanel != null && _placeOptionsPanel.Closed)
       {
         _placeOptionsPanel = null;
@@ -45,6 +50,11 @@ namespace Village123.Shared.Managers
 
     public void Draw(SpriteBatch spriteBatch)
     {
+      if (BaseGame.GWM.State != GameStates.Playing)
+      {
+        return;
+      }
+
       _buildPanel.Draw(spriteBatch);
       _window?.Draw(spriteBatch);
       _placeOptionsPanel?.Draw(spriteBatch);

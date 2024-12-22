@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
@@ -13,8 +9,6 @@ using Village123.Shared.Input;
 using Village123.Shared.Services;
 using Village123.Shared.Sprites;
 using Village123.Shared.Utils;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static Village123.Shared.Data.ResourceData;
 
 namespace Village123.Shared.Managers
 {
@@ -23,12 +17,13 @@ namespace Village123.Shared.Managers
     private const string fileName = "places.json";
     private SaveFileService _saveFileService;
 
+    private MouseState _previousMouse;
+    private MouseState _currentMouse;
+
     private Texture2D _greyBackground;
     private Sprite _buildingInside = null;
 
     public List<Place> Places { get; private set; } = new();
-
-    public bool IsInsideBuilding { get; set; } = false;
 
     private PlaceManager() { }
 
@@ -75,7 +70,7 @@ namespace Village123.Shared.Managers
 
     public void EnterBuilding(Place building)
     {
-      this.IsInsideBuilding = true;
+      BaseGame.GWM.State = GameStates.InBuilding;
 
       var texturePath = $"Places/{building.Data.Key}/{building.Data.Key}_inside";
       var texture = TextureHelpers.LoadTexture(texturePath);
@@ -90,13 +85,14 @@ namespace Village123.Shared.Managers
 
     public void LeaveBuilding()
     {
-      this.IsInsideBuilding = false;
+      BaseGame.GWM.State = GameStates.Playing;
+
       _buildingInside = null;
     }
 
     public void UpdateMouse()
     {
-      if (IsInsideBuilding)
+      if (BaseGame.GWM.State != GameStates.Playing)
       {
         return;
       }
@@ -109,12 +105,25 @@ namespace Village123.Shared.Managers
 
     public void Update(GameTime gameTime)
     {
-      if (IsInsideBuilding)
+      if (BaseGame.GWM.State == GameStates.InBuilding)
       {
+        _previousMouse = _currentMouse;
+        _currentMouse = Mouse.GetState();
+
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
           LeaveBuilding();
         }
+
+        var mousePressed = _previousMouse.LeftButton == ButtonState.Pressed &&
+          _currentMouse.LeftButton == ButtonState.Released;
+
+        if (mousePressed && !GameMouse.Rectangle.Intersects(_buildingInside.Rectangle))
+        {
+          LeaveBuilding();
+        }
+
+        return;
       }
 
       foreach (var place in Places)
@@ -133,7 +142,7 @@ namespace Village123.Shared.Managers
 
     public void DrawInside(SpriteBatch spriteBatch)
     {
-      if (!this.IsInsideBuilding)
+      if (BaseGame.GWM.State != GameStates.InBuilding)
       {
         return;
       }

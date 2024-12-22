@@ -20,6 +20,8 @@ namespace Village123.Shared.Sprites
     public float Width => Texture.Width * Scale;
     public float Height => Texture.Height * Scale;
 
+    public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)Width, (int)Height);
+
     public Sprite(Texture2D texture)
     {
       Texture = texture;

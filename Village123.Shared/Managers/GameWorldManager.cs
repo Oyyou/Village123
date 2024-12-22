@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using Village123.Shared.Data;
-using Village123.Shared.Entities;
 using Village123.Shared.Input;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
@@ -16,6 +15,7 @@ namespace Village123.Shared.Managers
   {
     Playing,
     Building,
+    InBuilding,
   }
 
   public class GameWorldManager
@@ -328,7 +328,7 @@ namespace Village123.Shared.Managers
 
     private void HandleCameraMovement()
     {
-      if (this.PlaceManager.IsInsideBuilding)
+      if (this.State != GameStates.Playing)
       {
         return;
       }
