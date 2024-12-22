@@ -20,6 +20,7 @@ namespace Village123.Shared.Components
     public Action OnHeld { get; set; } = null;
     public Action OnClicked { get; set; } = null;
     public Action OnClickedOutside { get; set; } = null;
+    public Action OnMouseLeave { get; set; } = null;
     public Matrix? Camera { get; set; } = null;
 
     public ClickableComponent()
@@ -34,6 +35,8 @@ namespace Village123.Shared.Components
 
     public void Update()
     {
+      var wasMouseOver = IsMouseOver;
+
       IsMouseOver = false;
       IsMouseDown = false;
       IsMouseClicked = false;
@@ -67,6 +70,11 @@ namespace Village123.Shared.Components
       else
       {
         GameMouse.RemoveObject(this);
+
+        if (wasMouseOver)
+        {
+          OnMouseLeave?.Invoke();
+        }
 
         if (GameMouse.Intersects(_windowRectangle) && GameMouse.IsLeftClicked)
         {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
+using Village123.Shared.Utils;
 
 namespace Village123.Shared.Entities
 {
@@ -12,6 +13,10 @@ namespace Village123.Shared.Entities
   {
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
     private float _destroyTimer = 0f;
+
+    [JsonIgnore]
+    private Texture2D _hoverBoarder;
+    private bool _showBorder;
 
     [JsonIgnore]
     public ClickableComponent ClickableComponent { get; protected set; }
@@ -61,13 +66,27 @@ namespace Village123.Shared.Entities
       ClickableComponent = new ClickableComponent()
       {
         ClickRectangle = () => new(
-          (int)Position.X,
-          (int)Position.Y,
+          (int)Position.X + (Data.Offset.X * BaseGame.TileSize),
+          (int)Position.Y + (Data.Offset.Y * BaseGame.TileSize),
           Data.Size.X * BaseGame.TileSize,
           Data.Size.Y * BaseGame.TileSize
         ),
-        OnClicked = () => BaseGame.GWM.GUIManager.HandlePlaceClicked(this)
+        OnClicked = () =>
+        {
+          BaseGame.GWM.PlaceManager.EnterBuilding(this);
+          // BaseGame.GWM.GUIManager.HandlePlaceClicked(this);
+        },
+        OnHover = () => Opacity = 0.75f,
+        OnMouseLeave = () => Opacity = 1,
       };
+
+      _hoverBoarder = TextureHelpers.CreateBorderedTexture(
+        BaseGame.GWM.GameModel.GraphicsDevice,
+        this.Data.Size.X * BaseGame.TileSize,
+        this.Data.Size.Y * BaseGame.TileSize,
+        Color.White * 0,
+        Color.Yellow,
+        2);
     }
 
     public void Update(GameTime gameTime)
@@ -85,7 +104,12 @@ namespace Village123.Shared.Entities
       int baseY = point.Y + size.Y + offset.Y;
 
       // Normalize to a layer value in [0.0, 1.0]
-      var layer = MathHelper.Clamp((float)baseY / BaseGame.GWM.Map.Height, 0.0f, 1.0f);
+      var layer = MathHelper.Clamp((float)baseY / BaseGame.GWM.Map.Height, 0.0f, 0.998f);
+
+      if (this.ClickableComponent.IsMouseOver)
+      {
+        spriteBatch.Draw(_hoverBoarder, Position + (Data.Offset.ToVector2() * BaseGame.TileSize), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.999f);
+      }
 
       spriteBatch.Draw(Texture, Position, null, Colour * Opacity, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, layer);
     }

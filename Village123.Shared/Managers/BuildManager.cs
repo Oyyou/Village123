@@ -134,7 +134,7 @@ namespace Village123.Shared.Managers
     {
       BaseGame.GWM.State = GameStates.Playing;
       _place = null;
-      _draggedPoints = new List<Point>();
+      _draggedPoints = [];
     }
 
     private List<Point> GetRectanglePoints(Point start, Point end)

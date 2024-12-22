@@ -1,14 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Village123.Shared.Data;
 using Village123.Shared.Entities;
+using Village123.Shared.Input;
 using Village123.Shared.Services;
+using Village123.Shared.Sprites;
 using Village123.Shared.Utils;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Village123.Shared.Data.ResourceData;
 
 namespace Village123.Shared.Managers
@@ -18,7 +23,12 @@ namespace Village123.Shared.Managers
     private const string fileName = "places.json";
     private SaveFileService _saveFileService;
 
+    private Texture2D _greyBackground;
+    private Sprite _buildingInside = null;
+
     public List<Place> Places { get; private set; } = new();
+
+    public bool IsInsideBuilding { get; set; } = false;
 
     private PlaceManager() { }
 
@@ -49,24 +59,64 @@ namespace Village123.Shared.Managers
       foreach (var place in manager.Places)
       {
         place.SetData(BaseGame.GWM.PlaceData.Places[place.Key]);
-        place.Texture = TextureHelpers.LoadTexture($"Places/{place.Key}");
+
+        var texturePath = $"Places/{place.Data.Key}";
+        if (place.Data.Type == "building")
+        {
+          texturePath = $"Places/{place.Data.Key}/{place.Data.Key}_front";
+        }
+
+        place.Texture = TextureHelpers.LoadTexture(texturePath);
       }
 
       return manager;
     }
     #endregion
 
+    public void EnterBuilding(Place building)
+    {
+      this.IsInsideBuilding = true;
+
+      var texturePath = $"Places/{building.Data.Key}/{building.Data.Key}_inside";
+      var texture = TextureHelpers.LoadTexture(texturePath);
+      _buildingInside = new Sprite(
+        texture,
+        new Vector2(
+          (BaseGame.ScreenWidth / 2) - (texture.Width / 2),
+          (BaseGame.ScreenHeight / 2) - (texture.Height / 2)));
+
+      _greyBackground = TextureHelpers.CreateBorderedTexture(BaseGame.GWM.GameModel.GraphicsDevice, BaseGame.ScreenWidth, BaseGame.ScreenHeight, Color.Black * 0.6f, Color.Black, 2);
+    }
+
+    public void LeaveBuilding()
+    {
+      this.IsInsideBuilding = false;
+      _buildingInside = null;
+    }
+
     public void UpdateMouse()
     {
+      if (IsInsideBuilding)
+      {
+        return;
+      }
+
       foreach (var place in Places)
       {
-        // place.ClickableComponent.Camera = matrix;
         place.ClickableComponent.Update();
       }
     }
 
     public void Update(GameTime gameTime)
     {
+      if (IsInsideBuilding)
+      {
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
+          LeaveBuilding();
+        }
+      }
+
       foreach (var place in Places)
       {
         place.Update(gameTime);
@@ -79,6 +129,17 @@ namespace Village123.Shared.Managers
       {
         place.Draw(spriteBatch);
       }
+    }
+
+    public void DrawInside(SpriteBatch spriteBatch)
+    {
+      if (!this.IsInsideBuilding)
+      {
+        return;
+      }
+
+      spriteBatch.Draw(_greyBackground, new Vector2(0, 0), Color.White);
+      _buildingInside.Draw(spriteBatch);
     }
 
     public Place Add(PlaceData.Place data, Point point)

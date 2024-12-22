@@ -72,19 +72,19 @@ namespace Village123.Shared.GUI.Controls
         UseCamera = false,
       });
 
-      _buttons.Add(new Button(
-        font,
-        texture,
-        "Build Farm",
-        _buttons.Last().Position + new Vector2(buttonWidth, 0)
-      )
-      {
-        OnClicked = () =>
-        {
-          BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["farmPlot"]);
-        },
-        UseCamera = false,
-      });
+      //_buttons.Add(new Button(
+      //  font,
+      //  texture,
+      //  "Build Farm",
+      //  _buttons.Last().Position + new Vector2(buttonWidth, 0)
+      //)
+      //{
+      //  OnClicked = () =>
+      //  {
+      //    BaseGame.GWM.BuildManager.Build(BaseGame.GWM.PlaceData.Places["farmPlot"]);
+      //  },
+      //  UseCamera = false,
+      //});
 
       _buttons.Add(new Button(
         font,

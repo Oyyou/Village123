@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using Village123.Shared.Data;
+using Village123.Shared.Entities;
 using Village123.Shared.Input;
 using Village123.Shared.Maps;
 using Village123.Shared.Models;
@@ -26,10 +27,10 @@ namespace Village123.Shared.Managers
     private double _gameSpeed = 1.0;
     private const double GameMinutesPerRealSecond = (24 * 60) / (12 * 60); // 2 game minutes per real second at 1x speed
 
-    public Vector2 CameraPosition = Vector2.Zero;
+    public Vector2 CameraPosition = new(BaseGame.ScreenWidth / 2, BaseGame.ScreenHeight / 2);
     private Vector2 _lastMousePosition;
     private bool _isDragging;
-    private float _zoom = 1f;
+    private float _zoom = 0.5f;
     private int _previousScrollWheelValue = 0;
 
     private SpriteFont _font;
@@ -315,6 +316,11 @@ namespace Village123.Shared.Managers
 
       GUIManager.Draw(spriteBatch);
 
+
+      spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+      PlaceManager.DrawInside(spriteBatch);
+      spriteBatch.End();
+
       spriteBatch.Begin(samplerState: SamplerState.PointClamp);
       spriteBatch.DrawString(_font, GetGameTimeString(), new Vector2(10, 10), Color.Black);
       spriteBatch.End();
@@ -322,6 +328,11 @@ namespace Village123.Shared.Managers
 
     private void HandleCameraMovement()
     {
+      if (this.PlaceManager.IsInsideBuilding)
+      {
+        return;
+      }
+
       var mouseState = Mouse.GetState();
 
       // Handle middle mouse dragging
@@ -364,7 +375,6 @@ namespace Village123.Shared.Managers
 
       _previousScrollWheelValue = mouseState.ScrollWheelValue;
     }
-
 
     public string GetGameTimeString()
     {
