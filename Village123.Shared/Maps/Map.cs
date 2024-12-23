@@ -48,6 +48,12 @@ namespace Village123.Shared.Maps
       }
     }
 
+    public Map(float[,] data)
+      : this()
+    {
+      Data = data;
+    }
+
     public void Save()
     {
       _saveFileService.Save(this, "map.json");
@@ -99,30 +105,6 @@ namespace Village123.Shared.Maps
       // Return null if no valid point is found
       return null;
     }
-
-    //public void Add(MappedComponent obj, Func<bool> triggerActive = null)
-    //{
-    //  if (Collides(obj))
-    //  {
-    //    return;
-    //  }
-
-    //  // If we've got a condition that triggers the object to appear on the map,
-    //  //   we add it to a dictionary then check it each frame
-    //  if (triggerActive != null)
-    //  {
-    //    _waitingPoints.Add(obj.Point, new KeyValuePair<char, Func<bool>>(obj.MapChar, triggerActive));
-    //    return;
-    //  }
-
-    //  for (int y = obj.Y; y < obj.Bottom; y++)
-    //  {
-    //    for (int x = obj.X; x < obj.Right; x++)
-    //    {
-    //      Data[y, x] = obj.MapChar;
-    //    }
-    //  }
-    //}
 
     public void AddObstacle(Point position, Point size, Point pointOffset)
     {

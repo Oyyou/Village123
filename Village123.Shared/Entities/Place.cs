@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Village123.Shared.Components;
 using Village123.Shared.Data;
+using Village123.Shared.Maps;
 using Village123.Shared.Utils;
 
 namespace Village123.Shared.Entities
@@ -45,6 +46,9 @@ namespace Village123.Shared.Entities
     public float Opacity { get; set; } = 1f;
 
     public List<Point> RadiusPoints = new();
+
+    [JsonIgnore]
+    public Map InternalMap { get; set; } = null;
 
     public Place() { }
 
@@ -87,6 +91,11 @@ namespace Village123.Shared.Entities
         Color.White * 0,
         Color.Yellow,
         2);
+
+      if (this.Data.InternalMap != null)
+      {
+        this.InternalMap = new Map(this.Data.InternalMap);
+      }
     }
 
     public void Update(GameTime gameTime)

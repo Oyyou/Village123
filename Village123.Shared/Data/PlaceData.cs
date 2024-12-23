@@ -68,6 +68,12 @@ namespace Village123.Shared.Data
       public Dictionary<string, int> RequiredMaterials { get; set; } = new();
 
       /// <summary>
+      /// The map of a place if it has an inside
+      /// </summary>
+      [JsonProperty("internalMap")]
+      public float[,] InternalMap { get; set; } = null;
+
+      /// <summary>
       /// The skills required by the villager to be built
       /// </summary>
       [JsonProperty("requiredBuildSkills")]
