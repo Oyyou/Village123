@@ -22,6 +22,7 @@ namespace Village123.Shared.Managers
 
     private Texture2D _greyBackground;
     private Sprite _buildingInside = null;
+    private Place _insidePlace;
 
     public List<Place> Places { get; private set; } = new();
 
@@ -54,14 +55,6 @@ namespace Village123.Shared.Managers
       foreach (var place in manager.Places)
       {
         place.SetData(BaseGame.GWM.PlaceData.Places[place.Key]);
-
-        var texturePath = $"Places/{place.Data.Key}";
-        if (place.Data.Type == "building")
-        {
-          texturePath = $"Places/{place.Data.Key}/{place.Data.Key}_front";
-        }
-
-        place.Texture = TextureHelpers.LoadTexture(texturePath);
       }
 
       return manager;
@@ -81,6 +74,7 @@ namespace Village123.Shared.Managers
           (BaseGame.ScreenHeight / 2) - (texture.Height / 2)));
 
       _greyBackground = TextureHelpers.CreateBorderedTexture(BaseGame.GWM.GameModel.GraphicsDevice, BaseGame.ScreenWidth, BaseGame.ScreenHeight, Color.Black * 0.6f, Color.Black, 2);
+      _insidePlace = building;
     }
 
     public void LeaveBuilding()
@@ -88,6 +82,7 @@ namespace Village123.Shared.Managers
       BaseGame.GWM.State = GameStates.Playing;
 
       _buildingInside = null;
+      _insidePlace = null;
     }
 
     public void UpdateMouse()
@@ -149,19 +144,18 @@ namespace Village123.Shared.Managers
 
       spriteBatch.Draw(_greyBackground, new Vector2(0, 0), Color.White);
       _buildingInside.Draw(spriteBatch);
+
+      foreach (var furniture in _insidePlace.Furniture)
+      {
+        furniture.PositionOffset = new Vector2(_buildingInside.Position.X + 4, _buildingInside.Position.Y + 68);
+        furniture.Draw(spriteBatch);
+      }
     }
 
     public Place Add(PlaceData.Place data, Point point)
     {
-      var texturePath = $"Places/{data.Key}";
-
-      if (data.Type == "building")
-      {
-        texturePath = $"Places/{data.Key}/{data.Key}_front";
-      }
-
       var id = BaseGame.GWM.IdManager.PlaceId++;
-      var place = new Place(data, TextureHelpers.LoadTexture(texturePath), point)
+      var place = new Place(data, point)
       {
         Id = id,
         Name = $"{data.Name} {id}",
@@ -170,6 +164,9 @@ namespace Village123.Shared.Managers
       Places.Add(place);
       if (data.Type == "building")
       {
+        place.Furniture.Add(new Place(BaseGame.GWM.PlaceData.Places["bench"], new Point(0, 0)));
+        place.Furniture.Add(new Place(BaseGame.GWM.PlaceData.Places["table"], new Point(0, 0), new Dictionary<string, object>() { { "variation", "horizontal" }, }));
+        place.Furniture.Add(new Place(BaseGame.GWM.PlaceData.Places["bench"], new Point(0, 1)));
         BaseGame.GWM.Map.AddObstacle(point + data.Offset, data.Size, Point.Zero);
       }
       else

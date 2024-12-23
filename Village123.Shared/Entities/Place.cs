@@ -7,6 +7,7 @@ using Village123.Shared.Components;
 using Village123.Shared.Data;
 using Village123.Shared.Maps;
 using Village123.Shared.Utils;
+using static Village123.Shared.Data.PlaceData;
 
 namespace Village123.Shared.Entities
 {
@@ -34,7 +35,10 @@ namespace Village123.Shared.Entities
     public List<int> JobIds { get; set; } = new List<int>();
 
     [JsonIgnore]
-    public Vector2 Position => Point.ToVector2() * BaseGame.TileSize;
+    public Vector2 Position => (Point.ToVector2() * BaseGame.TileSize) + PositionOffset;
+
+    [JsonIgnore]
+    public Vector2 PositionOffset { get; set; } = Vector2.Zero;
 
     [JsonIgnore]
     public PlaceData.Place Data { get; private set; }
@@ -50,17 +54,21 @@ namespace Village123.Shared.Entities
     [JsonIgnore]
     public Map InternalMap { get; set; } = null;
 
+    public List<Place> Furniture { get; set; } = [];
+
+    public Dictionary<string, object> AdditionalData { get; set; } = null;
+
     public Place() { }
 
-    public Place(PlaceData.Place data, Texture2D texture, Point point)
+    public Place(PlaceData.Place data, Point point, Dictionary<string, object> additionalData = null)
     {
+      AdditionalData = additionalData ?? ([]);
+      Point = point;
+      Key = data.Key;
+
       SetData(data);
 
-      Texture = texture;
-      Point = point;
-
       Name = Path.GetFileName(Texture.Name);
-      Key = data.Key;
     }
 
     public void SetData(PlaceData.Place data)
@@ -77,8 +85,14 @@ namespace Village123.Shared.Entities
         ),
         OnClicked = () =>
         {
-          BaseGame.GWM.PlaceManager.EnterBuilding(this);
-          // BaseGame.GWM.GUIManager.HandlePlaceClicked(this);
+          if (this.Data.Type == "building")
+          {
+            BaseGame.GWM.PlaceManager.EnterBuilding(this);
+          }
+          else
+          {
+            BaseGame.GWM.GUIManager.HandlePlaceClicked(this);
+          }
         },
         OnHover = () => Opacity = 0.75f,
         OnMouseLeave = () => Opacity = 1,
@@ -96,6 +110,26 @@ namespace Village123.Shared.Entities
       {
         this.InternalMap = new Map(this.Data.InternalMap);
       }
+
+      foreach (var furniture in this.Furniture)
+      {
+        var furnitureData = BaseGame.GWM.PlaceData.Places[furniture.Key];
+        furniture.SetData(furnitureData);
+      }
+
+      var textureName = this.Data.Key;
+      if (this.AdditionalData.ContainsKey("variation"))
+      {
+        textureName += "_" + this.AdditionalData["variation"];
+      }
+
+      var texturePath = $"Places/{textureName}";
+      if (this.Data.Type == "building")
+      {
+        texturePath = $"Places/{this.Data.Key}/{this.Data.Key}_front";
+      }
+
+      this.Texture = TextureHelpers.LoadTexture(texturePath);
     }
 
     public void Update(GameTime gameTime)

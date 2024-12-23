@@ -38,6 +38,36 @@
       "wood": 5
     }
   },
+  "table": {
+    "name": "Table",
+    "type": "table",
+    "category": "furniture",
+    "variations": [
+      "vertical",
+      "horizontal"
+    ],
+    "size": {
+      "X": 2,
+      "Y": 2
+    },
+    "blocksPath": false,
+    "requiredMaterials": {
+      "wood": 5
+    }
+  },
+  "bench": {
+    "name": "Bench",
+    "type": "seat",
+    "category": "furniture",
+    "size": {
+      "X": 2,
+      "Y": 1
+    },
+    "blocksPath": false,
+    "requiredMaterials": {
+      "wood": 5
+    }
+  },
   "anvil": {
     "name": "Anvil",
     "type": "workstation",

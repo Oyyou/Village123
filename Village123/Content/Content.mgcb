@@ -92,6 +92,18 @@
 /processorParam:TextureFormat=Color
 /build:Places/Anvil.png
 
+#begin Places/bench.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Places/bench.png
+
 #begin Places/farmPlot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,6 +127,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Places/SingleBed.png
+
+#begin Places/table_horizontal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Places/table_horizontal.png
 
 #begin Places/tavern/tavern_front.png
 /importer:TextureImporter

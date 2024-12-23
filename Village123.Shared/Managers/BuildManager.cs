@@ -43,16 +43,7 @@ namespace Village123.Shared.Managers
 
       BaseGame.GWM.State = GameStates.Building;
 
-      var texturePath = $"Places/{place.Key}";
-
-      if (place.Type == "building")
-      {
-        texturePath = $"Places/{place.Key}/{place.Key}_front";
-      }
-
-      var texture = TextureHelpers.LoadTexture(texturePath);
-
-      _place = new Place(place, texture, Point.Zero)
+      _place = new Place(place, Point.Zero)
       {
         Opacity = 0.75f,
       };
